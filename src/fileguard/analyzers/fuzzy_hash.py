@@ -1,13 +1,12 @@
 # -*- coding: utf-8 -*-
-"""模糊哈希相似度分析器。
-
-分块计算哈希并比较前后相似度，区分正常编辑与整体替换/加密。
-相似度低于阈值且熵值同时异常时，可高置信度判定为加密行为。
-"""
+"""Block-hash similarity analyzer."""
 
 from __future__ import annotations
 
+import hashlib
 import logging
+from collections import Counter
+from pathlib import Path
 
 from fileguard.analyzers.base import BaseAnalyzer
 from fileguard.models import AnalysisSignal, FileEvent
@@ -15,44 +14,108 @@ from fileguard.models import AnalysisSignal, FileEvent
 logger = logging.getLogger(__name__)
 
 
+def _clamp_score(value: float) -> float:
+    """Clamp an analyzer score to the common 0.0 to 10.0 range."""
+    return max(0.0, min(10.0, value))
+
+
 class FuzzyHashAnalyzer(BaseAnalyzer):
-    """模糊哈希相似度分析器。
+    """Detect sharp content similarity drops with lightweight block hashes."""
 
-    职责：
-        当 HashDiffChecker 检测到内容变更时，计算变更前后的内容
-        相似度，区分"正常编辑"和"整体替换/加密"。
-
-    输入：
-        FileEvent — modified 类型的文件系统事件。
-
-    输出：
-        AnalysisSignal(signal_type="similarity_drop") 或 None。
-
-    关键算法：
-        将文件按固定块大小（默认 4096 字节）分块，对每块计算 MD5，
-        构成"块哈希序列"。比较修改前后的块哈希序列，计算重合率：
-            相似度 = 重合块数 / max(修改前块数, 修改后块数)
-        正常编辑相似度 > 90%，加密/完全替换相似度 < 10%。
-        相似度低于阈值（默认 30%）时产出异常信号。
-    """
+    def __init__(self, config: dict) -> None:
+        """Initialize the analyzer with an in-memory block-hash baseline."""
+        super().__init__(config)
+        self._block_baseline: dict[str, list[str]] = {}
 
     @property
     def name(self) -> str:
-        """分析器名称。"""
+        """Return the analyzer display name."""
         return "FuzzyHashAnalyzer"
 
     def analyze(self, event: FileEvent) -> AnalysisSignal | None:
-        """比较文件变更前后的分块哈希相似度。
+        """Compare current block hashes with the previous in-memory baseline."""
+        if event.event_type != "modified":
+            return None
+        if event.is_directory:
+            logger.debug("Skipping directory event for fuzzy hash analysis: %s", event.src_path)
+            return None
 
-        Args:
-            event: 待分析的文件系统事件。
+        path = Path(event.src_path)
+        if not path.exists():
+            logger.debug("Skipping missing file during fuzzy hash analysis: %s", path)
+            return None
+        if not path.is_file():
+            logger.debug("Skipping non-file path during fuzzy hash analysis: %s", path)
+            return None
 
-        Returns:
-            相似度骤降时返回 AnalysisSignal，否则返回 None。
-        """
-        # TODO: 仅处理 modified 事件
-        # TODO: 从基线快照获取文件的旧分块哈希序列
-        # TODO: 按 config["block_size"] 对当前文件重新分块并计算各块 MD5
-        # TODO: 计算新旧块哈希序列的重合率作为相似度
-        # TODO: 若相似度 < config["similarity_threshold"]，调用 self.create_signal 返回
-        return None
+        block_size = int(self.config.get("block_size", 4096))
+        try:
+            new_blocks = self._compute_block_hashes(path, block_size)
+        except PermissionError as exc:
+            logger.warning("Unable to read file for fuzzy hash analysis: %s (%s)", path, exc)
+            return None
+        except OSError as exc:
+            logger.warning("Failed to inspect file for fuzzy hash analysis: %s (%s)", path, exc)
+            return None
+
+        key = self._path_key(path)
+        old_blocks = self._block_baseline.get(key)
+        if old_blocks is None:
+            self._block_baseline[key] = new_blocks
+            return None
+
+        similarity = self._calculate_similarity(old_blocks, new_blocks)
+        threshold = float(self.config.get("similarity_threshold", 0.3))
+        self._block_baseline[key] = new_blocks
+
+        if similarity >= threshold:
+            return None
+
+        if threshold > 0:
+            value = 6.0 + (threshold - similarity) / threshold * 4.0
+        else:
+            value = 10.0
+        value = _clamp_score(value)
+
+        evidence = {
+            "path": str(path.resolve()),
+            "similarity": similarity,
+            "threshold": threshold,
+            "old_block_count": len(old_blocks),
+            "new_block_count": len(new_blocks),
+        }
+        logger.info(
+            "File similarity dropped: %s similarity=%.3f threshold=%.3f",
+            path,
+            similarity,
+            threshold,
+        )
+        return self.create_signal("similarity_drop", value, evidence)
+
+    def _compute_block_hashes(self, file_path: Path, block_size: int) -> list[str]:
+        """Compute MD5 hashes for each fixed-size file block."""
+        safe_block_size = max(1, int(block_size))
+        block_hashes: list[str] = []
+        with file_path.open("rb") as f:
+            while True:
+                chunk = f.read(safe_block_size)
+                if not chunk:
+                    break
+                block_hashes.append(hashlib.md5(chunk).hexdigest())
+        return block_hashes
+
+    def _calculate_similarity(self, old_blocks: list[str], new_blocks: list[str]) -> float:
+        """Calculate multiset block overlap normalized by the larger block count."""
+        max_count = max(len(old_blocks), len(new_blocks))
+        if max_count == 0:
+            return 1.0
+
+        old_counter = Counter(old_blocks)
+        new_counter = Counter(new_blocks)
+        overlap = sum((old_counter & new_counter).values())
+        return overlap / max_count
+
+    @staticmethod
+    def _path_key(path: Path) -> str:
+        """Return a stable string key for the in-memory baseline map."""
+        return str(path.resolve())

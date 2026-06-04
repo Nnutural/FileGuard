@@ -1,12 +1,9 @@
 # -*- coding: utf-8 -*-
-"""敏感路径策略分析器。
-
-检查事件路径是否命中敏感路径策略，结合时间限制计算风险值。
-策略规则通过 YAML 配置驱动，支持通配符匹配和非工作时间加权。
-"""
+"""Sensitive-path policy analyzer."""
 
 from __future__ import annotations
 
+import fnmatch
 import logging
 
 from fileguard.analyzers.base import BaseAnalyzer
@@ -15,43 +12,114 @@ from fileguard.models import AnalysisSignal, FileEvent
 logger = logging.getLogger(__name__)
 
 
+def _clamp_score(value: float) -> float:
+    """Clamp an analyzer score to the common 0.0 to 10.0 range."""
+    return max(0.0, min(10.0, value))
+
+
 class SensitivePathAnalyzer(BaseAnalyzer):
-    """敏感路径策略引擎。
-
-    职责：
-        判断事件涉及的文件路径是否命中预定义的敏感路径规则。
-        若命中，结合当前时间是否处于限制时段计算最终风险值。
-
-    输入：
-        FileEvent — 包含 src_path 和 timestamp 的文件系统事件。
-
-    输出：
-        AnalysisSignal(signal_type="policy_hit") 或 None。
-
-    关键算法：
-        使用 fnmatch / PurePath.match 对事件路径进行通配符匹配，
-        遍历所有策略规则，命中后检查 time_restriction，
-        若处于禁止时段则对 risk_base 乘以 time_multiplier。
-    """
+    """Detect events whose paths match configured sensitive policies."""
 
     @property
     def name(self) -> str:
-        """分析器名称。"""
+        """Return the analyzer display name."""
         return "SensitivePathAnalyzer"
 
     def analyze(self, event: FileEvent) -> AnalysisSignal | None:
-        """分析事件路径是否命中敏感路径策略。
+        """Analyze event paths against configured sensitive path policies."""
+        for policy in self.config.get("policies", []):
+            if not isinstance(policy, dict):
+                continue
 
-        Args:
-            event: 待分析的文件系统事件。
+            matched = self._match_policy(event, policy)
+            if matched is None:
+                continue
 
-        Returns:
-            命中策略时返回 AnalysisSignal，否则返回 None。
-        """
-        # TODO: 遍历 self.config["policies"] 中的每条策略
-        # TODO: 对 event.src_path 进行 fnmatch 通配符匹配
-        # TODO: 命中后检查 time_restriction，判断当前小时是否在 deny_hours 中
-        # TODO: 若在禁止时段，risk_value = risk_base * time_multiplier
-        # TODO: 否则 risk_value = risk_base
-        # TODO: 调用 self.create_signal("policy_hit", risk_value, evidence) 返回
+            matched_path, matched_pattern = matched
+            risk_base = float(policy.get("risk_base", 0.0))
+            final_value = risk_base
+            time_restricted = False
+
+            restriction = policy.get("time_restriction")
+            if isinstance(restriction, dict):
+                deny_hours = {int(hour) for hour in restriction.get("deny_hours", [])}
+                if event.timestamp.hour in deny_hours:
+                    time_restricted = True
+                    multiplier = float(restriction.get("time_multiplier", 1.0))
+                    final_value *= multiplier
+
+            final_value = _clamp_score(final_value)
+            evidence = {
+                "policy_name": str(policy.get("name", "")),
+                "pattern": matched_pattern,
+                "matched_path": matched_path,
+                "risk_base": risk_base,
+                "time_restricted": time_restricted,
+                "final_value": final_value,
+            }
+            logger.info(
+                "Sensitive path policy hit: policy=%s path=%s",
+                evidence["policy_name"],
+                matched_path,
+            )
+            return self.create_signal("policy_hit", final_value, evidence)
+
         return None
+
+    def _match_policy(
+        self, event: FileEvent, policy: dict
+    ) -> tuple[str, str] | None:
+        """Return the matched event path and pattern for a policy, if any."""
+        raw_pattern = str(policy.get("pattern", ""))
+        patterns = [part.strip() for part in raw_pattern.split("|") if part.strip()]
+        if not patterns:
+            return None
+
+        paths = [event.src_path]
+        if event.dest_path:
+            paths.append(event.dest_path)
+
+        for candidate in paths:
+            normalized_path = self._normalize_path(candidate)
+            for pattern in patterns:
+                if self._path_matches(normalized_path, pattern):
+                    return normalized_path, pattern
+        return None
+
+    @staticmethod
+    def _normalize_path(path: str) -> str:
+        """Normalize a path string for cross-platform glob matching."""
+        return path.replace("\\", "/")
+
+    @classmethod
+    def _path_matches(cls, normalized_path: str, pattern: str) -> bool:
+        """Match a normalized path with Windows/POSIX-friendly glob variants."""
+        normalized_pattern = cls._normalize_path(pattern).strip()
+        if not normalized_pattern:
+            return False
+
+        path_variants = {
+            normalized_path,
+            normalized_path.lstrip("./"),
+        }
+        pattern_variants = {
+            normalized_pattern,
+            normalized_pattern.lstrip("./"),
+        }
+
+        if normalized_pattern.startswith("**/"):
+            pattern_variants.add(normalized_pattern[3:])
+        elif "/" in normalized_pattern:
+            pattern_variants.add(f"**/{normalized_pattern}")
+            pattern_variants.add(f"*/{normalized_pattern}")
+
+        if "/" not in normalized_pattern:
+            path_variants.add(normalized_path.rsplit("/", 1)[-1])
+
+        for path_value in path_variants:
+            for pattern_value in pattern_variants:
+                if fnmatch.fnmatchcase(path_value, pattern_value):
+                    return True
+                if fnmatch.fnmatchcase(path_value.lower(), pattern_value.lower()):
+                    return True
+        return False

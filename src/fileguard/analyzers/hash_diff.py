@@ -1,14 +1,11 @@
 # -*- coding: utf-8 -*-
-"""哈希比对分析器。
-
-对比文件修改前后的 SHA-256，确认内容是否真正发生变化。
-与 FuzzyHashAnalyzer 配合，当哈希变化时触发深度相似度分析。
-"""
+"""SHA-256 hash difference analyzer."""
 
 from __future__ import annotations
 
 import hashlib
 import logging
+from pathlib import Path
 
 from fileguard.analyzers.base import BaseAnalyzer
 from fileguard.models import AnalysisSignal, FileEvent
@@ -16,46 +13,36 @@ from fileguard.models import AnalysisSignal, FileEvent
 logger = logging.getLogger(__name__)
 
 
+def _clamp_score(value: float) -> float:
+    """Clamp an analyzer score to the common 0.0 to 10.0 range."""
+    return max(0.0, min(10.0, value))
+
+
 class HashDiffChecker(BaseAnalyzer):
-    """SHA-256 哈希比对器。
+    """Track lightweight in-memory SHA-256 baselines for file changes."""
 
-    职责：
-        对比文件修改前后的 SHA-256 哈希值，
-        确认内容是否真正发生变化以及变化程度。
+    _SUPPORTED_EVENTS = {"created", "modified"}
 
-    输入：
-        FileEvent — created 或 modified 类型的文件系统事件。
-
-    输出：
-        AnalysisSignal(signal_type="hash_changed") 或 None。
-
-    关键算法：
-        系统启动时建立基线快照（全目录 SHA-256），
-        收到 modified/created 事件后重新计算哈希并与基线比对，
-        哈希一致则忽略（可能仅元数据变更），
-        哈希变化则记录新旧哈希对并生成信号。
-    """
+    def __init__(self, config: dict) -> None:
+        """Initialize the checker with optional config-provided baseline hashes."""
+        super().__init__(config)
+        self._known_hashes: dict[str, str] = {}
+        baseline_hashes = config.get("baseline_hashes", {})
+        if isinstance(baseline_hashes, dict):
+            for raw_path, raw_hash in baseline_hashes.items():
+                self._known_hashes[self._path_key(Path(str(raw_path)))] = str(raw_hash)
 
     @property
     def name(self) -> str:
-        """分析器名称。"""
+        """Return the analyzer display name."""
         return "HashDiffChecker"
 
     @staticmethod
-    def compute_sha256(file_path: str, block_size: int = 65536) -> str:
-        """计算文件的 SHA-256 哈希值。
-
-        采用分块读取方式，支持大文件处理。
-
-        Args:
-            file_path: 待计算文件的路径。
-            block_size: 每次读取的块大小（字节）。
-
-        Returns:
-            文件内容的 SHA-256 十六进制摘要字符串。
-        """
+    def compute_sha256(file_path: str | Path, block_size: int = 65536) -> str:
+        """Calculate a file's SHA-256 digest using chunked reads."""
+        path = Path(file_path)
         sha256 = hashlib.sha256()
-        with open(file_path, "rb") as f:
+        with path.open("rb") as f:
             while True:
                 chunk = f.read(block_size)
                 if not chunk:
@@ -64,18 +51,50 @@ class HashDiffChecker(BaseAnalyzer):
         return sha256.hexdigest()
 
     def analyze(self, event: FileEvent) -> AnalysisSignal | None:
-        """对比文件哈希判断内容是否真正变化。
+        """Compare the current file hash with the in-memory baseline."""
+        if event.event_type not in self._SUPPORTED_EVENTS:
+            return None
+        if event.is_directory:
+            logger.debug("Skipping directory event for hash analysis: %s", event.src_path)
+            return None
 
-        Args:
-            event: 待分析的文件系统事件。
+        path = Path(event.src_path)
+        if not path.exists():
+            logger.debug("Skipping missing file during hash analysis: %s", path)
+            return None
+        if not path.is_file():
+            logger.debug("Skipping non-file path during hash analysis: %s", path)
+            return None
 
-        Returns:
-            哈希发生变化时返回 AnalysisSignal，否则返回 None。
-        """
-        # TODO: 仅处理 created / modified 事件
-        # TODO: 跳过目录事件
-        # TODO: 调用 compute_sha256 计算当前文件哈希
-        # TODO: 与基线快照中记录的哈希对比
-        # TODO: 若哈希一致则返回 None（仅元数据变更）
-        # TODO: 若哈希变化，记录新旧哈希对，调用 self.create_signal 返回
-        return None
+        try:
+            file_size = path.stat().st_size
+            new_hash = self.compute_sha256(path)
+        except PermissionError as exc:
+            logger.warning("Unable to read file for hash analysis: %s (%s)", path, exc)
+            return None
+        except OSError as exc:
+            logger.warning("Failed to inspect file for hash analysis: %s (%s)", path, exc)
+            return None
+
+        key = self._path_key(path)
+        old_hash = self._known_hashes.get(key)
+        if old_hash is None:
+            self._known_hashes[key] = new_hash
+            return None
+        if old_hash == new_hash:
+            return None
+
+        self._known_hashes[key] = new_hash
+        evidence = {
+            "path": str(path.resolve()),
+            "old_hash": old_hash,
+            "new_hash": new_hash,
+            "file_size": file_size,
+        }
+        logger.info("File hash changed: %s", path)
+        return self.create_signal("hash_changed", _clamp_score(5.0), evidence)
+
+    @staticmethod
+    def _path_key(path: Path) -> str:
+        """Return a stable string key for the in-memory baseline map."""
+        return str(path.resolve())

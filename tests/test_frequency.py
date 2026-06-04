@@ -1,35 +1,102 @@
 # -*- coding: utf-8 -*-
-"""FrequencyAnalyzer 单元测试。"""
+"""Unit tests for FrequencyAnalyzer."""
+
+from __future__ import annotations
 
 import unittest
+from datetime import datetime, timedelta
+
+from fileguard.analyzers.frequency import FrequencyAnalyzer
+from fileguard.models import FileEvent
 
 
 class TestFrequencyAnalyzer(unittest.TestCase):
-    """测试滑动窗口频率分析器。"""
+    """Test sliding-window event frequency analysis."""
 
-    def test_no_events(self) -> None:
-        """无事件时不应产出信号。"""
-        # TODO: 创建 FrequencyAnalyzer 实例
-        # TODO: 验证空缓冲区下 analyze 返回 None
-        pass
+    def setUp(self) -> None:
+        """Initialize a frequency analyzer with small thresholds."""
+        self.base_time = datetime(2026, 1, 1, 12, 0, 0)
+        self.analyzer = FrequencyAnalyzer(
+            {
+                "enabled": True,
+                "weight": 2.5,
+                "window_seconds": 10,
+                "thresholds": {
+                    "created": 3,
+                    "modified": 2,
+                    "deleted": 2,
+                    "moved": 2,
+                },
+            }
+        )
 
-    def test_below_threshold(self) -> None:
-        """事件数低于阈值时不应产出信号。"""
-        # TODO: 向分析器投递少量事件（低于阈值）
-        # TODO: 验证 analyze 返回 None
-        pass
+    def _event(self, event_type: str, seconds: int) -> FileEvent:
+        """Create a file event at an offset from the test base time."""
+        return FileEvent(
+            timestamp=self.base_time + timedelta(seconds=seconds),
+            event_type=event_type,
+            src_path=f"file_{event_type}_{seconds}.txt",
+            is_directory=False,
+        )
 
-    def test_above_threshold(self) -> None:
-        """事件数超过阈值时应产出 freq_spike 信号。"""
-        # TODO: 向分析器在短时间窗口内投递超过阈值数量的事件
-        # TODO: 验证 analyze 返回的信号类型为 freq_spike
-        pass
+    def test_single_event_does_not_trigger(self) -> None:
+        """A single event should be below all thresholds."""
+        signal = self.analyzer.analyze(self._event("modified", 0))
 
-    def test_expired_events_purged(self) -> None:
-        """超出时间窗口的事件应被清除。"""
-        # TODO: 投递事件后等待超过 window_seconds
-        # TODO: 验证过期事件不再计入频次统计
-        pass
+        self.assertIsNone(signal)
+
+    def test_below_threshold_does_not_trigger(self) -> None:
+        """Counts below or equal to threshold should not trigger."""
+        signals = [
+            self.analyzer.analyze(self._event("created", 0)),
+            self.analyzer.analyze(self._event("created", 1)),
+            self.analyzer.analyze(self._event("created", 2)),
+        ]
+
+        self.assertEqual(signals, [None, None, None])
+
+    def test_above_threshold_triggers(self) -> None:
+        """A per-type count above threshold should produce a freq_spike signal."""
+        for offset in range(3):
+            self.assertIsNone(self.analyzer.analyze(self._event("created", offset)))
+
+        signal = self.analyzer.analyze(self._event("created", 3))
+
+        self.assertIsNotNone(signal)
+        self.assertEqual(signal.signal_type, "freq_spike")
+        self.assertEqual(signal.evidence["event_type"], "created")
+        self.assertEqual(signal.evidence["count"], 4)
+        self.assertEqual(signal.evidence["threshold"], 3)
+        self.assertEqual(signal.evidence["buffer_size"], 4)
+
+    def test_events_outside_window_are_purged(self) -> None:
+        """Expired events should not count toward the current window."""
+        analyzer = FrequencyAnalyzer(
+            {
+                "window_seconds": 5,
+                "thresholds": {"created": 1},
+            }
+        )
+
+        self.assertIsNone(analyzer.analyze(self._event("created", 0)))
+        signal = analyzer.analyze(self._event("created", 10))
+
+        self.assertIsNone(signal)
+        self.assertEqual(len(analyzer._event_buffer), 1)
+
+    def test_different_event_types_are_counted_separately(self) -> None:
+        """Total event volume alone should not trigger another type's threshold."""
+        self.assertIsNone(self.analyzer.analyze(self._event("created", 0)))
+        self.assertIsNone(self.analyzer.analyze(self._event("created", 1)))
+        self.assertIsNone(self.analyzer.analyze(self._event("deleted", 2)))
+        self.assertIsNone(self.analyzer.analyze(self._event("deleted", 3)))
+
+        signal = self.analyzer.analyze(self._event("deleted", 4))
+
+        self.assertIsNotNone(signal)
+        self.assertEqual(signal.signal_type, "freq_spike")
+        self.assertEqual(signal.evidence["event_type"], "deleted")
+        self.assertEqual(signal.evidence["count"], 3)
 
 
 if __name__ == "__main__":

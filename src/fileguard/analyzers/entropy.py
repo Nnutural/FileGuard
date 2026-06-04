@@ -1,15 +1,12 @@
 # -*- coding: utf-8 -*-
-"""熵值分析器。
-
-计算文件 Shannon 熵值，对比基线熵值，检测加密行为。
-加密后的文件熵值接近 8.0，正常文本文件通常在 3.5 ~ 5.5 之间。
-"""
+"""Entropy-based file content analyzer."""
 
 from __future__ import annotations
 
 import logging
 import math
 from collections import Counter
+from pathlib import Path
 
 from fileguard.analyzers.base import BaseAnalyzer
 from fileguard.models import AnalysisSignal, FileEvent
@@ -17,48 +14,29 @@ from fileguard.models import AnalysisSignal, FileEvent
 logger = logging.getLogger(__name__)
 
 
+def _clamp_score(value: float) -> float:
+    """Clamp an analyzer score to the common 0.0 to 10.0 range."""
+    return max(0.0, min(10.0, value))
+
+
 class EntropyAnalyzer(BaseAnalyzer):
-    """Shannon 熵值分析器。
+    """Detect high-entropy created or modified files."""
 
-    职责：
-        对新创建或被修改的文件计算 Shannon 熵，识别文件内容
-        是否被加密（加密后熵值接近 8.0 上限）。
-
-    输入：
-        FileEvent — created 或 modified 类型的文件系统事件。
-
-    输出：
-        AnalysisSignal(signal_type="entropy_anomaly") 或 None。
-
-    关键算法：
-        按字节统计频率分布，应用 Shannon 公式 H = -Σ p(x)·log₂p(x)。
-        将计算结果与配置阈值（默认 6.5）对比，同时参考基线快照
-        中记录的原始熵值，避免对天然高熵文件（.zip、.jpg 等）误报。
-    """
+    _SUPPORTED_EVENTS = {"created", "modified"}
 
     @property
     def name(self) -> str:
-        """分析器名称。"""
+        """Return the analyzer display name."""
         return "EntropyAnalyzer"
 
     @staticmethod
-    def calculate_entropy(file_path: str, block_size: int = 8192) -> float:
-        """计算文件内容的 Shannon 熵。
-
-        按字节统计频率分布并应用信息熵公式，结果范围 0.0 ~ 8.0。
-        空文件返回 0.0。
-
-        Args:
-            file_path: 待计算文件的路径。
-            block_size: 每次读取的块大小（字节）。
-
-        Returns:
-            文件内容的 Shannon 熵值。
-        """
-        byte_counts: Counter = Counter()
+    def calculate_entropy(file_path: str | Path, block_size: int = 8192) -> float:
+        """Calculate Shannon entropy for a file in the range 0.0 to 8.0."""
+        path = Path(file_path)
+        byte_counts: Counter[int] = Counter()
         total_bytes = 0
 
-        with open(file_path, "rb") as f:
+        with path.open("rb") as f:
             while True:
                 chunk = f.read(block_size)
                 if not chunk:
@@ -71,25 +49,59 @@ class EntropyAnalyzer(BaseAnalyzer):
 
         entropy = 0.0
         for count in byte_counts.values():
-            p = count / total_bytes
-            if p > 0:
-                entropy -= p * math.log2(p)
+            probability = count / total_bytes
+            if probability > 0:
+                entropy -= probability * math.log2(probability)
 
         return entropy
 
     def analyze(self, event: FileEvent) -> AnalysisSignal | None:
-        """分析文件熵值是否出现异常跳变。
+        """Analyze a file event and return an entropy anomaly signal if needed."""
+        if event.event_type not in self._SUPPORTED_EVENTS:
+            return None
+        if event.is_directory:
+            logger.debug("Skipping directory event for entropy analysis: %s", event.src_path)
+            return None
 
-        Args:
-            event: 待分析的文件系统事件。
+        path = Path(event.src_path)
+        extension = path.suffix.lower()
+        high_entropy_extensions = {
+            str(ext).lower() for ext in self.config.get("high_entropy_extensions", [])
+        }
+        if extension in high_entropy_extensions:
+            logger.debug("Skipping naturally high-entropy extension: %s", path)
+            return None
 
-        Returns:
-            熵值异常时返回 AnalysisSignal，否则返回 None。
-        """
-        # TODO: 仅处理 created / modified 事件，忽略 deleted / moved
-        # TODO: 跳过目录事件
-        # TODO: 调用 calculate_entropy 计算当前文件熵值
-        # TODO: 检查文件扩展名是否在 high_entropy_extensions 白名单中（跳过天然高熵文件）
-        # TODO: 将当前熵值与配置阈值 (threshold) 对比
-        # TODO: 若超过阈值，计算归一化风险值并调用 self.create_signal 返回
-        return None
+        if not path.exists():
+            logger.debug("Skipping missing file during entropy analysis: %s", path)
+            return None
+        if not path.is_file():
+            logger.debug("Skipping non-file path during entropy analysis: %s", path)
+            return None
+
+        try:
+            file_size = path.stat().st_size
+            entropy = self.calculate_entropy(path)
+        except PermissionError as exc:
+            logger.warning("Unable to read file for entropy analysis: %s (%s)", path, exc)
+            return None
+        except OSError as exc:
+            logger.warning("Failed to inspect file for entropy analysis: %s (%s)", path, exc)
+            return None
+
+        threshold = float(self.config.get("threshold", 6.5))
+        if entropy <= threshold:
+            return None
+
+        denominator = max(0.000001, 8.0 - threshold)
+        value = _clamp_score(6.0 + (entropy - threshold) / denominator * 4.0)
+
+        evidence = {
+            "path": str(path.resolve()),
+            "entropy": entropy,
+            "threshold": threshold,
+            "extension": extension,
+            "file_size": file_size,
+        }
+        logger.info("High entropy file detected: %s entropy=%.3f", path, entropy)
+        return self.create_signal("entropy_anomaly", value, evidence)
