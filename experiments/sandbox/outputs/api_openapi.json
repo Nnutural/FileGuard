@@ -1,0 +1,256 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "FileGuard API",
+    "description": "File security risk sensing and protection verification API.",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/api/status": {
+      "get": {
+        "summary": "Get Status",
+        "description": "Return current monitor status.",
+        "operationId": "get_status_api_status_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatusResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/alerts": {
+      "get": {
+        "summary": "Get Alerts",
+        "description": "Return recorded alerts from AlertManager.",
+        "operationId": "get_alerts_api_alerts_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AlertsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/events": {
+      "get": {
+        "summary": "Get Events",
+        "description": "Return recent file events recorded by the runtime state.",
+        "operationId": "get_events_api_events_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AlertItem": {
+        "properties": {
+          "timestamp": {
+            "type": "string",
+            "title": "Timestamp"
+          },
+          "event_type": {
+            "type": "string",
+            "title": "Event Type"
+          },
+          "src_path": {
+            "type": "string",
+            "title": "Src Path"
+          },
+          "dest_path": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Dest Path"
+          },
+          "score": {
+            "type": "number",
+            "title": "Score"
+          },
+          "level": {
+            "type": "string",
+            "title": "Level"
+          },
+          "analyzers": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Analyzers"
+          }
+        },
+        "type": "object",
+        "required": [
+          "timestamp",
+          "event_type",
+          "src_path",
+          "score",
+          "level",
+          "analyzers"
+        ],
+        "title": "AlertItem",
+        "description": "单条告警条目。"
+      },
+      "AlertsResponse": {
+        "properties": {
+          "total": {
+            "type": "integer",
+            "title": "Total"
+          },
+          "alerts": {
+            "items": {
+              "$ref": "#/components/schemas/AlertItem"
+            },
+            "type": "array",
+            "title": "Alerts"
+          }
+        },
+        "type": "object",
+        "required": [
+          "total",
+          "alerts"
+        ],
+        "title": "AlertsResponse",
+        "description": "告警列表响应。"
+      },
+      "EventItem": {
+        "properties": {
+          "timestamp": {
+            "type": "string",
+            "title": "Timestamp"
+          },
+          "event_type": {
+            "type": "string",
+            "title": "Event Type"
+          },
+          "src_path": {
+            "type": "string",
+            "title": "Src Path"
+          },
+          "dest_path": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Dest Path"
+          },
+          "file_size": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "File Size"
+          },
+          "is_directory": {
+            "type": "boolean",
+            "title": "Is Directory",
+            "default": false
+          }
+        },
+        "type": "object",
+        "required": [
+          "timestamp",
+          "event_type",
+          "src_path"
+        ],
+        "title": "EventItem",
+        "description": "单条文件事件条目。"
+      },
+      "EventsResponse": {
+        "properties": {
+          "total": {
+            "type": "integer",
+            "title": "Total"
+          },
+          "events": {
+            "items": {
+              "$ref": "#/components/schemas/EventItem"
+            },
+            "type": "array",
+            "title": "Events"
+          }
+        },
+        "type": "object",
+        "required": [
+          "total",
+          "events"
+        ],
+        "title": "EventsResponse",
+        "description": "最近事件列表响应。"
+      },
+      "StatusResponse": {
+        "properties": {
+          "running": {
+            "type": "boolean",
+            "title": "Running"
+          },
+          "watch_dirs": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Watch Dirs"
+          },
+          "uptime_seconds": {
+            "type": "number",
+            "title": "Uptime Seconds"
+          },
+          "events_processed": {
+            "type": "integer",
+            "title": "Events Processed"
+          },
+          "queue_size": {
+            "type": "integer",
+            "title": "Queue Size"
+          }
+        },
+        "type": "object",
+        "required": [
+          "running",
+          "watch_dirs",
+          "uptime_seconds",
+          "events_processed",
+          "queue_size"
+        ],
+        "title": "StatusResponse",
+        "description": "系统运行状态响应。"
+      }
+    }
+  }
+}

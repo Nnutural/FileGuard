@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FileGuard Security Analysis Report</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #f5f6fa;
+            color: #2d3436;
+            line-height: 1.6;
+            padding: 2rem;
+        }
+        .container { max-width: 1100px; margin: 0 auto; }
+        h1 { text-align: center; font-size: 1.8rem; margin-bottom: 0.5rem; }
+        .meta {
+            text-align: center;
+            color: #636e72;
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+        }
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .summary-card {
+            background: #fff;
+            border-radius: 8px;
+            padding: 1.2rem;
+            text-align: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+        }
+        .summary-card .number { font-size: 2rem; font-weight: bold; }
+        .summary-card .label { font-size: 0.85rem; color: #636e72; }
+        .card-critical .number { color: #d63031; }
+        .card-high .number { color: #e17055; }
+        .card-medium .number { color: #f39c12; }
+        .card-low .number { color: #00b894; }
+        .section {
+            background: #fff;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+        }
+        .section h2 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #dfe6e9;
+        }
+        table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+        thead { background: #2d3436; color: #fff; }
+        th, td {
+            padding: 0.6rem 0.8rem;
+            text-align: left;
+            border-bottom: 1px solid #dfe6e9;
+            word-break: break-all;
+        }
+        tbody tr:hover { background: #f8f9fa; }
+        .level-critical { color: #d63031; font-weight: bold; }
+        .level-high { color: #e17055; font-weight: bold; }
+        .level-medium { color: #f39c12; font-weight: bold; }
+        .level-low { color: #00b894; }
+        .chart-container { text-align: center; margin: 1rem 0; }
+        .chart-container img { max-width: 100%; height: auto; }
+        .footer {
+            text-align: center;
+            color: #b2bec3;
+            font-size: 0.8rem;
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>FileGuard Security Analysis Report</h1>
+    <div class="meta">
+        <p>Generated at: 2026-06-04 20:37:06</p>
+        <p>Watch directories: N/A</p>
+    </div>
+
+    <div class="summary-grid">
+        <div class="summary-card">
+            <div class="number">79</div>
+            <div class="label">Total alerts</div>
+        </div>
+        <div class="summary-card card-critical">
+            <div class="number">53</div>
+            <div class="label">Critical</div>
+        </div>
+        <div class="summary-card card-high">
+            <div class="number">7</div>
+            <div class="label">High</div>
+        </div>
+        <div class="summary-card card-medium">
+            <div class="number">0</div>
+            <div class="label">Medium</div>
+        </div>
+        <div class="summary-card card-low">
+            <div class="number">19</div>
+            <div class="label">Low</div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Score Distribution</h2>
+        <div class="chart-container">
+            
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA9QAAAHqCAYAAADlOwZwAAAAOnRFWHRTb2Z0d2FyZQBNYXRwbG90bGliIHZlcnNpb24zLjEwLjksIGh0dHBzOi8vbWF0cGxvdGxpYi5vcmcvJkbTWQAAAAlwSFlzAAAViAAAFYgBxNdAoAAAP6FJREFUeJzt3QmYVNWZN/DTgICC4L7gAoi4RQ0SUQkqGhUT47jGcRn3LWrMRCGuCeIuOChmmzGGCG5Z/CSRmC8qLoCKoBghI0ajoqjRoMYoBBQFrO95z3zV0w3dLFe6u+j+/Z6nnuq691bVqdtX6X+dc95TVSqVSgkAAABYKa1W7nAAAABAoAYAAICC9FADAABAAQI1AAAAFCBQAwAAQAECNQAAABQgUAMAAEABAjUAAAAUIFADAABAAQI1AAAAFCBQAwAAQAECNQAAABQgUAMAAEABAjUAAAAUIFADAABAAQI1AAAAFCBQAwAAQAECNQAAABQgUAMAAEABAjUAAAAUIFADAABAAQI1AAAAFCBQA/C5XH755amqqiqdfPLJn/tM7rPPPvm1Ro8e7beyGorfXdxmzZqVKsWECRNym7p167ZaXW+V3DYA/pdADdDClf9wr3lr3bp1WmedddJuu+2WrrjiivTBBx+k1dnf//73HPx33333/LnWWGONtNFGG6Udd9wxHX300eknP/lJeuONN1JLFWFzyWtgrbXWSptssknadddd05lnnpnuueeetHDhwkZpTwTy+H3ddNNNqTmKzxa3Dz/8sKmbAsDn1ObzvgAAzcMWW2yRttxyy/xzBKcImFOnTs23W265JU2cODFtvfXWSz1vgw02SNtuu23adNNNUyWaMmVKOvjgg9P777+fH0dI7NGjR1q8eHF65ZVX0vPPP5/uvvvu/KXB97///dSS9ezZM3/RUL4GIvD993//d/rjH/+Yfvazn+VzF18+HHHEEXU+P66DEF9YfN5AHV/kdO3aNZ133nmf67Xii4Fo12abbZYqRXy2EKM64gueusR/i9Huzp07N3LrAFgZAjUA2amnnpp7zWp66KGHcg/u22+/nb75zW+mRx55ZKmzde655+ZbJZo3b14OfxGmo3f6Rz/6UerTp0/1/s8++yw988wz6Ve/+lVad911U0t36aWXLjV0f8GCBenRRx9NQ4cOTY8//ng68sgj04gRI+oMui+++GKqNDHKohLbtTy33357UzcBgBVgyDcA9TrggAPS1VdfnX8eP358evfdd1ers/WHP/wh/e1vf8tD2H/729/WCtOhVatWOXDdeOON6Vvf+laTtbOStW/fPh100EF5LvLZZ5+dtw0aNCh/EQEALZ1ADcAyffnLX873pVIpvfbaaytVlGz27Nlp4MCBaYcddshDbyOcxdDbeM0YXv3OO++s8NmPYNyrV6/8Xl/96ldz7/PyzJw5s3pYetEh6R9//HH64Q9/mPr375/WX3/91K5duzwcd8CAAenmm29On3zyyVLPeeGFF3KPf8xNjuOj9zueP3LkyDzUfHkFvZ5++un0jW98Iw+xji8Dlhw5EF9uHHXUUflctm3bNrfrwAMPTGPHjk0NJb58iPOw3Xbb5Z798hct9X2GJY0ZMyb/3mJIeQwJj3OyzTbbpGOPPTZ/2VFzTv++++6bf3799deXmtsdwT7Ee5S3hQcffDB97WtfSxtuuGFua7mY17KKktX05ptv5t/Z5ptvnn9n3bt3T9/97nfrnee8vAJs8f6xPz7Pkv+tlMV71PxsNX/PyytK9nmvseeeey6PPtl4443z82N4+ZVXXpk+/fTTZZ4nAGoz5BuAZfroo4+qf+7QocMKn62//vWvufc3gnCbNm3y/Ou11147P47AOHny5Bwa4g/65YkhuxHGImCdcMIJ6ec///kKzdPt1KlTvo/g/vLLL+c5wivj1VdfTV//+terhwxHkI7512+99VZ6+OGH85D4aFfNsBbzsaONEUzifO20007pH//4R3rsscfyLfZH8F1zzTXrfM8InhdffHH+8qE8h7YcwuJLje985zt56HqIEBWF1WJI/rhx4/Itht+X969q8Xs855xz0r//+7/nABtfJkQYW57BgwdXB/AIvDvvvHMeSh7XSAy3jzB7+OGH5/1xvmKI/owZM/JrR1G0muqaUxzFy84///x8PuI669ix40p9rviiqHfv3nkefZzPeI8IrDfccEO67777cv2A+HLj84rrp1+/fmnSpEn5cXy2muevXMNgeT7vNRbXSVxH8fuMayzuX3rppTRkyJA8Zz4K0AGwgkoAtGj9+/cvxT8HQ4YMqXP/d7/73by/U6dOpY8++mip/fG82H/SSSfV2v6d73wnb99vv/1K7777bq19c+bMKY0aNar0wgsv1NmW2Ff25JNPltZff/28/cILLyx99tlnK/zZZs6cWWrdunV+brdu3Uo333xz6Y033lih58Zn3X777fNzd9ppp9IzzzxTa/8777xTGjZsWK3PFp+nffv2+Tmnn356ad68edX7HnrooVLnzp3zvm9961tLvV9sj1u0d9CgQaWPP/64VltCvF8cs/nmm5fuu+++Ws9/4IEHShtttFHef/vtt5dWRteuXZc67/WZPn16dVunTJlS52d47bXXqre99957+TO1adOmdPfddy/1+4vzOnLkyFrbxo8fn18n2lWfeI/y+62xxhql4cOHlxYtWrTUOVvWa5Wvt3j+brvtVuvamDFjRqlHjx55/0EHHbTUc+v6rDXFuYz98R4r+9yabVvyd7IqrrH4vPHfUs1r7K677ipVVVXl/Y8++mi97QKgNoEaoIWrK1AvXLiw9Morr5S+973vVQfSq666qs7n1xeoDzzwwLz93nvvXem2lEPE2LFjS2uuuWapVatWpR/84AeFPt8Pf/jD/PxymIjbxhtvXPra175Wuvbaa0svvfRSvc+LYzfYYIMcnlfEqaeemp+z44471hn8IziWA83bb79da1+5bQMGDKjztf/xj3+UOnbsmH8fU6dOrfOYMWPG5NeILwIaKlB/8MEH1W2N38/yguLkyZPztl69eq1we1Y2UJ9xxhmFXqt8vUXYnzVr1lL7n3jiier3+OMf/7jcz9oYgXpVXGPxJVdd/uVf/iXvP//88+ttFwC1mUMNQPVSPuU5ljGcOobOXnPNNXkY7fXXX7/SS0rFkkchho8WmZcZS3VFhe6YrxvDgmOYcRHf/va38xDz4447Lg85Lw8Bv//++3NV6xjyesopp6T58+cvNfQ6nHHGGdVLSa1IEbQQFbBrzpUtO/HEE/NrxZJUMVy8Lqeddlq9rx3zxmOY8JLDoMv+5V/+Jf/uYrhyDK1vCDWHU//zn/9c4esghhQ3VCGz008//XM9P4abl9tZUwzPLhey+7//9/+mSrAqrrH6CvD17ds338dycgCsGHOoAVhqHeq5c+fmP6qjIFesk1suErUyYo5mLP1z55135vAaRbyiGNmee+6ZvvjFL9YZBspireMIXzGX9d57761V2KmIL33pS+muu+7KxZpibu6zzz6bC3tFSIq5p1H46b333ku///3vq58TRZtqFmVbnjlz5uQibCHm4dYlwm4U9Ypq6fUt5fSFL3yhzu1/+tOfquf7xjmsT/m8xrzkhlgbvGaIXpE1kqMNMd/3jjvuyHPq4xa/zwhve++99ypZrqy+c7ai6vt9lV871mKPLyma2qq6xqIYXF3K9QxW5IsSAP6HQA1AnetQR3XjWB7p1ltvzWF4+vTpK1w0KURl7ylTpuSe7wceeCD98pe/zLcQvYGXXHJJXtu6LlFALET16igCtqpExewI83GLXukIKHEfVaYjXEd799hjj+ovFUJ8obAiaoaQZRWwKofc+kJLfYXfomBWiKC0IsuX1SwmtyrVrGq9IgXlQhSRi8JZP/vZz9JTTz2VbyGKYR1yyCG5+NfyqnAvy8oUy6vLsj5HJYXMhr7Gojp6+J/R4QCsCEO+AahTBMkIQNFDG2EuqjuvrAiuv/nNb3I4j8rGw4YNy8Noo1r3WWedlf7rv/6rzuddd911OcRHle1YCiiObwjRwzpq1KjqIBGBeskK4fUtm7Sk8nDyUO5FrEt5KHbN41dmqHUM6f3/NVCWefu8vfr1iSrSISpIx+93RUSv6QUXXJCHfUfPeQzhjy9T4hzE9bH//vuv0DJoDWVZy7eV99X3+6ovfC45hWBVaOhrDICVJ1ADUP8/Eq1a5SWJQvTgltcAXlmxVnIE8wsvvDA98cQTeX3f8J//+Z91Hh9h7Xe/+1066KCD8hDnCNURrhsqVMdSTqHmXO9Y2ik8+eSTK/w65V7DGFZel0WLFlUPw91+++1Xqp3RwxtiWaOmEvNyy1+CxJrP8XtdWbHOc6x/HGt4x7D6+OIi1guPZbjKljUdoCE8//zzy9235O+r3MtbXxiPLw9WtYa+xgBYeQI1AMsURZkOPvjg/HOsU7sqRC91iPWc6xPr88ZQ7EMPPTT3UEeoLg8FX1F///vfc1GzZfnLX/5SPYS65tzSb3zjG/l+5MiR+XVWRKxZHeJLiLp6LmMecbxX9NgecMABK/VZ4ncQXzTE0Pv6ik01pDiPURguzlcMnV/ZInV12WyzzVL37t2XuhbWWmutBh22vqS4zt54442ltsda6TF/OsSXOzWV1zSPY5YUoxrK0xvq8nk+X0NeYwCsPIEagOUqB+kY7vvoo4+u0Bk788wz8x/3Sw6ZjqGqI0aMyD+XKyjXJ3pAo0p4hNu//vWvOVTXV2ipLjG0OIpK/eAHP8jPrynCSPSKRmCPn2Ne94EHHlir2nbMA49iZTEkedq0abWeH6HlP/7jP/L+suh5b9++fe49jCHNNYf9xnmLOekh9i1rDmxdonJzOcQeddRRueBb9EbWFAXWYnsMr15VFixYkIvKxRDy6FUuh7lddtllhZ7/8MMP54rUUQiuZgCMgB6F4so9rTWvhZg3H73UcW4bq0f+mGOOqXWNRBGyk046Kf/81a9+NRe2qynmfoe4BsoF48rXd1SUX9ZUgaigXz43K6shrzEAClhiGS0AWpi61qGuy9e//vV83F577bVC61B/8YtfzNurqqpKPXr0KO2+++6l7bbbLq/5G9s32mij0p///OcVWnt30aJFpWOPPbZ6DekZM2as0Gf78Y9/XGv96U022aT0pS99qbTzzjuX1l133ertm266aenZZ59d6vkzZ84sbbvtttXHxVrGffr0KW222Wb5c9W1lvCvf/3rUtu2bfO+WDd61113LW211VbVr3HAAQeUPvroo0JrE8e6wxdccEH1sfH6vXv3Lu222265beU21bX28YqsQ92zZ89Sv3798i1ec5tttsnrGZffr0uXLqXf/va39b5OXZ8hji9v79SpU16POn4HG264YfX2b3/720u91sEHH5z3xbncZZdd8meK27Rp05Zah3pZVmQd6ssuuyyvNx7XZrTvC1/4QvW53HrrrUtvvfXWUs/98MMPq3+vsc55XCdxzcdrbLnllqWrr7663t/F8OHDq9se/03svffe+bia1319/y005DW2rLWzAaibHmoAVki5Avjjjz+eHnnkkeUeH72Y0VsWPY8xtDV6KKMgVfT6XnzxxbmHbUXneMYQ41h+K3oMY85qLOO1Ij2X0UsXveqDBw/OSzSFeF70ckfv91e+8pVcYTqGMdfV47rVVlvldg8fPjwv8xS9jvH8aE8UTYu1srt06VLrOf/6r/+ae7NPPvnktN566+Xj33///bTXXnvlIm/R2xtDt4uIXttYEzzW1Y7q5FGB+s9//nN+v5jfHD3sP/rRj/K5KiKG1EfxuLhFu6MKehQei7W4Y13uqPB92GGHrdRrxueOZdBiTfFob8yFjx7dqPAd62bHXPkf/vCHSz0vetrPPffcPOc65jFPnDgx31a0SNzKiGHn8XuO5b1i5EGch6hof/755+dzveTvuDyfOc5TnJvy54rifVFsL14rhrPXJ143rqk4tzHUPK7R+Gw1K6gvS0NeYwCsnKpI1Sv5HAAAAGjx9FADAABAAQI1AAAAFCBQAwAAQAECNQAAABQgUAMAAEABAjUAAAAUIFADAABAAQI1AAAAFCBQAwAAQAFtijyJ5dtuu+3SBx98kLbaaiunCwAAYBV69dVX07rrrptefPHF1JQE6gYSYfqjjz5qqJcHAABosT6qkKwlUDeQcs/05MmTG+otAAAAWqS+ffumSmAONQAAABQgUAMAAEABAjUAAAAUIFADAABAAQI1AAAAFCBQAwAAQAECNQAAABQgUAMAAEABAjUAAAAUIFADAABAAQI1AAAAFCBQAwAAQAECNQAAABQgUAMAAEABAjUAAAAU0KbIkwAAoKktXLS4qZsAtHACNQAAq2WYPmLwPU3dDKCJlEqlVFVVlZqaId8AAABQgEANAAAABQjUAAAAUIBADQAAAAUI1AAAAFCAQA0AAAAFCNQAAABQgEANAAAABQjUAAAAUIBADQAAAAUI1AAAANDSA3W3bt1SVVVVnbd99tlnqeM/+eSTdOWVV6aePXum9u3bpy5duqQzzzwzvfvuu03SfgAAAFYfbVIz07lz53TeeefVGbZr+uyzz9Khhx6aHnzwwbTHHnukI488Mr388stp5MiR6ZFHHklTpkxJG264YSO2HAAAgNVJswvU66yzTrr88suXe9xtt92Ww/Sxxx6b7rrrrtyLHW6++eZ09tlnp+9///vppz/9aSO0GAAAgNVRsxryvTJ+9rOf5fvrrruuOkyHb37zm2mrrbbKIfvjjz9uwhYCAABQyZpdoI550aNHj07XXntt+vGPf5yeeuqppY5ZsGBB3r7tttumrl271toX4fqAAw5I8+fPT88880wjthwAAIDVSbMb8j179ux0yimn1NrWp0+f9Mtf/jL16NEjP545c2aeQx3FyOpS3h5zqvfaa69lvl/fvn3r3D5jxoy0/fbbpw8//LDgJwEAoD6LFn+W1l/rf0cZAi3L7MWLU5s2TR9nm1UPdQTpKCj2zjvv5B7madOmpRNOOCFNnTo17bfffumf//xnPm7OnDnVBczq0qlTp1rHAQAAwJKaPtKvQkOGDKn1uFevXun222/PP99xxx153vTAgQNX6XtOnjx5mT3XUSQNAIBVa+Gixen9j0pOK7RQrVu3TpWgWfVQ1ycKjYVJkybV6pmurwd67ty5tY4DAACAFhmoN9hgg3wfw8BDVPFu1apVniNdl/L2+uZYAwAAQIsI1OVK3926dcv3a665Ztptt93SX/7yl/T666/XOrZUKqWHHnoodejQIe26665N0l4AAAAqX7MJ1C+++GL66KOP6tx+0UUX5Z+PO+646u1nnnlmvr/kkktyiC776U9/ml599dX0b//2bzl4AwAAQLMuSvarX/0q3XjjjWnvvffOa0tHD/NLL72U/vCHP6SFCxfm4Bz7yk466aT061//Oi+n9dprr6X+/funV155Jf3mN79J3bt3T1dffXWTfh4AAAAqW7MJ1Pvuu2964YUX8lJZjz/+eO6tjrnTBx10UDrnnHPSgAEDah0fc6jHjh2bhg4dmiuAjxgxIq233nrptNNOy2F6ww03bLLPAgAAQOWrKtUc78wqU142q75ltQAA+HzLZh0x+B6nEFqo98aPSFVVVU2et5rNHGoAAABoTAI1AAAAFCBQAwAAQAECNQAAABQgUAMAAEABAjUAAAAUIFADAABAAQI1AAAAFCBQAwAAQAECNQAAABQgUAMAAEABAjUAAAAUIFADAABAAQI1AAAAFCBQAwAAQAECNQAAABQgUAMAAEABAjUAAAAUIFADAABAAQI1AAAACNQAAADQOPRQAwAAQAECNQAAABQgUAMAAEABAjUAAAAUIFADAABAAQI1AAAAFCBQAwAAQAECNQAAABQgUAMAAEABAjUAAAAUIFADAABAAQI1AAAAFCBQAwAAQAECNQAAABQgUAMAAEABAjUAAAAUIFADAABAAQI1AAAAFCBQAwAAQAECNQAAABQgUAMAAEABAjUAAAAUIFADAABAAQI1AAAAFCBQAwAAQAECNQAAABQgUAMAAEABAjUAAAAU0KwD9bBhw1JVVVW+TZkyZan9c+fOTQMHDkxdu3ZN7dq1S926dUsXXHBBmjdvXpO0FwAAgNVHsw3UM2bMSEOGDEkdOnSoc//8+fNT//7904gRI9J2222Xzj///LTtttum4cOHp6985StpwYIFjd5mAAAAVh/NMlAvXLgwnXTSSalXr17p8MMPr/OY66+/Pk2fPj1ddNFF6cEHH0xDhw7N9/F46tSpOWgDAABAiwrU11xzTXr++efTrbfemlq3br3U/lKplEaOHJk6duyYBg8eXGtfPI7tsR8AAABaTKB+9tlnc6CO4d477LBDnce8/PLL6e233079+vVbakh4PI7tr776anrzzTcbqdUAAACsbtqkZuSTTz5JJ554Yh7qfeGFF9Z7XATq0LNnzzr3x/YY/h3HbbHFFst8z759+9Y7h3v77bdPH3744Up9BgAAlm/R4s/S+mtVOVXQQs1evDi1adP0cbbpW7AKXXbZZTkE//GPf6xzqHfZnDlz8n3nzp3r3N+pU6daxwEAAECzDdSTJ0/OFbovv/zytOOOOzbq+y6r53qdddZptLYAALQUCxctTu9/VGrqZgBNZFkdqI2pWcyhXrRoUa7qvfPOO6eLL754uceXe6br64GO9alrHgcAAADNsod63rx51fOi27Ztu8we49/+9rfVxcrKz1nZOdYAAADQLAJ1u3bt0mmnnVbnvsceeywH5EMOOSRtuOGGqVu3bjkod+nSJU2aNCnNnz+/VqXveBzbu3fvvtyCZAAAALRczSJQr7nmmvWuG33yySfnQH3JJZekPfbYo3r76aefnq688sp01VVXpaFDh1Zvj8fR433ppZc2StsBAABYPTWLQF1ELKs1duzYNGzYsDRt2rTUu3fvvIb1uHHjUp8+fdJ5553X1E0EAACggjWLomRFxDDviRMn5uD8wgsvpBtuuCG9+OKLadCgQemRRx7Jvd4AAABQn6pSqWS9gQZQLoJW37JaAAB8vmWzjhh8j1MILdR740ekqqqqJs9bLbaHGgAAAD4PgRoAAAAKEKgBAACgAIEaAAAAChCoAQAAoACBGgAAAAoQqAEAAKAAgRoAAAAKEKgBAACgAIEaAAAAChCoAQAAoACBGgAAAAoQqAEAAKAAgRoAAAAKEKgBAACgAIEaAAAAChCoAQAAoACBGgAAAAoQqAEAAKAAgRoAAAAKEKgBAACgAIEaAAAAChCoAQAAoACBGgAAAAoQqAEAAKAAgRoAAAAKEKgBAACgAIEaAAAAChCoAQAAoACBGgAAAAoQqAEAAKAAgRoAAAAKEKgBAACgAIEaAAAAChCoAQAAoACBGgAAAAoQqAEAAKAAgRoAAAAKEKgBAACgAIEaAAAAChCoAQAAoACBGgAAAAoQqAEAAKCSA/Vjjz2W3njjjWUe8+abb+bjAAAAoNI1WqDed9990+jRo5d5zO23356PAwAAgErXaIG6VCot95jPPvssVVVVNUp7AAAAoNnMoX755ZdT586dm7oZAAAAsFxtUgM69dRTaz2+995706xZs5Y6bvHixdXzp7/2ta81ZJMAAACg8gN1zTnTMZR7+vTp+VaX2N+nT580YsSIhmwSAAAAVP6Q79deey3fXn311TyH+rzzzqveVvMW1b/nzp2bpkyZkrbeeutC77VgwYI0cODAtPfee6cuXbqk9u3bp0022ST169cvjRo1Ki1cuHCp58R7xnO6du2a2rVrl7p165YuuOCCNG/evFXw6QEAAGjOGrSHOoJqWYTaXXbZpda2VSlC8H/913+l3XbbLX39619PG264Yfrggw/S/fffn4ee/+pXv8o/t2r1P98hzJ8/P/Xv3z/3mA8YMCAde+yxadq0aWn48OFp4sSJefh5hHIAAABo9EBd00knndSgr7/eeuulOXPmpLZt29bavmjRonTAAQekcePG5UAdYTtcf/31OUxfdNFFaejQodXHX3zxxWnYsGF56Pkll1zSoG0GAABg9dVogbrs6aefTlOnTk0ffvhhLkZW11zqwYMHr/TrRs/zkmE6tGnTJh1++OFpwoQJ6ZVXXsnbYvj5yJEjU8eOHZd6r3j8k5/8JO8XqAEAAGjyQP2Pf/wjHXbYYWnSpEnLXJO6aKBe1trWDzzwQP55xx13rF6e6+23304HHnhg6tChQ63j43HMu37wwQdz5fEttthilbUFAACA5qPRAnUU/3riiSfSPvvsk4d/b7755rn3eFX79NNP07XXXptD+/vvv58eeeSR9OKLL6ZTTjkl7bffftWBOvTs2bPO14jtEajjuOUF6r59+9a5fcaMGWn77bfPPfEAAKxaixZ/ltZfq8pphRZq9uLFDZInV1ajteD3v/99LhgWATd6oRtKBOorrrii+nG813e/+9103XXXVW+Ludahc+fOdb5Gp06dah0HAAAATRaoP/7447ykVUOG6RDzoqN3OoZ6x7Du++67L1166aVp8uTJ6Q9/+EN1WF5V4nWX1XO9zjrrrNL3AwAgpYWLFqf3P6p/GiHQvLVu3To1+3Woa+rVq1eaNWtWY71dLlIWw8rPPvvsdMstt+S529dcc02tnun6eqBjfeqaxwEAAECTBeohQ4ak3/3ud2nKlCmpscU60yEqfdecO12eS72k5c2xBgAAgEYb8j179uy8BnT//v3Tv/3bv6XevXvXO/z6xBNPXKXvHUO/wxprrFEdlLt06ZJ7refPn1+r0nc8ju3du3dX4RsAAICmD9Qnn3xynj8d85tHjx6db0vOp459sa1IoP7zn/+cunXrltZaa61a2z/66KNcYTwcdNBB+T7e4/TTT09XXnlluuqqq9LQoUOrj4/H8+bNy/OuAQAAoMkD9ahRoxr09e++++504403pj333DMH6+j9fuutt9L999+fl8/aa6+90vnnn199/IUXXpjGjh2bhg0blqZNm5Z7zJ999tk0bty41KdPn3Teeec1aHsBAABYvTVaoI61pxvSwQcfnId2P/nkk7nydvQyR1GxnXfeOR1zzDHp1FNPrbVOWQzznjhxYrr88svTmDFj0vjx49Omm26aBg0alOd7r7nmmg3aXgAAAFZvVaUYZ80qV142q75ltQAA+HzLZh0x+B6nEFqo98aPyFN5mzpvNVoP9RtvvLHCx2655ZYN2hYAAABYbQJ1zGtesghZXeKYRYsWNUqbAAAAoOIDdVTuritQz5kzJ/3pT39Kr732Wl5SK4I3AAAAVLpGC9SxTFZ9Yhr3DTfckK6//vr085//vLGaBAAAAIW1ShUgeq6/+93vpi984QvpggsuaOrmAAAAwOoRqMt23XXX9OijjzZ1MwAAAGD1CtQzZ85UkAwAAIDVQqPNoa7PZ599lt566608x3rs2LFpv/32a+omAQAAQOUE6latWi1z2awoTLbuuuvm4mQAAABQ6RotUO+99951BuoI2hGk+/Tpk0455ZS00UYbNVaTAAAAoPID9YQJExrrrQAAAKBlFSUDAACA1UWTFCWbNGlSmj59epo7d27q1KlT6tWrV+rXr19TNAUAAAAqP1A/+eSTeZ70K6+8Ul2IrDyvumfPnmnUqFGpb9++jdkkAAAAqOxA/fzzz6cBAwakjz76KB1wwAFp3333TZtuummaPXt2Gj9+fBo3blw68MAD05QpU9IOO+zQWM0CAACAyg7UV155Zfr000/TH/7wh/TVr3611r6LLrooPfDAA+mQQw7Jx/3qV79qrGYBAABAZRcliyrf3/jGN5YK02WxPfZHbzUAAABUukYL1HPmzEndu3df5jGxP44DAACAStdogbpLly55fvSyPPXUU/k4AAAAqHSNFqhjfnQM+x48eHBasGBBrX3xeMiQIXm496GHHtpYTQIAAIDCqkqxdlUjeP/999Puu++eXnvttbT++uun3XbbLW288cbpnXfeSVOnTk3vvfde2mqrrdLTTz+d1ltvvbS6Ky//NXny5KZuCgBAs7Nw0eJ0xOB7mroZQBN5b/yIvARzU+etRqvyHSE6hnxfeOGFuYp3VPsua9++fV6fetiwYc0iTAMAAND8NVqgDhtssEG69dZb009/+tP04osvprlz56ZOnTql7bbbLq2xxhqN2RQAAACo7EB9zTXXpPnz56crrriiOjTH/U477VR9TKxP/b3vfS+tvfba6eKLL27oJgEAAEBlFyV7+OGH02WXXZaHey+rB7pt27b5mAjV1qEGAAAgtfRAffvtt6d11103nXvuucs99lvf+laePz1q1KiGbBIAAABUfqB+8skn0/7775/atWu33GPjmDh20qRJDdkkAAAAqPxA/fbbb+elsFZU9+7d09/+9reGbBIAAABUfqBu1apVWrhw4QofH8fGcwAAAKDSNWh67dKlS5oxY8YKHx/HbrbZZg3ZJAAAAKj8QL3XXnulRx99NM2aNWu5x8Yxcezee+/dkE0CAACAyg/UUbk7hnF/4xvfSH//+9/rPe79999PRx11VFq0aFE6++yzG7JJAAAAsEq0SQ2od+/e6bzzzks33XRT2mGHHdJZZ52V9t1337T55pvn/W+99VZ65JFH0i233JLee++9NHDgwPwcAAAAaNGBOtxwww2pffv26T/+4z/SNddck281lUql1Lp163TJJZekq6++uqGbAwAAAKtHoK6qqkrXXnttOu2009KoUaPy2tSzZ8/O+zbZZJPUr1+/dPLJJ6cePXo0dFMAAABg9QnUZRGY9UADAADQXFj0GQAAAAoQqAEAAKAAgRoAAAAKEKgBAACgAIEaAAAAChCoAQAAoACBGgAAAAoQqAEAAKAAgRoAAAAKEKgBAACgAIEaAAAAChCoAQAAoACBGgAAAFpyoH7rrbfSTTfdlAYMGJC23HLL1LZt27TJJpukI488Mj311FN1Pmfu3Llp4MCBqWvXrqldu3apW7du6YILLkjz5s1r9PYDAACwemk2gfpHP/pROv/889Orr76aQ/WgQYPSnnvumcaOHZu+/OUvp1//+te1jp8/f37q379/GjFiRNpuu+3yc7fddts0fPjw9JWvfCUtWLCgyT4LAAAAla9NaiZ22223NGHChBySa3r88cfTfvvtl84+++x02GGH5Z7ocP3116fp06eniy66KA0dOrT6+IsvvjgNGzYsB+1L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QAECNQAAABQgUAMAAEABAjUAAAAUIFADAABAAQL1KjZ16tR00EEHpXXWWSd16NAh7bHHHunuu+9e1W8Dn8tbb72VbrrppjRgwIC05ZZbprZt26ZNNtkkHXnkkempp55ydql4w4YNS1VVVfk2ZcqUpm4O1Om3v/1tOuCAA9L666+f2rdvn7p3756OPfbY9OabbzpjVIxSqZR+85vfpH333Tdtuummaa211krbbrtt+uY3v5leffXVpm4eLdCdd96Zr79dd901tWvXLv9bP3r06HqPnzt3bho4cGDq2rVrPr5bt27pggsuSPPmzWuU9lqHehUaP358OvDAA/M/msccc0xae+2105gxY9Lrr7+ehg8fngYNGrQq3w4Ku/jii3Mg6dGjR9pnn33ShhtumF5++eV077335n9Yf/GLX6Sjjz7aGaYizZgxI/8j26ZNmzR//vw0efLk/OUlVIr4/+hZZ52Vbrnllvz/2fjbIP4mePvtt9PEiRPTXXfdlfbcc8+mbiZk8ffpjTfemMP0oYcemjp16pT+9Kc/pXHjxqWOHTumJ598Mu24447OFo2mW7duOT9tsMEGuYMyfh41alQ6+eSTlzo2/g6I/59Onz49dxTtsssuadq0afn67dOnT3rsscdyNmtQJVaJhQsXlnr06FFq165dadq0adXbP/zww9I222xTatu2bWnWrFnONhVhzJgxpQkTJiy1/bHHHiutscYapXXXXbe0YMGCJmkbLMunn35a6t27d2n33XcvHX/88aX4Z2zy5MlOGhXlpptuytfmOeecU1q0aFGdfzNAJfjb3/5WatWqValr1675b9aabrzxxnwdn3LKKU3WPlqmhx56qDo3XXfddfk6HDVqVJ3HXnbZZXn/RRddVGt7PI7t1157bYO315DvVeTRRx9NM2fOTMcdd1zq1atX9fbOnTunSy+9NH366afptttuW1VvB5/LEUcckfr377/U9r322isP+frggw/Sc8895yxTca655pr0/PPPp1tvvTW1bt26qZsDS/n444/TFVdckbbaaqv0gx/8oM7rNEZXQCWYNWtW+uyzz1K/fv3y36w1HXzwwfn+vffea6LW0VLtv//+efj2iowGGjlyZB5JMXjw4Fr74nFsj/0NTaBeRSZMmJDvY6jBkmKoV4hhXlDp1lhjjXzvDz4qzbPPPpsD9ZAhQ9IOO+zQ1M2BOsUww/hS8rDDDkuLFy/Oc1OHDh2abr755vTKK684a1SUnj175joqkyZNyvNQa/r973+f7/fbb78mah0sW0xXjKk08YVQDA2vKR7H9qgD0NB1K3xFugp/oeX/MS0pij3FNyTlY6BSvfHGG+nhhx/O86h22mmnpm4OVPvkk0/SiSeemEcAXXjhhc4MFeuPf/xjvo+e6Z133jm99NJL1ftatWqVzj///FxXBSpBFMyLL3xiHvV2221Xaw51jL4855xz0rnnntvUzYSVzl/l7Q8++GA+bosttkgNRaBeRebMmZPvlxwuUxb/cyofA5Vo4cKF6YQTTsjBJQqWGU5LJbnsssvyP4gRVlybVLJ3330330eRp969e6enn346bb/99rlIzplnnpluuOGGXKjs7LPPbuqmQhZf8my22Wbp9NNPzyMpyqLQU0xlNGKN1Tl/hYbOYIZ8A3n+VFROjEqIZ5xxRg7WUCmiinf06H3/+99XaZbV4v+nIYbRxsoJUWU2RqlFjYr/83/+T+6ljlANleLKK69Mxx9/fK75E0Nj//nPf6bHH388LViwIK8E8rvf/a6pmwgVTaBeRcrfjNT3DUjMS6nv2xNo6j/+Tj311LxUVvyDWvPbaWhqixYtSieddFIeOhvLvUGlK/9bH0u7denSpda+WHooipVFEdMPP/ywiVoI/yumeUVdihjWHf+P3XzzzfMXQNE7fd999+W6KpZ9ZXXOX6GhM5hAvYqUx+7XNU969uzZeWHx+sb3Q1OG6VNOOSVXoD/22GPT6NGjc+8JVIr4f2f8fzXWl4wev6qqqupbeeWEvn375sfRGwhNbdttt83366yzTp37y9ujGjg0tfvvvz/fxwofddUAinnVUUwv/l8Mq1P+WpE51quKOdSrSCxBdN111+Xqnsccc0ytfTEZvnwMVFqYvv3229PRRx+d7rjjDnNTqTjt2rVLp512Wp37YopC/GN5yCGHpA033DB169at0dsHSyoHkxdeeKHOWhURTqL6bFyz0NRiWddlLY0V2+OL9vIKIFBJevbsmUcCRZX6+fPn16r0HY9je/fu3Ru0IFnQFbWKxJICMYwrhs1GT0pZDEG49tprc89KVKiFShrmHWH6qKOOSnfeeacwTUVac8018xqSdd2+/OUv52MuueSS/DgqgENTi4JjsYRmBOcl1z+Nasox1Pvwww9X6ImKEMsKlYvoLTlsNqaA/fWvf82jgOLLTag0VVVVuZhejKC46qqrau2Lx7E9agM1eDtKsSI2q8T48ePzmtPt27fPvdRrr712GjNmTHr99ddzQR1zUKgUl19+ebriiivyPKnvfOc7df5hF2uoCihUsiikF8O+o2jZHnvs0dTNgWoxRzq+8ImK31//+tfzsNmo8h3LEHXt2jVNmTIlD6eFphZrpX/lK1/JI3422mijPOInpiU8++yz+XqNLzUnTJiQdtttt6ZuKi3IyJEj0xNPPJF/fu655/L1GF/+bL311nlbzPGPIF3uiY59sdRbfJkZqyvE8TFqOIpCTpw4MV/HDUmgXsVieYwo7vDkk0/moV2xlu/AgQPzkFqotCCyLKNGjcrHQaUSqKlkUS05lnt74IEH0vvvv58DdISV2BbBBSpFLJc5YsSIdPfdd6e//OUveRj4xhtvnKcvROXvWPYNKunv1JNOOinX/SmL0RXRWRQdmVG7atNNN80jMCOTRQdnQxOoAQAAoABzqAEAAKAAgRoAAAAKEKgBAACgAIEaAAAAChCoAQAAoACBGgAAAAoQqAEAAKAAgRoAAAAKEKgBAACgAIEaAAAAChCoAQAAoACBGgAAAAoQqAGgws2fPz9de+21qXfv3qljx46pXbt2afPNN0977bVXuuSSS9LMmTObuokA0CK1aeoGAAD1++c//5n23HPP9N///d9p6623Tscff3xaf/3109///vf09NNPp6FDh6YePXrkGwDQuARqAKhgN910Uw7Tp59+errllltSVVVVrf2vvfZa+uSTT5qsfQDQkhnyDQAVbPLkyfn+W9/61lJhOnTv3j1tt912tba9++67adCgQWnbbbdNa665ZlpvvfXS7rvvnoYPH77U8++777607777ps6dO+djv/jFL6Ybb7wxLVq0qNZxs2bNyu9/8sknpxdeeCEdfvjhuac8tsW+srFjx6b99tsvrbvuuql9+/Zpxx13zO+7ePHiVXhWAKAyCNQAUMEitIaXXnpphY7/y1/+knr16pVD8UYbbZT+/d//PR133HFprbXWyvOwa4pjDjnkkNwDHsdEaP/4449zGD/qqKNSqVRa6vVfeeWVtMcee6T33nsvh+uTTjoptW3bNu+L+dyHHXZYbsMRRxyRzjnnnBzSL7jggnTMMceskvMBAJWkqlTXv5YAQEX43e9+lw499NC09tprpzPPPDMNGDAgfelLX6oO2kvq06dPeuaZZ/Lw8DPOOKPWvr/+9a+5mFmIQmbRsx2913H8FltskbfH8PH9998/PfHEE+n2229PJ5xwQt4evdDRGx4uu+yydMUVV9R67Yceeii37cADD0xjxoxJHTp0yNvjz4wI1jfffHO655570pFHHtkAZwkAmoYeagCoYNGDfMMNN+RgGvcRWDfYYINcoOzcc89NL7/8cvWxUaQswvHee++9VJgO5TAdfvGLX+Rh3dEbXQ7TISqIDxs2LP88evTopV5jk002Sd/73veW2v7jH/8430eQL4fpEEPCo3Ba3P/yl7/8XOcCACqNomQAUOEGDhyYA/IDDzyQnnzyyRyan3rqqfSTn/wk/fznP0+//vWvc/COQB2ip3h5pk2blu/32Wefpfb17ds3z3+ePn36UvtijnV5iHdNU6ZMyUH61ltvrfP9Yuj3iy++uEKfFwBWFwI1AKwGYsh3zGuOW5gzZ0669NJL03/+53+m0047Lb311lt5W9hss82W+3pz587N9xtvvPFS+6I3ObbHay6pruPDP/7xj9zjveRQ8CXX0waA5sSQbwBYDUVV7hhm3bVr17wm9XPPPZfWWWedvK+uILykTp065ft33nlnqX0xvDy2l4+pqa5K4+XXi3nd8dz6brHEFwA0JwI1AKymItzWnK+822675ftx48Yt97m77LJLvp8wYcJS+2I4+YIFC3K18BUVy3K9//77teZ0A0BzJ1ADQAX76U9/mqZOnVrnvnvvvTevCR0907Hec1T4jttjjz2Wfvazny11fM2e61gmq02bNnnprLfffrt6+6effpouuuii/HMsi7WiYnmucOqpp+ZgvaTZs2fntgJAc2IONQBUsPvvvz+dddZZuap3v379UpcuXfJc5Cgq9vjjj6dWrVrledRRnTvcddddudBYLLF1xx135AJj0dv8/PPP5+eUw26PHj1yNe+o8r3zzjunf/3Xf8293ffdd19eRzqW6jr++ONXuJ1f/epX0+DBg9NVV12V2xqPYzh6vF+sXR1tvfrqq9P222/fYOcKABqbdagBoIJFuI21qGOd5wimf/vb36oLj+25557p29/+dl6XuqaY/3zdddflcBxrT3fs2DH17NkzHX300en888+vdWy8dvRSP/vss7l3eptttsk909HjHD3YZeV1qE866aQ6l9Mqe/jhh9MPf/jDXPX7ww8/zPOq43kHHXRQfm7NJboAYHUnUAMAAEAB5lADAABAAQI1AAAAFCBQAwAAgEANAAAAjUMPNQAAABQgUAMAAEABAjUAAAAUIFADAABAAQI1AAAAFCBQAwAAQAECNQAAABQgUAMAAEABAjUAAAAUIFADAABAAQI1AAAAFCBQAwAAQAECNQAAABQgUAMAAEABAjUAAAAUIFADAABAAQI1AAAAFCBQAwAAQAECNQAAABQgUAMAAEABAjUAAACklff/AByZOg4AXABzAAAAAElFTkSuQmCC" alt="Score distribution chart">
+            
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Alert Details</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Time</th>
+                    <th>Path</th>
+                    <th>Event</th>
+                    <th>Score</th>
+                    <th>Level</th>
+                    <th>Analyzers</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                <tr>
+                    <td>2026-06-04T20:36:55.182022</td>
+                    <td>D:\Nnutural\Desktop\BUPT_6\SecureProgrammingTechnologyandCaseDevelopment\平时作业\FileGuard\experiments\sandbox\normal\normal_ops.txt</td>
+                    <td>created</td>
+                    <td>0.00</td>
+                    <td class="level-low">LOW</td>
+                    <td></td>
+                </tr>
+                
+                <tr>
+                    <td>2026-06-04T20:36:55.182989</td>
+                    <td>D:\Nnutural\Desktop\BUPT_6\SecureProgrammingTechnologyandCaseDevelopment\平时作业\FileGuard\experiments\sandbox\normal</td>
+                    <td>modified</td>
+                    <td>0.00</td>
+                    <td class="level-low">LOW</td>
+                    <td></td>
+                </tr>
+                
+                <tr>
+                    <td>2026-06-04T20:36:55.186920</td>
+                    <td>D:\Nnutural\Desktop\BUPT_6\SecureProgrammingTechnologyandCaseDevelopment\平时作业\FileGuard\experiments\sandbox\normal\normal_ops.txt</td>
+                    <td>modified</td>
+                    <td>0.00</td>
+                    <td class="level-low">LOW</td>
+                    <td></td>
+                </tr>
+                
+                <tr>
+                    <td>2026-06-04T20:36:55.487972</td>
+                    <td>D:\Nnutural\Desktop\BUPT_6\SecureProgrammingTechnologyandCaseDevelopment\平时作业\FileGuard\experiments\sandbox\normal\normal_ops.txt</td>
+                    <td>modified</td>
+                    <td>5.00</td>
+                    <td class="level-high">HIGH</td>
+                    <td>HashDiffChecker</td>
+                </tr>
+                
+                <tr>
+                    <td>2026-06-04T20:36:55.771775</td>
+                    <td>D:\Nnutural\Desktop\BUPT_6\SecureProgrammingTechnologyandCaseDevelopment\平时作业\FileGuard\experiments\sandbox\normal\normal_ops.txt</td>
+                    <td>moved</td>
+                    <td>0.00</td>
+                    <td class="level-low">LOW</td>
+                    <td></td>
+                </tr>
+                
+                <tr>
+                    <td>2026-06-04T20:36:55.772771</td>
+                    <td>D:\Nnutural\Desktop\BUPT_6\SecureProgrammingTechnologyandCaseDevelopment\平时作业\FileGuard\experiments\sandbox\normal</td>
+                    <td>modified</td>
+                    <td>0.00</td>
+                    <td class="level-low">LOW</td>
+                    <td></td>
+                </tr>
+                
+                <tr>
+                    <td>2026-06-04T20:36:55.775770</td>
+                    <td>D:\Nnutural\Desktop\BUPT_6\SecureProgrammingTechnologyandCaseDevelopment\平时作业\FileGuard\experiments\sandbox\normal\normal_ops_renamed.txt</td>
+                    <td>modified</td>
+                    <td>0.00</td>
+                    <td class="level-low">LOW</td>
+                    <td></td>
+                </tr>
+                
+                <tr>
+                    <td>2026-06-04T20:36:56.068927</td>
+                    <td>D:\Nnutural\Desktop\BUPT_6\SecureProgrammingTechnologyandCaseDevelopment\平时作业\FileGuard\experiments\sandbox\normal\normal_ops_renamed.txt</td>
+                    <td>deleted</td>
+                    <td>0.00</td>
+                    <td class="level-low">LOW</td>
+                    <td></td>
+                </tr>
+                
+                <tr>
+                    <td>2026-06-04T20:36:56.069970</td>
+                    <td>D:\Nnutural\Desktop\BUPT_6\SecureProgrammingTechnologyandCaseDevelopment\平时作业\FileGuard\experiments\sandbox\normal</td>
+                    <td>modified</td>
+                    <td>6.00</td>
+                    <td class="level-high">HIGH</td>
+                    <td>FrequencyAnalyzer</td>
+                </tr>
+                
+                <tr>
+                    <td>2026-06-04T20:36:57.074973</td>
+                    <td>D:\Nnutural\Desktop\BUPT_6\SecureProgrammingTechnologyandCaseDevelopment\平时作业\FileGuard\experiments\sandbox\financial\acceptance_budget.csv</td>
+                    <td>modified</td>
+                    <td>6.56</td>
+                    <td class="level-high">HIGH</td>
+                    <td>SensitivePathAnalyzer, FrequencyAnalyzer</td>
+                </tr>
+                
+                <tr>
+                    <td>2026-06-04T20:36:57.077977</td>
+                    <td>D:\Nnutural\Desktop\BUPT_6\SecureProgrammingTechnologyandCaseDevelopment\平时作业\FileGuard\experiments\sandbox\config\acceptance_app.ini</td>
+                    <td>modified</td>
+                    <td>6.67</td>
+                    <td class="level-high">HIGH</td>
+                    <td>SensitivePathAnalyzer, FrequencyAnalyzer</td>
+                </tr>
+                
+                <tr>
+                    <td>2026-06-04T20:36:57.079967</td>
+                    <td>D:\Nnutural\Desktop\BUPT_6\SecureProgrammingTechnologyandCaseDevelopment\平时作业\FileGuard\experiments\sandbox\certificates\acceptance_service.pem</td>
+                    <td>modified</td>
+                    <td>9.00</td>
+                    <td class="level-critical">CRITICAL</td>
+                    <td>SensitivePathAnalyzer, FrequencyAnalyzer</td>
+                </tr>
+                
+                <tr>
+                    <td>2026-06-04T20:36:57.082969</td>
+                    <td>D:\Nnutural\Desktop\BUPT_6\SecureProgrammingTechnologyandCaseDevelopment\平时作业\FileGuard\experiments\sandbox\certificates\acceptance_service.key</td>
+                    <td>modified</td>
+                    <td>9.56</td>
+                    <td class="level-critical">CRITICAL</td>
+                    <td>SensitivePathAnalyzer, FrequencyAnalyzer</td>
+                </tr>
+                
+                <tr>
+                    <td>2026-06-04T20:36:58.082511</td>
+                    <td>D:\Nnutural\Desktop\BUPT_6\SecureProgrammingTechnologyandCaseDevelopment\平时作业\FileGuard\experiments\sandbox\ransomware_target\entropy\payload.dat</td>
+                    <td>modified</td>
+                    <td>9.99</td>
+                    <td class="level-critical">CRITICAL</td>
+                    <td>EntropyAnalyzer, FrequencyAnalyzer</td>
+                </tr>
+                
+                <tr>
+                    <td>2026-06-04T20:36:58.096511</td>
+                    <td>D:\Nnutural\Desktop\BUPT_6\SecureProgrammingTechnologyandCaseDevelopment\平时作业\FileGuard\experiments\sandbox\ransomware_target\entropy\allowlisted.zip</td>
+                    <td>modified</td>
+                    <td>10.00</td>
+                    <td class="level-critical">CRITICAL</td>
+                    <td>FrequencyAnalyzer</td>
+                </tr>
+                
+                <tr>
+                    <td>2026-06-04T20:36:59.084231</td>
+                    <td>D:\Nnutural\Desktop\BUPT_6\SecureProgrammingTechnologyandCaseDevelopment\平时作业\FileGuard\experiments\sandbox\ransomware_target\frequency\burst_00.txt</td>
+                    <td>created</td>
+                    <td>0.00</td>
+                    <td class="level-low">LOW</td>
+                    <td></td>
+                </tr>
+                
+                <tr>
+                    <td>2026-06-04T20:36:59.085231</td>
+                    <td>D:\Nnutural\Desktop\BUPT_6\SecureProgrammingTechnologyandCaseDevelopment\平时作业\FileGuard\experiments\sandbox\ransomware_target\frequency</td>
+                    <td>modified</td>
+                    <td>10.00</td>
+                    <td class="level-critical">CRITICAL</td>
+                    <td>FrequencyAnalyzer</td>
+                </tr>
+                
+                <tr>
+                    <td>2026-06-04T20:36:59.087239</td>
+                    <td>D:\Nnutural\Desktop\BUPT_6\SecureProgrammingTechnologyandCaseDevelopment\平时作业\FileGuard\experiments\sandbox\ransomware_target\frequency\burst_00.txt</td>
+                    <td>modified</td>
+                    <td>10.00</td>
+                    <td class="level-critical">CRITICAL</td>
+                    <td>FrequencyAnalyzer</td>
+                </tr>
+                
+                <tr>
+                    <td>2026-06-04T20:36:59.089239</td>
+                    <td>D:\Nnutural\Desktop\BUPT_6\SecureProgrammingTechnologyandCaseDevelopment\平时作业\FileGuard\experiments\sandbox\ransomware_target\frequency\burst_01.txt</td>
+                    <td>created</td>
+                    <td>0.00</td>
+                    <td class="level-low">LOW</td>
+                    <td></td>
+                </tr>
+                
+                <tr>
+                    <td>2026-06-04T20:36:59.091239</td>
+                    <td>D:\Nnutural\Desktop\BUPT_6\SecureProgrammingTechnologyandCaseDevelopment\平时作业\FileGuard\experiments\sandbox\ransomware_target\frequency\burst_01.txt</td>
+                    <td>modified</td>
+                    <td>10.00</td>
+                    <td class="level-critical">CRITICAL</td>
+                    <td>FrequencyAnalyzer</td>
+                </tr>
+                
+                <tr>
+                    <td>2026-06-04T20:36:59.093239</td>
+                    <td>D:\Nnutural\Desktop\BUPT_6\SecureProgrammingTechnologyandCaseDevelopment\平时作业\FileGuard\experiments\sandbox\ransomware_target\frequency\burst_02.txt</td>
+                    <td>created</td>
+                    <td>0.00</td>
+                    <td class="level-low">LOW</td>
+                    <td></td>
+                </tr>
+                
+                <tr>
+                    <td>2026-06-04T20:36:59.095230</td>
+                    <td>D:\Nnutural\Desktop\BUPT_6\SecureProgrammingTechnologyandCaseDevelopment\平时作业\FileGuard\experiments\sandbox\ransomware_target\frequency\burst_02.txt</td>
+                    <td>modified</td>
+                    <td>10.00</td>
+                    <td class="level-critical">CRITICAL</td>
+                    <td>FrequencyAnalyzer</td>
+                </tr>
+                
+                <tr>
+                    <td>2026-06-04T20:36:59.097231</td>
+                    <td>D:\Nnutural\Desktop\BUPT_6\SecureProgrammingTechnologyandCaseDevelopment\平时作业\FileGuard\experiments\sandbox\ransomware_target\frequency\burst_03.txt</td>
+                    <td>created</td>
+                    <td>0.00</td>
+                    <td class="level-low">LOW</td>
+                    <td></td>
+                </tr>
+                
+                <tr>
+                    <td>2026-06-04T20:36:59.101231</td>
+                    <td>D:\Nnutural\Desktop\BUPT_6\SecureProgrammingTechnologyandCaseDevelopment\平时作业\FileGuard\experiments\sandbox\ransomware_target\frequency\burst_03.txt</td>
+                    <td>modified</td>
+                    <td>10.00</td>
+                    <td class="level-critical">CRITICAL</td>
+                    <td>FrequencyAnalyzer</td>
+                </tr>
+                
+                <tr>
+                    <td>2026-06-04T20:36:59.104230</td>
+                    <td>D:\Nnutural\Desktop\BUPT_6\SecureProgrammingTechnologyandCaseDevelopment\平时作业\FileGuard\experiments\sandbox\ransomware_target\frequency\burst_04.txt</td>
+                    <td>created</td>
+                    <td>6.00</td>
+                    <td class="level-high">HIGH</td>
+                    <td>FrequencyAnalyzer</td>
+                </tr>
+                
+                <tr>
+                    <td>2026-06-04T20:36:59.106231</td>
+                    <td>D:\Nnutural\Desktop\BUPT_6\SecureProgrammingTechnologyandCaseDevelopment\平时作业\FileGuard\experiments\sandbox\ransomware_target\frequency\burst_04.txt</td>
+                    <td>modified</td>
+                    <td>10.00</td>
+                    <td class="level-critical">CRITICAL</td>
+                    <td>FrequencyAnalyzer</td>
+                </tr>
+                
+                <tr>
+                    <td>2026-06-04T20:36:59.109239</td>
+                    <td>D:\Nnutural\Desktop\BUPT_6\SecureProgrammingTechnologyandCaseDevelopment\平时作业\FileGuard\experiments\sandbox\ransomware_target\frequency\burst_05.txt</td>
+                    <td>created</td>
+                    <td>7.00</td>
+                    <td class="level-critical">CRITICAL</td>
+                    <td>FrequencyAnalyzer</td>
+                </tr>
+                
+                <tr>
+                    <td>2026-06-04T20:36:59.112232</td>
+                    <td>D:\Nnutural\Desktop\BUPT_6\SecureProgrammingTechnologyandCaseDevelopment\平时作业\FileGuard\experiments\sandbox\ransomware_target\frequency\burst_05.txt</td>
+                    <td>modified</td>
+                    <td>10.00</td>
+                    <td class="level-critical">CRITICAL</td>
+                    <td>FrequencyAnalyzer</td>
+                </tr>
+                
+                <tr>
+                    <td>2026-06-04T20:36:59.115079</td>
+                    <td>D:\Nnutural\Desktop\BUPT_6\SecureProgrammingTechnologyandCaseDevelopment\平时作业\FileGuard\experiments\sandbox\ransomware_target\frequency\burst_06.txt</td>
+                    <td>created</td>
+                    <td>8.00</td>
+                    <td class="level-critical">CRITICAL</td>
+                    <td>FrequencyAnalyzer</td>
+                </tr>
+                
+                <tr>
+                    <td>2026-06-04T20:36:59.117078</td>
+                    <td>D:\Nnutural\Desktop\BUPT_6\SecureProgrammingTechnologyandCaseDevelopment\平时作业\FileGuard\experiments\sandbox\ransomware_target\frequency\burst_06.txt</td>
+                    <td>modified</td>
+                    <td>10.00</td>
+                    <td class="level-critical">CRITICAL</td>
+                    <td>FrequencyAnalyzer</td>
+                </tr>
+                
+                <tr>
+                    <td>2026-06-04T20:36:59.120078</td>
+                    <td>D:\Nnutural\Desktop\BUPT_6\SecureProgrammingTechnologyandCaseDevelopment\平时作业\FileGuard\experiments\sandbox\ransomware_target\frequency\burst_07.txt</td>
+                    <td>created</td>
+                    <td>9.00</td>
+                    <td class="level-critical">CRITICAL</td>
+                    <td>FrequencyAnalyzer</td>
+                </tr>
+                
+                <tr>
+                    <td>2026-06-04T20:36:59.122079</td>
+                    <td>D:\Nnutural\Desktop\BUPT_6\SecureProgrammingTechnologyandCaseDevelopment\平时作业\FileGuard\experiments\sandbox\ransomware_target\frequency\burst_07.txt</td>
+                    <td>modified</td>
+                    <td>10.00</td>
+                    <td class="level-critical">CRITICAL</td>
+                    <td>FrequencyAnalyzer</td>
+                </tr>
+                
+                <tr>
+                    <td>2026-06-04T20:36:59.601610</td>
+                    <td>D:\Nnutural\Desktop\BUPT_6\SecureProgrammingTechnologyandCaseDevelopment\平时作业\FileGuard\experiments\sandbox\ransomware_target\frequency\burst_00.txt</td>
+                    <td>modified</td>
+                    <td>8.93</td>
+                    <td class="level-critical">CRITICAL</td>
+                    <td>FrequencyAnalyzer, HashDiffChecker, FuzzyHashAnalyzer</td>
+                </tr>
+                
+                <tr>
+                    <td>2026-06-04T20:36:59.605629</td>
+                    <td>D:\Nnutural\Desktop\BUPT_6\SecureProgrammingTechnologyandCaseDevelopment\平时作业\FileGuard\experiments\sandbox\ransomware_target\frequency\burst_01.txt</td>
+                    <td>modified</td>
+                    <td>8.93</td>
+                    <td class="level-critical">CRITICAL</td>
+                    <td>FrequencyAnalyzer, HashDiffChecker, FuzzyHashAnalyzer</td>
+                </tr>
+                
+                <tr>
+                    <td>2026-06-04T20:36:59.608644</td>
+                    <td>D:\Nnutural\Desktop\BUPT_6\SecureProgrammingTechnologyandCaseDevelopment\平时作业\FileGuard\experiments\sandbox\ransomware_target\frequency\burst_02.txt</td>
+                    <td>modified</td>
+                    <td>8.93</td>
+                    <td class="level-critical">CRITICAL</td>
+                    <td>FrequencyAnalyzer, HashDiffChecker, FuzzyHashAnalyzer</td>
+                </tr>
+                
+                <tr>
+                    <td>2026-06-04T20:36:59.615611</td>
+                    <td>D:\Nnutural\Desktop\BUPT_6\SecureProgrammingTechnologyandCaseDevelopment\平时作业\FileGuard\experiments\sandbox\ransomware_target\frequency\burst_03.txt</td>
+                    <td>modified</td>
+                    <td>8.93</td>
+                    <td class="level-critical">CRITICAL</td>
+                    <td>FrequencyAnalyzer, HashDiffChecker, FuzzyHashAnalyzer</td>
+                </tr>
+                
+                <tr>
+                    <td>2026-06-04T20:36:59.620207</td>
+                    <td>D:\Nnutural\Desktop\BUPT_6\SecureProgrammingTechnologyandCaseDevelopment\平时作业\FileGuard\experiments\sandbox\ransomware_target\frequency\burst_04.txt</td>
+                    <td>modified</td>
+                    <td>8.93</td>
+                    <td class="level-critical">CRITICAL</td>
+                    <td>FrequencyAnalyzer, HashDiffChecker, FuzzyHashAnalyzer</td>
+                </tr>
+                
+                <tr>
+                    <td>2026-06-04T20:36:59.623401</td>
+                    <td>D:\Nnutural\Desktop\BUPT_6\SecureProgrammingTechnologyandCaseDevelopment\平时作业\FileGuard\experiments\sandbox\ransomware_target\frequency\burst_05.txt</td>
+                    <td>modified</td>
+                    <td>8.93</td>
+                    <td class="level-critical">CRITICAL</td>
+                    <td>FrequencyAnalyzer, HashDiffChecker, FuzzyHashAnalyzer</td>
+                </tr>
+                
+                <tr>
+                    <td>2026-06-04T20:36:59.627300</td>
+                    <td>D:\Nnutural\Desktop\BUPT_6\SecureProgrammingTechnologyandCaseDevelopment\平时作业\FileGuard\experiments\sandbox\ransomware_target\frequency\burst_06.txt</td>
+                    <td>modified</td>
+                    <td>8.93</td>
+                    <td class="level-critical">CRITICAL</td>
+                    <td>FrequencyAnalyzer, HashDiffChecker, FuzzyHashAnalyzer</td>
+                </tr>
+                
+                <tr>
+                    <td>2026-06-04T20:36:59.631573</td>
+                    <td>D:\Nnutural\Desktop\BUPT_6\SecureProgrammingTechnologyandCaseDevelopment\平时作业\FileGuard\experiments\sandbox\ransomware_target\frequency\burst_07.txt</td>
+                    <td>modified</td>
+                    <td>8.93</td>
+                    <td class="level-critical">CRITICAL</td>
+                    <td>FrequencyAnalyzer, HashDiffChecker, FuzzyHashAnalyzer</td>
+                </tr>
+                
+                <tr>
+                    <td>2026-06-04T20:37:00.107525</td>
+                    <td>D:\Nnutural\Desktop\BUPT_6\SecureProgrammingTechnologyandCaseDevelopment\平时作业\FileGuard\experiments\sandbox\ransomware_target\frequency\burst_00.txt</td>
+                    <td>deleted</td>
+                    <td>0.00</td>
+                    <td class="level-low">LOW</td>
+                    <td></td>
+                </tr>
+                
+                <tr>
+                    <td>2026-06-04T20:37:00.110131</td>
+                    <td>D:\Nnutural\Desktop\BUPT_6\SecureProgrammingTechnologyandCaseDevelopment\平时作业\FileGuard\experiments\sandbox\ransomware_target\frequency</td>
+                    <td>modified</td>
+                    <td>10.00</td>
+                    <td class="level-critical">CRITICAL</td>
+                    <td>FrequencyAnalyzer</td>
+                </tr>
+                
+                <tr>
+                    <td>2026-06-04T20:37:00.111136</td>
+                    <td>D:\Nnutural\Desktop\BUPT_6\SecureProgrammingTechnologyandCaseDevelopment\平时作业\FileGuard\experiments\sandbox\ransomware_target\frequency\burst_01.txt</td>
+                    <td>deleted</td>
+                    <td>0.00</td>
+                    <td class="level-low">LOW</td>
+                    <td></td>
+                </tr>
+                
+                <tr>
+                    <td>2026-06-04T20:37:00.111136</td>
+                    <td>D:\Nnutural\Desktop\BUPT_6\SecureProgrammingTechnologyandCaseDevelopment\平时作业\FileGuard\experiments\sandbox\ransomware_target\frequency\burst_02.txt</td>
+                    <td>deleted</td>
+                    <td>0.00</td>
+                    <td class="level-low">LOW</td>
+                    <td></td>
+                </tr>
+                
+                <tr>
+                    <td>2026-06-04T20:37:00.112133</td>
+                    <td>D:\Nnutural\Desktop\BUPT_6\SecureProgrammingTechnologyandCaseDevelopment\平时作业\FileGuard\experiments\sandbox\ransomware_target\frequency\burst_03.txt</td>
+                    <td>deleted</td>
+                    <td>0.00</td>
+                    <td class="level-low">LOW</td>
+                    <td></td>
+                </tr>
+                
+                <tr>
+                    <td>2026-06-04T20:37:00.112133</td>
+                    <td>D:\Nnutural\Desktop\BUPT_6\SecureProgrammingTechnologyandCaseDevelopment\平时作业\FileGuard\experiments\sandbox\ransomware_target\frequency\burst_04.txt</td>
+                    <td>deleted</td>
+                    <td>6.00</td>
+                    <td class="level-high">HIGH</td>
+                    <td>FrequencyAnalyzer</td>
+                </tr>
+                
+                <tr>
+                    <td>2026-06-04T20:37:00.113132</td>
+                    <td>D:\Nnutural\Desktop\BUPT_6\SecureProgrammingTechnologyandCaseDevelopment\平时作业\FileGuard\experiments\sandbox\ransomware_target\frequency\burst_05.txt</td>
+                    <td>deleted</td>
+                    <td>7.00</td>
+                    <td class="level-critical">CRITICAL</td>
+                    <td>FrequencyAnalyzer</td>
+                </tr>
+                
+                <tr>
+                    <td>2026-06-04T20:37:00.113132</td>
+                    <td>D:\Nnutural\Desktop\BUPT_6\SecureProgrammingTechnologyandCaseDevelopment\平时作业\FileGuard\experiments\sandbox\ransomware_target\frequency\burst_06.txt</td>
+                    <td>deleted</td>
+                    <td>8.00</td>
+                    <td class="level-critical">CRITICAL</td>
+                    <td>FrequencyAnalyzer</td>
+                </tr>
+                
+                <tr>
+                    <td>2026-06-04T20:37:00.114132</td>
+                    <td>D:\Nnutural\Desktop\BUPT_6\SecureProgrammingTechnologyandCaseDevelopment\平时作业\FileGuard\experiments\sandbox\ransomware_target\frequency\burst_07.txt</td>
+                    <td>deleted</td>
+                    <td>9.00</td>
+                    <td class="level-critical">CRITICAL</td>
+                    <td>FrequencyAnalyzer</td>
+                </tr>
+                
+                <tr>
+                    <td>2026-06-04T20:37:01.616887</td>
+                    <td>D:\Nnutural\Desktop\BUPT_6\SecureProgrammingTechnologyandCaseDevelopment\平时作业\FileGuard\experiments\sandbox\restore_target\doc_01.txt</td>
+                    <td>modified</td>
+                    <td>10.00</td>
+                    <td class="level-critical">CRITICAL</td>
+                    <td>FrequencyAnalyzer</td>
+                </tr>
+                
+                <tr>
+                    <td>2026-06-04T20:37:01.619816</td>
+                    <td>D:\Nnutural\Desktop\BUPT_6\SecureProgrammingTechnologyandCaseDevelopment\平时作业\FileGuard\experiments\sandbox\restore_target\doc_02.txt</td>
+                    <td>modified</td>
+                    <td>10.00</td>
+                    <td class="level-critical">CRITICAL</td>
+                    <td>FrequencyAnalyzer</td>
+                </tr>
+                
+                <tr>
+                    <td>2026-06-04T20:37:01.622864</td>
+                    <td>D:\Nnutural\Desktop\BUPT_6\SecureProgrammingTechnologyandCaseDevelopment\平时作业\FileGuard\experiments\sandbox\restore_target\doc_03.txt</td>
+                    <td>modified</td>
+                    <td>10.00</td>
+                    <td class="level-critical">CRITICAL</td>
+                    <td>FrequencyAnalyzer</td>
+                </tr>
+                
+                <tr>
+                    <td>2026-06-04T20:37:01.624893</td>
+                    <td>D:\Nnutural\Desktop\BUPT_6\SecureProgrammingTechnologyandCaseDevelopment\平时作业\FileGuard\experiments\sandbox\restore_target\doc_04.txt</td>
+                    <td>modified</td>
+                    <td>10.00</td>
+                    <td class="level-critical">CRITICAL</td>
+                    <td>FrequencyAnalyzer</td>
+                </tr>
+                
+                <tr>
+                    <td>2026-06-04T20:37:01.627893</td>
+                    <td>D:\Nnutural\Desktop\BUPT_6\SecureProgrammingTechnologyandCaseDevelopment\平时作业\FileGuard\experiments\sandbox\restore_target\doc_05.txt</td>
+                    <td>modified</td>
+                    <td>10.00</td>
+                    <td class="level-critical">CRITICAL</td>
+                    <td>FrequencyAnalyzer</td>
+                </tr>
+                
+                <tr>
+                    <td>2026-06-04T20:37:01.629866</td>
+                    <td>D:\Nnutural\Desktop\BUPT_6\SecureProgrammingTechnologyandCaseDevelopment\平时作业\FileGuard\experiments\sandbox\restore_target\doc_06.txt</td>
+                    <td>modified</td>
+                    <td>10.00</td>
+                    <td class="level-critical">CRITICAL</td>
+                    <td>FrequencyAnalyzer</td>
+                </tr>
+                
+                <tr>
+                    <td>2026-06-04T20:37:02.635701</td>
+                    <td>D:\Nnutural\Desktop\BUPT_6\SecureProgrammingTechnologyandCaseDevelopment\平时作业\FileGuard\experiments\sandbox\restore_target\doc_01.txt</td>
+                    <td>modified</td>
+                    <td>9.25</td>
+                    <td class="level-critical">CRITICAL</td>
+                    <td>EntropyAnalyzer, FrequencyAnalyzer, HashDiffChecker, FuzzyHashAnalyzer</td>
+                </tr>
+                
+                <tr>
+                    <td>2026-06-04T20:37:02.650618</td>
+                    <td>D:\Nnutural\Desktop\BUPT_6\SecureProgrammingTechnologyandCaseDevelopment\平时作业\FileGuard\experiments\sandbox\restore_target\doc_02.txt</td>
+                    <td>modified</td>
+                    <td>9.25</td>
+                    <td class="level-critical">CRITICAL</td>
+                    <td>EntropyAnalyzer, FrequencyAnalyzer, HashDiffChecker, FuzzyHashAnalyzer</td>
+                </tr>
+                
+                <tr>
+                    <td>2026-06-04T20:37:02.660281</td>
+                    <td>D:\Nnutural\Desktop\BUPT_6\SecureProgrammingTechnologyandCaseDevelopment\平时作业\FileGuard\experiments\sandbox\restore_target\doc_03.txt</td>
+                    <td>modified</td>
+                    <td>9.25</td>
+                    <td class="level-critical">CRITICAL</td>
+                    <td>EntropyAnalyzer, FrequencyAnalyzer, HashDiffChecker, FuzzyHashAnalyzer</td>
+                </tr>
+                
+                <tr>
+                    <td>2026-06-04T20:37:02.675110</td>
+                    <td>D:\Nnutural\Desktop\BUPT_6\SecureProgrammingTechnologyandCaseDevelopment\平时作业\FileGuard\experiments\sandbox\restore_target\doc_04.txt</td>
+                    <td>modified</td>
+                    <td>9.25</td>
+                    <td class="level-critical">CRITICAL</td>
+                    <td>EntropyAnalyzer, FrequencyAnalyzer, HashDiffChecker, FuzzyHashAnalyzer</td>
+                </tr>
+                
+                <tr>
+                    <td>2026-06-04T20:37:02.692262</td>
+                    <td>D:\Nnutural\Desktop\BUPT_6\SecureProgrammingTechnologyandCaseDevelopment\平时作业\FileGuard\experiments\sandbox\restore_target\doc_05.txt</td>
+                    <td>modified</td>
+                    <td>9.25</td>
+                    <td class="level-critical">CRITICAL</td>
+                    <td>EntropyAnalyzer, FrequencyAnalyzer, HashDiffChecker, FuzzyHashAnalyzer</td>
+                </tr>
+                
+                <tr>
+                    <td>2026-06-04T20:37:02.704234</td>
+                    <td>D:\Nnutural\Desktop\BUPT_6\SecureProgrammingTechnologyandCaseDevelopment\平时作业\FileGuard\experiments\sandbox\restore_target\doc_06.txt</td>
+                    <td>modified</td>
+                    <td>9.25</td>
+                    <td class="level-critical">CRITICAL</td>
+                    <td>EntropyAnalyzer, FrequencyAnalyzer, HashDiffChecker, FuzzyHashAnalyzer</td>
+                </tr>
+                
+                <tr>
+                    <td>2026-06-04T20:37:03.132236</td>
+                    <td>D:\Nnutural\Desktop\BUPT_6\SecureProgrammingTechnologyandCaseDevelopment\平时作业\FileGuard\experiments\sandbox\restore_target\doc_01.txt</td>
+                    <td>moved</td>
+                    <td>0.00</td>
+                    <td class="level-low">LOW</td>
+                    <td></td>
+                </tr>
+                
+                <tr>
+                    <td>2026-06-04T20:37:03.134242</td>
+                    <td>D:\Nnutural\Desktop\BUPT_6\SecureProgrammingTechnologyandCaseDevelopment\平时作业\FileGuard\experiments\sandbox\restore_target</td>
+                    <td>modified</td>
+                    <td>10.00</td>
+                    <td class="level-critical">CRITICAL</td>
+                    <td>FrequencyAnalyzer</td>
+                </tr>
+                
+                <tr>
+                    <td>2026-06-04T20:37:03.139175</td>
+                    <td>D:\Nnutural\Desktop\BUPT_6\SecureProgrammingTechnologyandCaseDevelopment\平时作业\FileGuard\experiments\sandbox\restore_target\doc_01.txt.locked</td>
+                    <td>modified</td>
+                    <td>9.99</td>
+                    <td class="level-critical">CRITICAL</td>
+                    <td>EntropyAnalyzer, FrequencyAnalyzer</td>
+                </tr>
+                
+                <tr>
+                    <td>2026-06-04T20:37:03.140175</td>
+                    <td>D:\Nnutural\Desktop\BUPT_6\SecureProgrammingTechnologyandCaseDevelopment\平时作业\FileGuard\experiments\sandbox\restore_target\doc_02.txt</td>
+                    <td>moved</td>
+                    <td>0.00</td>
+                    <td class="level-low">LOW</td>
+                    <td></td>
+                </tr>
+                
+                <tr>
+                    <td>2026-06-04T20:37:03.142684</td>
+                    <td>D:\Nnutural\Desktop\BUPT_6\SecureProgrammingTechnologyandCaseDevelopment\平时作业\FileGuard\experiments\sandbox\restore_target\doc_02.txt.locked</td>
+                    <td>modified</td>
+                    <td>9.99</td>
+                    <td class="level-critical">CRITICAL</td>
+                    <td>EntropyAnalyzer, FrequencyAnalyzer</td>
+                </tr>
+                
+                <tr>
+                    <td>2026-06-04T20:37:03.143700</td>
+                    <td>D:\Nnutural\Desktop\BUPT_6\SecureProgrammingTechnologyandCaseDevelopment\平时作业\FileGuard\experiments\sandbox\restore_target\doc_03.txt</td>
+                    <td>moved</td>
+                    <td>0.00</td>
+                    <td class="level-low">LOW</td>
+                    <td></td>
+                </tr>
+                
+                <tr>
+                    <td>2026-06-04T20:37:03.147440</td>
+                    <td>D:\Nnutural\Desktop\BUPT_6\SecureProgrammingTechnologyandCaseDevelopment\平时作业\FileGuard\experiments\sandbox\restore_target\doc_03.txt.locked</td>
+                    <td>modified</td>
+                    <td>9.99</td>
+                    <td class="level-critical">CRITICAL</td>
+                    <td>EntropyAnalyzer, FrequencyAnalyzer</td>
+                </tr>
+                
+                <tr>
+                    <td>2026-06-04T20:37:03.147440</td>
+                    <td>D:\Nnutural\Desktop\BUPT_6\SecureProgrammingTechnologyandCaseDevelopment\平时作业\FileGuard\experiments\sandbox\restore_target\doc_04.txt</td>
+                    <td>moved</td>
+                    <td>0.00</td>
+                    <td class="level-low">LOW</td>
+                    <td></td>
+                </tr>
+                
+                <tr>
+                    <td>2026-06-04T20:37:03.150441</td>
+                    <td>D:\Nnutural\Desktop\BUPT_6\SecureProgrammingTechnologyandCaseDevelopment\平时作业\FileGuard\experiments\sandbox\restore_target\doc_04.txt.locked</td>
+                    <td>modified</td>
+                    <td>9.99</td>
+                    <td class="level-critical">CRITICAL</td>
+                    <td>EntropyAnalyzer, FrequencyAnalyzer</td>
+                </tr>
+                
+                <tr>
+                    <td>2026-06-04T20:37:03.151439</td>
+                    <td>D:\Nnutural\Desktop\BUPT_6\SecureProgrammingTechnologyandCaseDevelopment\平时作业\FileGuard\experiments\sandbox\restore_target\doc_05.txt</td>
+                    <td>moved</td>
+                    <td>6.00</td>
+                    <td class="level-high">HIGH</td>
+                    <td>FrequencyAnalyzer</td>
+                </tr>
+                
+                <tr>
+                    <td>2026-06-04T20:37:03.154480</td>
+                    <td>D:\Nnutural\Desktop\BUPT_6\SecureProgrammingTechnologyandCaseDevelopment\平时作业\FileGuard\experiments\sandbox\restore_target\doc_05.txt.locked</td>
+                    <td>modified</td>
+                    <td>9.99</td>
+                    <td class="level-critical">CRITICAL</td>
+                    <td>EntropyAnalyzer, FrequencyAnalyzer</td>
+                </tr>
+                
+                <tr>
+                    <td>2026-06-04T20:37:03.155484</td>
+                    <td>D:\Nnutural\Desktop\BUPT_6\SecureProgrammingTechnologyandCaseDevelopment\平时作业\FileGuard\experiments\sandbox\restore_target\doc_06.txt</td>
+                    <td>moved</td>
+                    <td>7.00</td>
+                    <td class="level-critical">CRITICAL</td>
+                    <td>FrequencyAnalyzer</td>
+                </tr>
+                
+                <tr>
+                    <td>2026-06-04T20:37:03.159117</td>
+                    <td>D:\Nnutural\Desktop\BUPT_6\SecureProgrammingTechnologyandCaseDevelopment\平时作业\FileGuard\experiments\sandbox\restore_target\doc_06.txt.locked</td>
+                    <td>modified</td>
+                    <td>9.99</td>
+                    <td class="level-critical">CRITICAL</td>
+                    <td>EntropyAnalyzer, FrequencyAnalyzer</td>
+                </tr>
+                
+                <tr>
+                    <td>2026-06-04T20:37:03.162071</td>
+                    <td>D:\Nnutural\Desktop\BUPT_6\SecureProgrammingTechnologyandCaseDevelopment\平时作业\FileGuard\experiments\sandbox\.~lock.confidential.docx#</td>
+                    <td>modified</td>
+                    <td>10.00</td>
+                    <td class="level-critical">CRITICAL</td>
+                    <td>FrequencyAnalyzer, HoneypotSentinel</td>
+                </tr>
+                
+                <tr>
+                    <td>2026-06-04T20:37:05.207205</td>
+                    <td>D:\Nnutural\Desktop\BUPT_6\SecureProgrammingTechnologyandCaseDevelopment\平时作业\FileGuard\experiments\sandbox\outputs</td>
+                    <td>modified</td>
+                    <td>10.00</td>
+                    <td class="level-critical">CRITICAL</td>
+                    <td>FrequencyAnalyzer</td>
+                </tr>
+                
+                <tr>
+                    <td>2026-06-04T20:37:05.272516</td>
+                    <td>D:\Nnutural\Desktop\BUPT_6\SecureProgrammingTechnologyandCaseDevelopment\平时作业\FileGuard\experiments\sandbox\outputs</td>
+                    <td>modified</td>
+                    <td>10.00</td>
+                    <td class="level-critical">CRITICAL</td>
+                    <td>FrequencyAnalyzer</td>
+                </tr>
+                
+                <tr>
+                    <td>2026-06-04T20:37:05.347730</td>
+                    <td>D:\Nnutural\Desktop\BUPT_6\SecureProgrammingTechnologyandCaseDevelopment\平时作业\FileGuard\experiments\sandbox\outputs</td>
+                    <td>modified</td>
+                    <td>10.00</td>
+                    <td class="level-critical">CRITICAL</td>
+                    <td>FrequencyAnalyzer</td>
+                </tr>
+                
+                <tr>
+                    <td>2026-06-04T20:37:05.456153</td>
+                    <td>D:\Nnutural\Desktop\BUPT_6\SecureProgrammingTechnologyandCaseDevelopment\平时作业\FileGuard\experiments\sandbox\outputs</td>
+                    <td>modified</td>
+                    <td>10.00</td>
+                    <td class="level-critical">CRITICAL</td>
+                    <td>FrequencyAnalyzer</td>
+                </tr>
+                
+            </tbody>
+        </table>
+    </div>
+
+    <div class="footer">
+        <p>FileGuard v0.1.0</p>
+    </div>
+</div>
+</body>
+</html>

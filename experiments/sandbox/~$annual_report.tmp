@@ -1,0 +1,4 @@
+FileGuard honeypot document
+Name: ~$annual_report.tmp
+This controlled file should not be modified by normal workflows.
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa

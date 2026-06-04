@@ -95,7 +95,7 @@ class _GuardEventHandler(FileSystemEventHandler):
         if event_type is None:
             return
 
-        if event_type == "modified" and not self._debounce_pass(src_path):
+        if event_type == "modified" and not self._debounce_allowed(src_path):
             return
 
         dest_path: str | None = None
@@ -131,7 +131,7 @@ class _GuardEventHandler(FileSystemEventHandler):
                     return True
         return False
 
-    def _debounce_pass(self, path: str) -> bool:
+    def _debounce_allowed(self, path: str) -> bool:
         """对 modified 事件进行去抖，返回 True 表示允许通过。"""
         now = time.monotonic() * 1000
         last = self._last_modified.get(path, 0.0)

@@ -1,0 +1,613 @@
+{
+  "total": 76,
+  "events": [
+    {
+      "timestamp": "2026-06-04T20:37:05.206205",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\outputs",
+      "dest_path": null,
+      "file_size": null,
+      "is_directory": true
+    },
+    {
+      "timestamp": "2026-06-04T20:37:03.138181",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\.~lock.confidential.docx#",
+      "dest_path": null,
+      "file_size": 36,
+      "is_directory": false
+    },
+    {
+      "timestamp": "2026-06-04T20:37:03.137272",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\restore_target\\doc_06.txt.locked",
+      "dest_path": null,
+      "file_size": 32768,
+      "is_directory": false
+    },
+    {
+      "timestamp": "2026-06-04T20:37:03.136166",
+      "event_type": "moved",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\restore_target\\doc_06.txt",
+      "dest_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\restore_target\\doc_06.txt.locked",
+      "file_size": null,
+      "is_directory": false
+    },
+    {
+      "timestamp": "2026-06-04T20:37:03.136166",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\restore_target\\doc_05.txt.locked",
+      "dest_path": null,
+      "file_size": 32768,
+      "is_directory": false
+    },
+    {
+      "timestamp": "2026-06-04T20:37:03.136166",
+      "event_type": "moved",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\restore_target\\doc_05.txt",
+      "dest_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\restore_target\\doc_05.txt.locked",
+      "file_size": null,
+      "is_directory": false
+    },
+    {
+      "timestamp": "2026-06-04T20:37:03.135258",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\restore_target\\doc_04.txt.locked",
+      "dest_path": null,
+      "file_size": 32768,
+      "is_directory": false
+    },
+    {
+      "timestamp": "2026-06-04T20:37:03.133232",
+      "event_type": "moved",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\restore_target\\doc_04.txt",
+      "dest_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\restore_target\\doc_04.txt.locked",
+      "file_size": null,
+      "is_directory": false
+    },
+    {
+      "timestamp": "2026-06-04T20:37:03.133232",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\restore_target\\doc_03.txt.locked",
+      "dest_path": null,
+      "file_size": 32768,
+      "is_directory": false
+    },
+    {
+      "timestamp": "2026-06-04T20:37:03.131239",
+      "event_type": "moved",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\restore_target\\doc_03.txt",
+      "dest_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\restore_target\\doc_03.txt.locked",
+      "file_size": null,
+      "is_directory": false
+    },
+    {
+      "timestamp": "2026-06-04T20:37:03.130238",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\restore_target\\doc_02.txt.locked",
+      "dest_path": null,
+      "file_size": 32768,
+      "is_directory": false
+    },
+    {
+      "timestamp": "2026-06-04T20:37:03.129235",
+      "event_type": "moved",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\restore_target\\doc_02.txt",
+      "dest_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\restore_target\\doc_02.txt.locked",
+      "file_size": null,
+      "is_directory": false
+    },
+    {
+      "timestamp": "2026-06-04T20:37:03.126223",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\restore_target\\doc_01.txt.locked",
+      "dest_path": null,
+      "file_size": 32768,
+      "is_directory": false
+    },
+    {
+      "timestamp": "2026-06-04T20:37:03.125224",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\restore_target",
+      "dest_path": null,
+      "file_size": null,
+      "is_directory": true
+    },
+    {
+      "timestamp": "2026-06-04T20:37:03.125224",
+      "event_type": "moved",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\restore_target\\doc_01.txt",
+      "dest_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\restore_target\\doc_01.txt.locked",
+      "file_size": null,
+      "is_directory": false
+    },
+    {
+      "timestamp": "2026-06-04T20:37:02.623678",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\restore_target\\doc_06.txt",
+      "dest_path": null,
+      "file_size": 32768,
+      "is_directory": false
+    },
+    {
+      "timestamp": "2026-06-04T20:37:02.623153",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\restore_target\\doc_05.txt",
+      "dest_path": null,
+      "file_size": 32768,
+      "is_directory": false
+    },
+    {
+      "timestamp": "2026-06-04T20:37:02.622629",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\restore_target\\doc_04.txt",
+      "dest_path": null,
+      "file_size": 32768,
+      "is_directory": false
+    },
+    {
+      "timestamp": "2026-06-04T20:37:02.620914",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\restore_target\\doc_03.txt",
+      "dest_path": null,
+      "file_size": 32768,
+      "is_directory": false
+    },
+    {
+      "timestamp": "2026-06-04T20:37:02.620291",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\restore_target\\doc_02.txt",
+      "dest_path": null,
+      "file_size": 32768,
+      "is_directory": false
+    },
+    {
+      "timestamp": "2026-06-04T20:37:02.617512",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\restore_target\\doc_01.txt",
+      "dest_path": null,
+      "file_size": 32768,
+      "is_directory": false
+    },
+    {
+      "timestamp": "2026-06-04T20:37:01.614868",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\restore_target\\doc_06.txt",
+      "dest_path": null,
+      "file_size": 802,
+      "is_directory": false
+    },
+    {
+      "timestamp": "2026-06-04T20:37:01.613912",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\restore_target\\doc_05.txt",
+      "dest_path": null,
+      "file_size": 802,
+      "is_directory": false
+    },
+    {
+      "timestamp": "2026-06-04T20:37:01.613912",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\restore_target\\doc_04.txt",
+      "dest_path": null,
+      "file_size": 802,
+      "is_directory": false
+    },
+    {
+      "timestamp": "2026-06-04T20:37:01.612807",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\restore_target\\doc_03.txt",
+      "dest_path": null,
+      "file_size": 802,
+      "is_directory": false
+    },
+    {
+      "timestamp": "2026-06-04T20:37:01.611548",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\restore_target\\doc_02.txt",
+      "dest_path": null,
+      "file_size": 802,
+      "is_directory": false
+    },
+    {
+      "timestamp": "2026-06-04T20:37:01.611548",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\restore_target\\doc_01.txt",
+      "dest_path": null,
+      "file_size": 802,
+      "is_directory": false
+    },
+    {
+      "timestamp": "2026-06-04T20:37:00.110131",
+      "event_type": "deleted",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\ransomware_target\\frequency\\burst_07.txt",
+      "dest_path": null,
+      "file_size": null,
+      "is_directory": false
+    },
+    {
+      "timestamp": "2026-06-04T20:37:00.109120",
+      "event_type": "deleted",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\ransomware_target\\frequency\\burst_06.txt",
+      "dest_path": null,
+      "file_size": null,
+      "is_directory": false
+    },
+    {
+      "timestamp": "2026-06-04T20:37:00.107525",
+      "event_type": "deleted",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\ransomware_target\\frequency\\burst_05.txt",
+      "dest_path": null,
+      "file_size": null,
+      "is_directory": false
+    },
+    {
+      "timestamp": "2026-06-04T20:37:00.107525",
+      "event_type": "deleted",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\ransomware_target\\frequency\\burst_04.txt",
+      "dest_path": null,
+      "file_size": null,
+      "is_directory": false
+    },
+    {
+      "timestamp": "2026-06-04T20:37:00.106520",
+      "event_type": "deleted",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\ransomware_target\\frequency\\burst_03.txt",
+      "dest_path": null,
+      "file_size": null,
+      "is_directory": false
+    },
+    {
+      "timestamp": "2026-06-04T20:37:00.104737",
+      "event_type": "deleted",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\ransomware_target\\frequency\\burst_02.txt",
+      "dest_path": null,
+      "file_size": null,
+      "is_directory": false
+    },
+    {
+      "timestamp": "2026-06-04T20:37:00.103738",
+      "event_type": "deleted",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\ransomware_target\\frequency\\burst_01.txt",
+      "dest_path": null,
+      "file_size": null,
+      "is_directory": false
+    },
+    {
+      "timestamp": "2026-06-04T20:37:00.102737",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\ransomware_target\\frequency",
+      "dest_path": null,
+      "file_size": null,
+      "is_directory": true
+    },
+    {
+      "timestamp": "2026-06-04T20:37:00.102737",
+      "event_type": "deleted",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\ransomware_target\\frequency\\burst_00.txt",
+      "dest_path": null,
+      "file_size": null,
+      "is_directory": false
+    },
+    {
+      "timestamp": "2026-06-04T20:36:59.600592",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\ransomware_target\\frequency\\burst_07.txt",
+      "dest_path": null,
+      "file_size": 42,
+      "is_directory": false
+    },
+    {
+      "timestamp": "2026-06-04T20:36:59.599631",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\ransomware_target\\frequency\\burst_06.txt",
+      "dest_path": null,
+      "file_size": 42,
+      "is_directory": false
+    },
+    {
+      "timestamp": "2026-06-04T20:36:59.598626",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\ransomware_target\\frequency\\burst_05.txt",
+      "dest_path": null,
+      "file_size": 42,
+      "is_directory": false
+    },
+    {
+      "timestamp": "2026-06-04T20:36:59.597622",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\ransomware_target\\frequency\\burst_04.txt",
+      "dest_path": null,
+      "file_size": 42,
+      "is_directory": false
+    },
+    {
+      "timestamp": "2026-06-04T20:36:59.594642",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\ransomware_target\\frequency\\burst_03.txt",
+      "dest_path": null,
+      "file_size": 42,
+      "is_directory": false
+    },
+    {
+      "timestamp": "2026-06-04T20:36:59.592640",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\ransomware_target\\frequency\\burst_02.txt",
+      "dest_path": null,
+      "file_size": 42,
+      "is_directory": false
+    },
+    {
+      "timestamp": "2026-06-04T20:36:59.591650",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\ransomware_target\\frequency\\burst_01.txt",
+      "dest_path": null,
+      "file_size": 42,
+      "is_directory": false
+    },
+    {
+      "timestamp": "2026-06-04T20:36:59.587650",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\ransomware_target\\frequency\\burst_00.txt",
+      "dest_path": null,
+      "file_size": 42,
+      "is_directory": false
+    },
+    {
+      "timestamp": "2026-06-04T20:36:59.085231",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\ransomware_target\\frequency\\burst_07.txt",
+      "dest_path": null,
+      "file_size": 14,
+      "is_directory": false
+    },
+    {
+      "timestamp": "2026-06-04T20:36:59.084231",
+      "event_type": "created",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\ransomware_target\\frequency\\burst_07.txt",
+      "dest_path": null,
+      "file_size": 14,
+      "is_directory": false
+    },
+    {
+      "timestamp": "2026-06-04T20:36:59.084231",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\ransomware_target\\frequency\\burst_06.txt",
+      "dest_path": null,
+      "file_size": 14,
+      "is_directory": false
+    },
+    {
+      "timestamp": "2026-06-04T20:36:59.084231",
+      "event_type": "created",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\ransomware_target\\frequency\\burst_06.txt",
+      "dest_path": null,
+      "file_size": 14,
+      "is_directory": false
+    },
+    {
+      "timestamp": "2026-06-04T20:36:59.084231",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\ransomware_target\\frequency\\burst_05.txt",
+      "dest_path": null,
+      "file_size": 14,
+      "is_directory": false
+    },
+    {
+      "timestamp": "2026-06-04T20:36:59.083231",
+      "event_type": "created",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\ransomware_target\\frequency\\burst_05.txt",
+      "dest_path": null,
+      "file_size": 14,
+      "is_directory": false
+    },
+    {
+      "timestamp": "2026-06-04T20:36:59.083231",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\ransomware_target\\frequency\\burst_04.txt",
+      "dest_path": null,
+      "file_size": 14,
+      "is_directory": false
+    },
+    {
+      "timestamp": "2026-06-04T20:36:59.083231",
+      "event_type": "created",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\ransomware_target\\frequency\\burst_04.txt",
+      "dest_path": null,
+      "file_size": 14,
+      "is_directory": false
+    },
+    {
+      "timestamp": "2026-06-04T20:36:59.082231",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\ransomware_target\\frequency\\burst_03.txt",
+      "dest_path": null,
+      "file_size": 14,
+      "is_directory": false
+    },
+    {
+      "timestamp": "2026-06-04T20:36:59.082231",
+      "event_type": "created",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\ransomware_target\\frequency\\burst_03.txt",
+      "dest_path": null,
+      "file_size": 14,
+      "is_directory": false
+    },
+    {
+      "timestamp": "2026-06-04T20:36:59.081227",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\ransomware_target\\frequency\\burst_02.txt",
+      "dest_path": null,
+      "file_size": 14,
+      "is_directory": false
+    },
+    {
+      "timestamp": "2026-06-04T20:36:59.081227",
+      "event_type": "created",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\ransomware_target\\frequency\\burst_02.txt",
+      "dest_path": null,
+      "file_size": 14,
+      "is_directory": false
+    },
+    {
+      "timestamp": "2026-06-04T20:36:59.081227",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\ransomware_target\\frequency\\burst_01.txt",
+      "dest_path": null,
+      "file_size": 14,
+      "is_directory": false
+    },
+    {
+      "timestamp": "2026-06-04T20:36:59.079896",
+      "event_type": "created",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\ransomware_target\\frequency\\burst_01.txt",
+      "dest_path": null,
+      "file_size": 14,
+      "is_directory": false
+    },
+    {
+      "timestamp": "2026-06-04T20:36:59.077897",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\ransomware_target\\frequency\\burst_00.txt",
+      "dest_path": null,
+      "file_size": 14,
+      "is_directory": false
+    },
+    {
+      "timestamp": "2026-06-04T20:36:59.075898",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\ransomware_target\\frequency",
+      "dest_path": null,
+      "file_size": null,
+      "is_directory": true
+    },
+    {
+      "timestamp": "2026-06-04T20:36:59.075898",
+      "event_type": "created",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\ransomware_target\\frequency\\burst_00.txt",
+      "dest_path": null,
+      "file_size": 14,
+      "is_directory": false
+    },
+    {
+      "timestamp": "2026-06-04T20:36:58.075511",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\ransomware_target\\entropy\\allowlisted.zip",
+      "dest_path": null,
+      "file_size": 32768,
+      "is_directory": false
+    },
+    {
+      "timestamp": "2026-06-04T20:36:58.072511",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\ransomware_target\\entropy\\payload.dat",
+      "dest_path": null,
+      "file_size": 32768,
+      "is_directory": false
+    },
+    {
+      "timestamp": "2026-06-04T20:36:57.070965",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\certificates\\acceptance_service.key",
+      "dest_path": null,
+      "file_size": 62,
+      "is_directory": false
+    },
+    {
+      "timestamp": "2026-06-04T20:36:57.070965",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\certificates\\acceptance_service.pem",
+      "dest_path": null,
+      "file_size": 62,
+      "is_directory": false
+    },
+    {
+      "timestamp": "2026-06-04T20:36:57.070965",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\config\\acceptance_app.ini",
+      "dest_path": null,
+      "file_size": 17,
+      "is_directory": false
+    },
+    {
+      "timestamp": "2026-06-04T20:36:57.070965",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\financial\\acceptance_budget.csv",
+      "dest_path": null,
+      "file_size": 25,
+      "is_directory": false
+    },
+    {
+      "timestamp": "2026-06-04T20:36:56.068927",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\normal",
+      "dest_path": null,
+      "file_size": null,
+      "is_directory": true
+    },
+    {
+      "timestamp": "2026-06-04T20:36:56.067865",
+      "event_type": "deleted",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\normal\\normal_ops_renamed.txt",
+      "dest_path": null,
+      "file_size": null,
+      "is_directory": false
+    },
+    {
+      "timestamp": "2026-06-04T20:36:55.770871",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\normal\\normal_ops_renamed.txt",
+      "dest_path": null,
+      "file_size": 17619,
+      "is_directory": false
+    },
+    {
+      "timestamp": "2026-06-04T20:36:55.768783",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\normal",
+      "dest_path": null,
+      "file_size": null,
+      "is_directory": true
+    },
+    {
+      "timestamp": "2026-06-04T20:36:55.767771",
+      "event_type": "moved",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\normal\\normal_ops.txt",
+      "dest_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\normal\\normal_ops_renamed.txt",
+      "file_size": null,
+      "is_directory": false
+    },
+    {
+      "timestamp": "2026-06-04T20:36:55.466970",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\normal\\normal_ops.txt",
+      "dest_path": null,
+      "file_size": 17619,
+      "is_directory": false
+    },
+    {
+      "timestamp": "2026-06-04T20:36:55.166920",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\normal\\normal_ops.txt",
+      "dest_path": null,
+      "file_size": 17600,
+      "is_directory": false
+    },
+    {
+      "timestamp": "2026-06-04T20:36:55.166920",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\normal",
+      "dest_path": null,
+      "file_size": null,
+      "is_directory": true
+    },
+    {
+      "timestamp": "2026-06-04T20:36:55.165968",
+      "event_type": "created",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\normal\\normal_ops.txt",
+      "dest_path": null,
+      "file_size": 17600,
+      "is_directory": false
+    }
+  ]
+}

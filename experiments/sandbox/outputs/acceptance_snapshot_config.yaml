@@ -1,0 +1,78 @@
+fileguard:
+  watch_dirs:
+    - "D:/Nnutural/Desktop/BUPT_6/SecureProgrammingTechnologyandCaseDevelopment/平时作业/FileGuard/experiments/sandbox/restore_target"
+
+  exclude_patterns:
+    - "Thumbs.db"
+    - "desktop.ini"
+    - ".fileguard/**"
+    - "outputs/**"
+    - "screenshots/**"
+  analyzers:
+    sensitive_path:
+      enabled: true
+      weight: 2.0
+      policies:
+        - name: "financial"
+          pattern: "**/financial/**"
+          risk_base: 6.0
+        - name: "config"
+          pattern: "**/config/**"
+          risk_base: 5.0
+        - name: "certificates"
+          pattern: "**/*.pem|**/*.key|**/*.pfx|**/*.cer"
+          risk_base: 9.0
+    entropy:
+      enabled: true
+      weight: 3.0
+      threshold: 6.5
+      high_entropy_extensions: [".zip", ".gz", ".jpg", ".png", ".pdf"]
+    frequency:
+      enabled: true
+      weight: 2.5
+      window_seconds: 10
+      thresholds:
+        created: 5
+        deleted: 5
+        modified: 5
+        moved: 5
+    honeypot:
+      enabled: true
+      weight: 5.0
+      deploy_count: 3
+      filename_templates:
+        - "~$budget_draft.tmp"
+        - ".~lock.confidential.docx#"
+        - "~$annual_report.tmp"
+    hash_diff:
+      enabled: true
+      weight: 1.5
+    fuzzy_hash:
+      enabled: true
+      weight: 3.0
+      block_size: 1024
+      similarity_threshold: 0.3
+  scoring:
+    levels:
+      low: [0, 3.0]
+      medium: [3.0, 5.0]
+      high: [5.0, 7.0]
+      critical: [7.0, 10.0]
+  snapshot:
+    enabled: true
+    backup_files: true
+    max_file_size_mb: 10
+    backup_dir: ".fileguard/backups"
+    baseline_file: ".fileguard/baseline.json"
+  output:
+    log_file: "D:/Nnutural/Desktop/BUPT_6/SecureProgrammingTechnologyandCaseDevelopment/平时作业/FileGuard/experiments/sandbox/outputs/acceptance_events.jsonl"
+    report_file: "D:/Nnutural/Desktop/BUPT_6/SecureProgrammingTechnologyandCaseDevelopment/平时作业/FileGuard/experiments/sandbox/outputs/acceptance_report.html"
+    dashboard_refresh_ms: 500
+  api:
+    host: "127.0.0.1"
+    port: 8000
+    cors_origins:
+      - "http://localhost:5173"
+  general:
+    debounce_ms: 50
+    max_queue_size: 10000

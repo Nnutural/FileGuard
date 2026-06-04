@@ -1,0 +1,112 @@
+{
+  "run_started_at": "2026-06-04T20:36:53.856957",
+  "run_finished_at": "2026-06-04T20:37:07.523173",
+  "summary": [
+    {
+      "id": "normal",
+      "title": "Normal file operations",
+      "event_count": 6,
+      "alert_count": 1,
+      "highest_level": "HIGH",
+      "signals": [
+        "hash_changed"
+      ],
+      "result": "ok"
+    },
+    {
+      "id": "sensitive",
+      "title": "Sensitive path access",
+      "event_count": 4,
+      "alert_count": 4,
+      "highest_level": "CRITICAL",
+      "signals": [
+        "freq_spike",
+        "policy_hit"
+      ],
+      "result": "ok"
+    },
+    {
+      "id": "entropy",
+      "title": "High entropy file",
+      "event_count": 2,
+      "alert_count": 2,
+      "highest_level": "CRITICAL",
+      "signals": [
+        "entropy_anomaly",
+        "freq_spike"
+      ],
+      "result": "ok"
+    },
+    {
+      "id": "frequency",
+      "title": "Batch frequency anomaly",
+      "event_count": 32,
+      "alert_count": 24,
+      "highest_level": "CRITICAL",
+      "signals": [
+        "freq_spike",
+        "hash_changed",
+        "similarity_drop"
+      ],
+      "result": "ok"
+    },
+    {
+      "id": "ransom_restore",
+      "title": "Ransom-like modification and restore",
+      "event_count": 25,
+      "alert_count": 21,
+      "highest_level": "CRITICAL",
+      "signals": [
+        "entropy_anomaly",
+        "freq_spike",
+        "hash_changed",
+        "honeypot_triggered",
+        "similarity_drop"
+      ],
+      "result": "ok"
+    }
+  ],
+  "total_records": 79,
+  "total_alert_records": 60,
+  "restore": {
+    "all_verified": true,
+    "files": [
+      {
+        "path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\restore_target\\doc_01.txt",
+        "expected_sha256": "ae85ad4c43fa1f8333d9c37a365c94ee9c7e348745415f556224ef499194bcd0",
+        "actual_sha256": "ae85ad4c43fa1f8333d9c37a365c94ee9c7e348745415f556224ef499194bcd0",
+        "verified": true
+      },
+      {
+        "path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\restore_target\\doc_02.txt",
+        "expected_sha256": "d0816de12672792142476cc2ceb1311c8f24c21b21c2373942cedd6b6566545a",
+        "actual_sha256": "d0816de12672792142476cc2ceb1311c8f24c21b21c2373942cedd6b6566545a",
+        "verified": true
+      },
+      {
+        "path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\restore_target\\doc_03.txt",
+        "expected_sha256": "855df6bddba23d9e35a20378c342a5efdffa778e4676ac4e42744e77eeacbf00",
+        "actual_sha256": "855df6bddba23d9e35a20378c342a5efdffa778e4676ac4e42744e77eeacbf00",
+        "verified": true
+      },
+      {
+        "path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\restore_target\\doc_04.txt",
+        "expected_sha256": "414747d6eb0ed9ba541fb671ed675eece4ad269fed37333de04f74368f642eac",
+        "actual_sha256": "414747d6eb0ed9ba541fb671ed675eece4ad269fed37333de04f74368f642eac",
+        "verified": true
+      },
+      {
+        "path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\restore_target\\doc_05.txt",
+        "expected_sha256": "7fe274cf97f9f9bd97bc5b899dcd49ea85196fc8ba1b7aa823285c7791c951ec",
+        "actual_sha256": "7fe274cf97f9f9bd97bc5b899dcd49ea85196fc8ba1b7aa823285c7791c951ec",
+        "verified": true
+      },
+      {
+        "path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\restore_target\\doc_06.txt",
+        "expected_sha256": "06612475f5dfd7d0d6113bcab6e187386e9811ef5d51024101dcda8894c23d6f",
+        "actual_sha256": "06612475f5dfd7d0d6113bcab6e187386e9811ef5d51024101dcda8894c23d6f",
+        "verified": true
+      }
+    ]
+  }
+}

@@ -1,0 +1,557 @@
+{
+  "total": 46,
+  "alerts": [
+    {
+      "timestamp": "2026-06-04T20:36:55.487972",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\normal\\normal_ops.txt",
+      "dest_path": null,
+      "score": 5.0,
+      "level": "HIGH",
+      "analyzers": [
+        "HashDiffChecker"
+      ]
+    },
+    {
+      "timestamp": "2026-06-04T20:36:56.069970",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\normal",
+      "dest_path": null,
+      "score": 6.0,
+      "level": "HIGH",
+      "analyzers": [
+        "FrequencyAnalyzer"
+      ]
+    },
+    {
+      "timestamp": "2026-06-04T20:36:57.074973",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\financial\\acceptance_budget.csv",
+      "dest_path": null,
+      "score": 6.555555555555555,
+      "level": "HIGH",
+      "analyzers": [
+        "SensitivePathAnalyzer",
+        "FrequencyAnalyzer"
+      ]
+    },
+    {
+      "timestamp": "2026-06-04T20:36:57.077977",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\config\\acceptance_app.ini",
+      "dest_path": null,
+      "score": 6.666666666666667,
+      "level": "HIGH",
+      "analyzers": [
+        "SensitivePathAnalyzer",
+        "FrequencyAnalyzer"
+      ]
+    },
+    {
+      "timestamp": "2026-06-04T20:36:57.079967",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\certificates\\acceptance_service.pem",
+      "dest_path": null,
+      "score": 9.0,
+      "level": "CRITICAL",
+      "analyzers": [
+        "SensitivePathAnalyzer",
+        "FrequencyAnalyzer"
+      ]
+    },
+    {
+      "timestamp": "2026-06-04T20:36:57.082969",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\certificates\\acceptance_service.key",
+      "dest_path": null,
+      "score": 9.555555555555555,
+      "level": "CRITICAL",
+      "analyzers": [
+        "SensitivePathAnalyzer",
+        "FrequencyAnalyzer"
+      ]
+    },
+    {
+      "timestamp": "2026-06-04T20:36:58.082511",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\ransomware_target\\entropy\\payload.dat",
+      "dest_path": null,
+      "score": 9.993005940117685,
+      "level": "CRITICAL",
+      "analyzers": [
+        "EntropyAnalyzer",
+        "FrequencyAnalyzer"
+      ]
+    },
+    {
+      "timestamp": "2026-06-04T20:36:58.096511",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\ransomware_target\\entropy\\allowlisted.zip",
+      "dest_path": null,
+      "score": 10.0,
+      "level": "CRITICAL",
+      "analyzers": [
+        "FrequencyAnalyzer"
+      ]
+    },
+    {
+      "timestamp": "2026-06-04T20:36:59.085231",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\ransomware_target\\frequency",
+      "dest_path": null,
+      "score": 10.0,
+      "level": "CRITICAL",
+      "analyzers": [
+        "FrequencyAnalyzer"
+      ]
+    },
+    {
+      "timestamp": "2026-06-04T20:36:59.087239",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\ransomware_target\\frequency\\burst_00.txt",
+      "dest_path": null,
+      "score": 10.0,
+      "level": "CRITICAL",
+      "analyzers": [
+        "FrequencyAnalyzer"
+      ]
+    },
+    {
+      "timestamp": "2026-06-04T20:36:59.091239",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\ransomware_target\\frequency\\burst_01.txt",
+      "dest_path": null,
+      "score": 10.0,
+      "level": "CRITICAL",
+      "analyzers": [
+        "FrequencyAnalyzer"
+      ]
+    },
+    {
+      "timestamp": "2026-06-04T20:36:59.095230",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\ransomware_target\\frequency\\burst_02.txt",
+      "dest_path": null,
+      "score": 10.0,
+      "level": "CRITICAL",
+      "analyzers": [
+        "FrequencyAnalyzer"
+      ]
+    },
+    {
+      "timestamp": "2026-06-04T20:36:59.101231",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\ransomware_target\\frequency\\burst_03.txt",
+      "dest_path": null,
+      "score": 10.0,
+      "level": "CRITICAL",
+      "analyzers": [
+        "FrequencyAnalyzer"
+      ]
+    },
+    {
+      "timestamp": "2026-06-04T20:36:59.104230",
+      "event_type": "created",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\ransomware_target\\frequency\\burst_04.txt",
+      "dest_path": null,
+      "score": 6.0,
+      "level": "HIGH",
+      "analyzers": [
+        "FrequencyAnalyzer"
+      ]
+    },
+    {
+      "timestamp": "2026-06-04T20:36:59.109239",
+      "event_type": "created",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\ransomware_target\\frequency\\burst_05.txt",
+      "dest_path": null,
+      "score": 7.0,
+      "level": "CRITICAL",
+      "analyzers": [
+        "FrequencyAnalyzer"
+      ]
+    },
+    {
+      "timestamp": "2026-06-04T20:36:59.115079",
+      "event_type": "created",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\ransomware_target\\frequency\\burst_06.txt",
+      "dest_path": null,
+      "score": 8.0,
+      "level": "CRITICAL",
+      "analyzers": [
+        "FrequencyAnalyzer"
+      ]
+    },
+    {
+      "timestamp": "2026-06-04T20:36:59.120078",
+      "event_type": "created",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\ransomware_target\\frequency\\burst_07.txt",
+      "dest_path": null,
+      "score": 9.0,
+      "level": "CRITICAL",
+      "analyzers": [
+        "FrequencyAnalyzer"
+      ]
+    },
+    {
+      "timestamp": "2026-06-04T20:36:59.601610",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\ransomware_target\\frequency\\burst_00.txt",
+      "dest_path": null,
+      "score": 8.928571428571429,
+      "level": "CRITICAL",
+      "analyzers": [
+        "FrequencyAnalyzer",
+        "HashDiffChecker",
+        "FuzzyHashAnalyzer"
+      ]
+    },
+    {
+      "timestamp": "2026-06-04T20:36:59.605629",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\ransomware_target\\frequency\\burst_01.txt",
+      "dest_path": null,
+      "score": 8.928571428571429,
+      "level": "CRITICAL",
+      "analyzers": [
+        "FrequencyAnalyzer",
+        "HashDiffChecker",
+        "FuzzyHashAnalyzer"
+      ]
+    },
+    {
+      "timestamp": "2026-06-04T20:36:59.608644",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\ransomware_target\\frequency\\burst_02.txt",
+      "dest_path": null,
+      "score": 8.928571428571429,
+      "level": "CRITICAL",
+      "analyzers": [
+        "FrequencyAnalyzer",
+        "HashDiffChecker",
+        "FuzzyHashAnalyzer"
+      ]
+    },
+    {
+      "timestamp": "2026-06-04T20:36:59.615611",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\ransomware_target\\frequency\\burst_03.txt",
+      "dest_path": null,
+      "score": 8.928571428571429,
+      "level": "CRITICAL",
+      "analyzers": [
+        "FrequencyAnalyzer",
+        "HashDiffChecker",
+        "FuzzyHashAnalyzer"
+      ]
+    },
+    {
+      "timestamp": "2026-06-04T20:36:59.620207",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\ransomware_target\\frequency\\burst_04.txt",
+      "dest_path": null,
+      "score": 8.928571428571429,
+      "level": "CRITICAL",
+      "analyzers": [
+        "FrequencyAnalyzer",
+        "HashDiffChecker",
+        "FuzzyHashAnalyzer"
+      ]
+    },
+    {
+      "timestamp": "2026-06-04T20:36:59.623401",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\ransomware_target\\frequency\\burst_05.txt",
+      "dest_path": null,
+      "score": 8.928571428571429,
+      "level": "CRITICAL",
+      "analyzers": [
+        "FrequencyAnalyzer",
+        "HashDiffChecker",
+        "FuzzyHashAnalyzer"
+      ]
+    },
+    {
+      "timestamp": "2026-06-04T20:36:59.627300",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\ransomware_target\\frequency\\burst_06.txt",
+      "dest_path": null,
+      "score": 8.928571428571429,
+      "level": "CRITICAL",
+      "analyzers": [
+        "FrequencyAnalyzer",
+        "HashDiffChecker",
+        "FuzzyHashAnalyzer"
+      ]
+    },
+    {
+      "timestamp": "2026-06-04T20:36:59.631573",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\ransomware_target\\frequency\\burst_07.txt",
+      "dest_path": null,
+      "score": 8.928571428571429,
+      "level": "CRITICAL",
+      "analyzers": [
+        "FrequencyAnalyzer",
+        "HashDiffChecker",
+        "FuzzyHashAnalyzer"
+      ]
+    },
+    {
+      "timestamp": "2026-06-04T20:37:01.616887",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\restore_target\\doc_01.txt",
+      "dest_path": null,
+      "score": 10.0,
+      "level": "CRITICAL",
+      "analyzers": [
+        "FrequencyAnalyzer"
+      ]
+    },
+    {
+      "timestamp": "2026-06-04T20:37:01.619816",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\restore_target\\doc_02.txt",
+      "dest_path": null,
+      "score": 10.0,
+      "level": "CRITICAL",
+      "analyzers": [
+        "FrequencyAnalyzer"
+      ]
+    },
+    {
+      "timestamp": "2026-06-04T20:37:01.622864",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\restore_target\\doc_03.txt",
+      "dest_path": null,
+      "score": 10.0,
+      "level": "CRITICAL",
+      "analyzers": [
+        "FrequencyAnalyzer"
+      ]
+    },
+    {
+      "timestamp": "2026-06-04T20:37:01.624893",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\restore_target\\doc_04.txt",
+      "dest_path": null,
+      "score": 10.0,
+      "level": "CRITICAL",
+      "analyzers": [
+        "FrequencyAnalyzer"
+      ]
+    },
+    {
+      "timestamp": "2026-06-04T20:37:01.627893",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\restore_target\\doc_05.txt",
+      "dest_path": null,
+      "score": 10.0,
+      "level": "CRITICAL",
+      "analyzers": [
+        "FrequencyAnalyzer"
+      ]
+    },
+    {
+      "timestamp": "2026-06-04T20:37:01.629866",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\restore_target\\doc_06.txt",
+      "dest_path": null,
+      "score": 10.0,
+      "level": "CRITICAL",
+      "analyzers": [
+        "FrequencyAnalyzer"
+      ]
+    },
+    {
+      "timestamp": "2026-06-04T20:37:02.635701",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\restore_target\\doc_01.txt",
+      "dest_path": null,
+      "score": 9.246036975412485,
+      "level": "CRITICAL",
+      "analyzers": [
+        "EntropyAnalyzer",
+        "FrequencyAnalyzer",
+        "HashDiffChecker",
+        "FuzzyHashAnalyzer"
+      ]
+    },
+    {
+      "timestamp": "2026-06-04T20:37:02.650618",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\restore_target\\doc_02.txt",
+      "dest_path": null,
+      "score": 9.245084234045612,
+      "level": "CRITICAL",
+      "analyzers": [
+        "EntropyAnalyzer",
+        "FrequencyAnalyzer",
+        "HashDiffChecker",
+        "FuzzyHashAnalyzer"
+      ]
+    },
+    {
+      "timestamp": "2026-06-04T20:37:02.660281",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\restore_target\\doc_03.txt",
+      "dest_path": null,
+      "score": 9.245793322921068,
+      "level": "CRITICAL",
+      "analyzers": [
+        "EntropyAnalyzer",
+        "FrequencyAnalyzer",
+        "HashDiffChecker",
+        "FuzzyHashAnalyzer"
+      ]
+    },
+    {
+      "timestamp": "2026-06-04T20:37:02.675110",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\restore_target\\doc_04.txt",
+      "dest_path": null,
+      "score": 9.245162458700722,
+      "level": "CRITICAL",
+      "analyzers": [
+        "EntropyAnalyzer",
+        "FrequencyAnalyzer",
+        "HashDiffChecker",
+        "FuzzyHashAnalyzer"
+      ]
+    },
+    {
+      "timestamp": "2026-06-04T20:37:02.692262",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\restore_target\\doc_05.txt",
+      "dest_path": null,
+      "score": 9.245512546196496,
+      "level": "CRITICAL",
+      "analyzers": [
+        "EntropyAnalyzer",
+        "FrequencyAnalyzer",
+        "HashDiffChecker",
+        "FuzzyHashAnalyzer"
+      ]
+    },
+    {
+      "timestamp": "2026-06-04T20:37:02.704234",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\restore_target\\doc_06.txt",
+      "dest_path": null,
+      "score": 9.245388565564506,
+      "level": "CRITICAL",
+      "analyzers": [
+        "EntropyAnalyzer",
+        "FrequencyAnalyzer",
+        "HashDiffChecker",
+        "FuzzyHashAnalyzer"
+      ]
+    },
+    {
+      "timestamp": "2026-06-04T20:37:03.134242",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\restore_target",
+      "dest_path": null,
+      "score": 10.0,
+      "level": "CRITICAL",
+      "analyzers": [
+        "FrequencyAnalyzer"
+      ]
+    },
+    {
+      "timestamp": "2026-06-04T20:37:03.139175",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\restore_target\\doc_01.txt.locked",
+      "dest_path": null,
+      "score": 9.992794500749973,
+      "level": "CRITICAL",
+      "analyzers": [
+        "EntropyAnalyzer",
+        "FrequencyAnalyzer"
+      ]
+    },
+    {
+      "timestamp": "2026-06-04T20:37:03.142684",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\restore_target\\doc_02.txt.locked",
+      "dest_path": null,
+      "score": 9.991062243719293,
+      "level": "CRITICAL",
+      "analyzers": [
+        "EntropyAnalyzer",
+        "FrequencyAnalyzer"
+      ]
+    },
+    {
+      "timestamp": "2026-06-04T20:37:03.147440",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\restore_target\\doc_03.txt.locked",
+      "dest_path": null,
+      "score": 9.992351496220122,
+      "level": "CRITICAL",
+      "analyzers": [
+        "EntropyAnalyzer",
+        "FrequencyAnalyzer"
+      ]
+    },
+    {
+      "timestamp": "2026-06-04T20:37:03.150441",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\restore_target\\doc_04.txt.locked",
+      "dest_path": null,
+      "score": 9.991204470364947,
+      "level": "CRITICAL",
+      "analyzers": [
+        "EntropyAnalyzer",
+        "FrequencyAnalyzer"
+      ]
+    },
+    {
+      "timestamp": "2026-06-04T20:37:03.154480",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\restore_target\\doc_05.txt.locked",
+      "dest_path": null,
+      "score": 9.991840993084537,
+      "level": "CRITICAL",
+      "analyzers": [
+        "EntropyAnalyzer",
+        "FrequencyAnalyzer"
+      ]
+    },
+    {
+      "timestamp": "2026-06-04T20:37:03.159117",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\restore_target\\doc_06.txt.locked",
+      "dest_path": null,
+      "score": 9.991615573753647,
+      "level": "CRITICAL",
+      "analyzers": [
+        "EntropyAnalyzer",
+        "FrequencyAnalyzer"
+      ]
+    },
+    {
+      "timestamp": "2026-06-04T20:37:03.162071",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\.~lock.confidential.docx#",
+      "dest_path": null,
+      "score": 10.0,
+      "level": "CRITICAL",
+      "analyzers": [
+        "FrequencyAnalyzer",
+        "HoneypotSentinel"
+      ]
+    },
+    {
+      "timestamp": "2026-06-04T20:37:05.207205",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\outputs",
+      "dest_path": null,
+      "score": 10.0,
+      "level": "CRITICAL",
+      "analyzers": [
+        "FrequencyAnalyzer"
+      ]
+    }
+  ]
+}

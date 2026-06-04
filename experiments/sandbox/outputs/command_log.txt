@@ -1,0 +1,69 @@
+[
+  {
+    "name": "snapshot",
+    "command": [
+      "E:\\Python\\Python312\\python.exe",
+      "-m",
+      "fileguard",
+      "snapshot",
+      "--config",
+      "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\outputs\\acceptance_snapshot_config.yaml",
+      "--output",
+      "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\outputs\\restore_baseline.json"
+    ],
+    "returncode": 0,
+    "log": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\outputs\\snapshot_command.log"
+  },
+  {
+    "name": "monitor_start",
+    "command": [
+      "E:\\Python\\Python312\\python.exe",
+      "-m",
+      "fileguard",
+      "monitor",
+      "--config",
+      "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\outputs\\acceptance_monitor_config.yaml",
+      "--verbose",
+      "--serve-api"
+    ],
+    "pid": 9744
+  },
+  {
+    "name": "monitor_stop",
+    "returncode": 0
+  },
+  {
+    "name": "report",
+    "command": [
+      "E:\\Python\\Python312\\python.exe",
+      "-m",
+      "fileguard",
+      "report",
+      "--config",
+      "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\outputs\\acceptance_monitor_config.yaml",
+      "--log-file",
+      "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\outputs\\acceptance_events.jsonl",
+      "--output",
+      "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\outputs\\acceptance_report.html"
+    ],
+    "returncode": 0,
+    "log": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\outputs\\report_command.log"
+  },
+  {
+    "name": "restore",
+    "command": [
+      "E:\\Python\\Python312\\python.exe",
+      "-m",
+      "fileguard",
+      "restore",
+      "--config",
+      "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\outputs\\acceptance_snapshot_config.yaml",
+      "--from-snapshot",
+      "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\outputs\\restore_baseline.json",
+      "--target-dir",
+      "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\restore_target"
+    ],
+    "returncode": 0,
+    "log": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\outputs\\restore_command.log"
+  }
+]

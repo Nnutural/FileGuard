@@ -73,6 +73,8 @@ def _handle_monitor(args: argparse.Namespace) -> None:
 
     signal.signal(signal.SIGINT, _on_signal)
     signal.signal(signal.SIGTERM, _on_signal)
+    if hasattr(signal, "SIGBREAK"):
+        signal.signal(signal.SIGBREAK, _on_signal)
 
     watcher.start()
     dashboard.start()

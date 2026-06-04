@@ -1,0 +1,2 @@
+CLI dashboard evidence is captured in outputs/monitor_console.log.
+The current environment does not have rich installed, so the CLI dashboard was disabled by fileguard.output.dashboard during the monitor run.

@@ -1,0 +1,2 @@
+API evidence is captured as JSON files in experiments/sandbox/outputs/.
+Browser screenshot capture was attempted, but launching local Chrome failed with EACCES.

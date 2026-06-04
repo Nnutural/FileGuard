@@ -1,0 +1,12 @@
+Browser screenshot capture was attempted with the available Playwright browser tool.
+
+Result: failed before navigation.
+Reason: local Chrome launch returned EACCES for C:\Program Files\Google\Chrome\Application\chrome.exe.
+
+Fallback evidence:
+- experiments/sandbox/outputs/api_status.json
+- experiments/sandbox/outputs/api_events.json
+- experiments/sandbox/outputs/api_alerts.json
+- experiments/sandbox/outputs/api_openapi.json
+- experiments/sandbox/outputs/acceptance_report.html
+- experiments/sandbox/outputs/monitor_console.log
