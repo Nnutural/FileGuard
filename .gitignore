@@ -1,0 +1,45 @@
+# ── Python ──
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+*.egg
+dist/
+build/
+*.whl
+*.pyo
+*.pdb
+
+# ── Virtual environment ──
+.venv/
+venv/
+env/
+
+# ── Node / Frontend ──
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+
+# ── IDE ──
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ── OS ──
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# ── FileGuard runtime artifacts ──
+.fileguard/
+
+# ── Testing ──
+.pytest_cache/
+htmlcov/
+.coverage
+coverage.xml
+
+# ── Logs ──
+*.log

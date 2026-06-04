@@ -84,6 +84,12 @@ fileguard:
     report_file: ".fileguard/report.html"
     dashboard_refresh_ms: 500
 
+  api:
+    host: "127.0.0.1"
+    port: 8000
+    cors_origins:
+      - "http://localhost:5173"
+
   general:
     debounce_ms: 200
     max_queue_size: 10000

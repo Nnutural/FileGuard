@@ -9,35 +9,86 @@ from __future__ import annotations
 
 import argparse
 import logging
+import signal
 import sys
+import threading
 
 logger = logging.getLogger(__name__)
 
 
 def _handle_monitor(args: argparse.Namespace) -> None:
-    """处理 monitor 子命令。"""
-    print(f"[TODO] monitor command not yet implemented (config={args.config})")
+    """处理 monitor 子命令：加载配置、启动 Watcher、循环消费事件。"""
+    from fileguard.capture.event_queue import EventQueue
+    from fileguard.capture.watcher import FileSystemWatcher
+    from fileguard.config import load_config
+
+    config = load_config(args.config)
+    fg = config["fileguard"]
+
+    general = fg.get("general", {})
+    max_queue_size = general.get("max_queue_size", 10000)
+    debounce_ms = general.get("debounce_ms", 200)
+
+    event_queue = EventQueue(maxsize=max_queue_size)
+
+    watcher = FileSystemWatcher(
+        watch_dirs=fg["watch_dirs"],
+        event_queue=event_queue,
+        exclude_patterns=fg.get("exclude_patterns", []),
+        debounce_ms=debounce_ms,
+    )
+
+    stop_event = threading.Event()
+
+    def _on_signal(signum: int, frame: object) -> None:
+        logger.info("收到终止信号 (%s)，正在停止...", signal.Signals(signum).name)
+        stop_event.set()
+
+    signal.signal(signal.SIGINT, _on_signal)
+    signal.signal(signal.SIGTERM, _on_signal)
+
+    watcher.start()
+    logger.info("FileGuard monitor 已启动，按 Ctrl+C 停止。")
+
+    try:
+        while not stop_event.is_set():
+            file_event = event_queue.get(timeout=1.0)
+            if file_event is None:
+                continue
+            logger.info(
+                "事件 | 类型=%-8s | 目录=%s | 大小=%s | 源=%s%s",
+                file_event.event_type,
+                file_event.is_directory,
+                file_event.file_size,
+                file_event.src_path,
+                f" → {file_event.dest_path}" if file_event.dest_path else "",
+            )
+    finally:
+        watcher.stop()
+        logger.info("FileGuard monitor 已退出。")
 
 
 def _handle_snapshot(args: argparse.Namespace) -> None:
     """处理 snapshot 子命令。"""
-    print(f"[TODO] snapshot command not yet implemented (config={args.config}, output={args.output})")
+    logger.info("[TODO] snapshot command not yet implemented (config=%s, output=%s)",
+                args.config, args.output)
 
 
 def _handle_restore(args: argparse.Namespace) -> None:
     """处理 restore 子命令。"""
-    print(
-        f"[TODO] restore command not yet implemented "
-        f"(config={args.config}, from_snapshot={args.from_snapshot}, "
-        f"target_dir={args.target_dir})"
+    logger.info(
+        "[TODO] restore command not yet implemented "
+        "(config=%s, from_snapshot=%s, target_dir=%s)",
+        args.config, args.from_snapshot, args.target_dir,
     )
 
 
 def _handle_report(args: argparse.Namespace) -> None:
     """处理 report 子命令。"""
-    print(
-        f"[TODO] report command not yet implemented "
-        f"(config={args.config}, log_file={args.log_file}, output={args.output})"
+    logger.info(
+        "[TODO] report command not yet implemented "
+        "(config=%s, log_file=%s, output=%s)",
+        args.config, args.log_file, args.output,
     )
 
 

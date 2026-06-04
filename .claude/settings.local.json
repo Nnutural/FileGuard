@@ -2,7 +2,11 @@
   "permissions": {
     "allow": [
       "Bash(cp -r fileguard-project/* fileguard-project/.* .)",
-      "Bash(rm -rf fileguard-project)"
+      "Bash(rm -rf fileguard-project)",
+      "Bash(python -m compileall fileguard)",
+      "Bash(python -c \"from fileguard.config import load_config; c=load_config\\('config.example.yaml'\\); print\\('watch_dirs:', c['fileguard']['watch_dirs']\\); print\\('api:', c['fileguard']['api']\\); print\\('debounce_ms:', c['fileguard']['general']['debounce_ms']\\); print\\('max_queue_size:', c['fileguard']['general']['max_queue_size']\\)\")",
+      "Bash(conda activate *)",
+      "PowerShell(conda activate *)"
     ]
   }
 }
