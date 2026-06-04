@@ -1,0 +1,89 @@
+fileguard:
+  watch_dirs:
+    - "./experiments/sandbox"
+  exclude_patterns:
+    - "*.tmp"
+    - "Thumbs.db"
+    - "desktop.ini"
+    - ".fileguard/**"
+
+  analyzers:
+    sensitive_path:
+      enabled: true
+      weight: 2.0
+      policies:
+        - name: "财务数据目录"
+          pattern: "**/financial/**"
+          risk_base: 6.0
+          time_restriction:
+            deny_hours: [0, 1, 2, 3, 4, 5, 22, 23]
+            time_multiplier: 1.5
+        - name: "配置文件目录"
+          pattern: "**/config/**"
+          risk_base: 5.0
+        - name: "密钥与证书"
+          pattern: "**/*.pem|**/*.key|**/*.pfx|**/*.cer"
+          risk_base: 9.0
+
+    entropy:
+      enabled: true
+      weight: 3.0
+      threshold: 6.5
+      high_entropy_extensions:
+        - ".zip"
+        - ".gz"
+        - ".jpg"
+        - ".png"
+        - ".pdf"
+
+    frequency:
+      enabled: true
+      weight: 2.5
+      window_seconds: 10
+      thresholds:
+        created: 20
+        deleted: 15
+        modified: 30
+        moved: 25
+
+    honeypot:
+      enabled: true
+      weight: 5.0
+      deploy_count: 3
+      filename_templates:
+        - "~$budget_draft.tmp"
+        - ".~lock.confidential.docx#"
+        - "~$annual_report.tmp"
+
+    hash_diff:
+      enabled: true
+      weight: 1.5
+
+    fuzzy_hash:
+      enabled: true
+      weight: 3.0
+      block_size: 4096
+      similarity_threshold: 0.3
+
+  scoring:
+    levels:
+      low: [0, 3.0]
+      medium: [3.0, 5.0]
+      high: [5.0, 7.0]
+      critical: [7.0, 10.0]
+
+  snapshot:
+    enabled: true
+    backup_files: true
+    max_file_size_mb: 50
+    backup_dir: ".fileguard/backups"
+    baseline_file: ".fileguard/baseline.json"
+
+  output:
+    log_file: ".fileguard/events.jsonl"
+    report_file: ".fileguard/report.html"
+    dashboard_refresh_ms: 500
+
+  general:
+    debounce_ms: 200
+    max_queue_size: 10000

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FileGuard 安全分析报告</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: "Microsoft YaHei", "Segoe UI", Arial, sans-serif;
+            background: #f5f6fa;
+            color: #2d3436;
+            line-height: 1.6;
+            padding: 2rem;
+        }
+        .container { max-width: 1100px; margin: 0 auto; }
+        h1 {
+            text-align: center;
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            color: #2d3436;
+        }
+        .meta {
+            text-align: center;
+            color: #636e72;
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+        }
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .summary-card {
+            background: #fff;
+            border-radius: 8px;
+            padding: 1.2rem;
+            text-align: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+        }
+        .summary-card .number { font-size: 2rem; font-weight: bold; }
+        .summary-card .label { font-size: 0.85rem; color: #636e72; }
+        .card-total .number { color: #2d3436; }
+        .card-critical .number { color: #d63031; }
+        .card-high .number { color: #e17055; }
+        .card-medium .number { color: #fdcb6e; }
+        .card-low .number { color: #00b894; }
+        .section {
+            background: #fff;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+        }
+        .section h2 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #dfe6e9;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+        thead {
+            background: #2d3436;
+            color: #fff;
+        }
+        th, td {
+            padding: 0.6rem 0.8rem;
+            text-align: left;
+            border-bottom: 1px solid #dfe6e9;
+        }
+        tbody tr:hover { background: #f8f9fa; }
+        .level-critical { color: #d63031; font-weight: bold; }
+        .level-high { color: #e17055; font-weight: bold; }
+        .level-medium { color: #f39c12; font-weight: bold; }
+        .level-low { color: #00b894; }
+        .chart-container { text-align: center; margin: 1rem 0; }
+        .chart-container img { max-width: 100%; height: auto; }
+        .footer {
+            text-align: center;
+            color: #b2bec3;
+            font-size: 0.8rem;
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>FileGuard 安全分析报告</h1>
+    <div class="meta">
+        <p>报告生成时间：{{ report_time }}</p>
+        <p>监控目录：{{ watch_dirs }}</p>
+    </div>
+
+    <div class="summary-grid">
+        <div class="summary-card card-total">
+            <div class="number">{{ total_events }}</div>
+            <div class="label">总事件数</div>
+        </div>
+        <div class="summary-card card-critical">
+            <div class="number">{{ critical_count }}</div>
+            <div class="label">严重 (CRITICAL)</div>
+        </div>
+        <div class="summary-card card-high">
+            <div class="number">{{ high_count }}</div>
+            <div class="label">高危 (HIGH)</div>
+        </div>
+        <div class="summary-card card-medium">
+            <div class="number">{{ medium_count }}</div>
+            <div class="label">中危 (MEDIUM)</div>
+        </div>
+        <div class="summary-card card-low">
+            <div class="number">{{ low_count }}</div>
+            <div class="label">低危 (LOW)</div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>评分分布图</h2>
+        <div class="chart-container">
+            <img src="data:image/png;base64,{{ score_distribution_chart }}" alt="评分分布图" />
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>告警详情</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>时间</th>
+                    <th>文件路径</th>
+                    <th>事件类型</th>
+                    <th>评分</th>
+                    <th>等级</th>
+                    <th>触发分析器</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for alert in alerts %}
+                <tr>
+                    <td>{{ alert.timestamp }}</td>
+                    <td>{{ alert.event.src_path }}</td>
+                    <td>{{ alert.event.event_type }}</td>
+                    <td>{{ "%.2f"|format(alert.score) }}</td>
+                    <td class="level-{{ alert.level|lower }}">{{ alert.level }}</td>
+                    <td>{{ alert.signals | map(attribute='analyzer_name') | join(', ') }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="footer">
+        <p>FileGuard v0.1.0 — 基于多维行为分析的文件安全风险感知与防护验证系统</p>
+    </div>
+</div>
+</body>
+</html>

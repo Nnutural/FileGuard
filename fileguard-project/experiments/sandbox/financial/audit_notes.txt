@@ -1,0 +1,7 @@
+Internal Audit Notes - Q1 2024
+
+1. Accounts receivable aging report reviewed - no anomalies found.
+2. Vendor payment cycle compliance: 98.5% within terms.
+3. Travel expense outliers flagged for review: 3 entries above $5000.
+4. Payroll reconciliation completed - variance under 0.1%.
+5. Recommendation: tighten approval workflow for expenses over $10,000.
