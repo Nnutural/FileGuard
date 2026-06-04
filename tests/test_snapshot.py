@@ -1,19 +1,23 @@
 # -*- coding: utf-8 -*-
-"""HashDiffChecker.compute_sha256 单元测试。"""
+"""Unit tests for snapshot and SHA-256 helpers."""
+
+from __future__ import annotations
 
 import hashlib
 import os
 import tempfile
 import unittest
+from pathlib import Path
 
 from fileguard.analyzers.hash_diff import HashDiffChecker
+from fileguard.capture.snapshot import SnapshotManager
 
 
 class TestComputeSha256(unittest.TestCase):
-    """测试 SHA-256 计算函数。"""
+    """Test SHA-256 helper behavior."""
 
     def test_known_content(self) -> None:
-        """已知内容的文件应产出可预测的哈希值。"""
+        """Known content should produce the expected digest."""
         content = b"Hello, FileGuard!"
         expected = hashlib.sha256(content).hexdigest()
 
@@ -27,7 +31,7 @@ class TestComputeSha256(unittest.TestCase):
             os.unlink(path)
 
     def test_empty_file(self) -> None:
-        """空文件的 SHA-256 应等于空字节串的哈希。"""
+        """An empty file should match the SHA-256 of empty bytes."""
         expected = hashlib.sha256(b"").hexdigest()
 
         with tempfile.NamedTemporaryFile(delete=False, suffix=".txt") as f:
@@ -39,8 +43,8 @@ class TestComputeSha256(unittest.TestCase):
             os.unlink(path)
 
     def test_large_file(self) -> None:
-        """大文件（超过单次读取块大小）的哈希计算应正确。"""
-        content = os.urandom(256 * 1024)  # 256 KB
+        """Large files should be hashed correctly with chunked reads."""
+        content = os.urandom(256 * 1024)
         expected = hashlib.sha256(content).hexdigest()
 
         with tempfile.NamedTemporaryFile(delete=False, suffix=".bin") as f:
@@ -51,6 +55,42 @@ class TestComputeSha256(unittest.TestCase):
             self.assertEqual(result, expected)
         finally:
             os.unlink(path)
+
+
+class TestSnapshotManager(unittest.TestCase):
+    """Test baseline creation and restore verification."""
+
+    def test_build_baseline_and_restore_file(self) -> None:
+        """A backed-up file should restore to its baseline content and hash."""
+        with tempfile.TemporaryDirectory() as temp_dir:
+            root = Path(temp_dir)
+            target = root / "documents" / "report.txt"
+            target.parent.mkdir()
+            target.write_text("baseline content\n", encoding="utf-8")
+
+            manager = SnapshotManager(
+                {
+                    "backup_files": True,
+                    "backup_dir": ".fileguard/backups",
+                    "baseline_file": ".fileguard/baseline.json",
+                    "max_file_size_mb": 1,
+                }
+            )
+            baseline = manager.build_baseline(str(root))
+            snapshot_path = root / ".fileguard" / "baseline.json"
+            expected_hash = HashDiffChecker.compute_sha256(target)
+
+            self.assertIn(str(target.resolve()), baseline)
+            self.assertTrue(snapshot_path.exists())
+            self.assertEqual(baseline[str(target.resolve())].sha256, expected_hash)
+            self.assertIsNotNone(baseline[str(target.resolve())].content_backup_path)
+
+            target.write_text("changed content\n", encoding="utf-8")
+            results = manager.restore(str(snapshot_path), str(root))
+
+            self.assertTrue(results[str(target.resolve())])
+            self.assertEqual(target.read_text(encoding="utf-8"), "baseline content\n")
+            self.assertEqual(HashDiffChecker.compute_sha256(target), expected_hash)
 
 
 if __name__ == "__main__":
