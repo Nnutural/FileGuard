@@ -1,0 +1,513 @@
+/* ============================================================
+   FileGuard — Light Academic Security Console
+   Design tokens + global polish (additive; no Tailwind override)
+   ============================================================ */
+
+:root {
+  /* Palette — light theme */
+  --fg-bg: #F6F8FC;
+  --fg-panel: #FFFFFF;
+  --fg-panel-soft: #FBFCFF;
+
+  --fg-text: #0F172A;
+  --fg-text-2: #475569;
+  --fg-text-3: #94A3B8;
+
+  --fg-border: #E2E8F0;
+  --fg-border-strong: #DDE5F0;
+  --fg-border-soft: #EEF2F7;
+  --fg-hairline: rgba(15, 23, 42, 0.06);
+
+  --fg-row-hover: #F6F8FC;
+  --fg-row-selected: #EAF1FF;
+
+  --fg-primary: #003399;
+  --fg-primary-soft: #EAF1FF;
+  --fg-primary-hover: #002780;
+  --fg-info: #2563EB;
+  --fg-cyan: #0891B2;
+
+  /* Okabe-Ito / Wong — colorblind-friendly scientific palette */
+  --fg-chart-blue:        #0072B2;
+  --fg-chart-sky:         #56B4E9;
+  --fg-chart-green:       #009E73;
+  --fg-chart-orange:      #E69F00;
+  --fg-chart-vermillion:  #D55E00;
+  --fg-chart-purple:      #CC79A7;
+  --fg-chart-yellow:      #F0E442;
+  --fg-chart-gray:        #7A869A;
+
+  /* Risk semantics — research-flavored */
+  --fg-risk-low:        #009E73;
+  --fg-risk-medium:     #E69F00;
+  --fg-risk-high:       #D55E00;
+  --fg-risk-critical:   #CC3311;
+
+  --fg-success: #15803D;
+  --fg-success-bg: #DCFCE7;
+  --fg-warn: #B45309;
+  --fg-warn-bg: #FEF3C7;
+  --fg-danger: #C2410C;
+  --fg-danger-bg: #FFEDD5;
+  --fg-critical: #B91C1C;
+  --fg-critical-bg: #FEE2E2;
+
+  --fg-code-bg: #0B1020;
+  --fg-code-text: #D6DEEC;
+  --fg-code-dim: #6B7A9A;
+
+  /* Geometry */
+  --fg-radius-sm: 6px;
+  --fg-radius: 8px;
+  --fg-radius-lg: 10px;
+  --fg-radius-xl: 12px;
+
+  /* Shadow — soft & restrained */
+  --fg-shadow-card: 0 1px 0 rgba(15, 23, 42, 0.02),
+                    0 1px 2px rgba(15, 23, 42, 0.03);
+  --fg-shadow-card-hover: 0 4px 14px -6px rgba(15, 23, 42, 0.10),
+                          0 1px 2px rgba(15, 23, 42, 0.04);
+  --fg-shadow-panel: 0 8px 24px rgba(15, 23, 42, 0.06),
+                     0 1px 2px rgba(15, 23, 42, 0.03);
+  --fg-shadow-float: 0 18px 48px -16px rgba(15, 23, 42, 0.20),
+                     0 4px 12px -4px rgba(15, 23, 42, 0.10);
+
+  /* Motion — Emil-style strong curves */
+  --fg-ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --fg-ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --fg-motion-fast: 120ms var(--fg-ease-out);
+  --fg-motion: 180ms var(--fg-ease-out);
+  --fg-motion-slow: 240ms var(--fg-ease-out);
+}
+
+/* ------------------------------------------------------------ */
+/* Base                                                          */
+/* ------------------------------------------------------------ */
+html, body, #root {
+  min-height: 100%;
+  height: 100%;
+  margin: 0;
+  background: var(--fg-bg);
+  color: var(--fg-text);
+  font-family: var(--fg-font-sans);
+  font-feature-settings: "cv11", "ss01";
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Subtle paper-like background (very restrained) */
+.fg-app-bg {
+  background:
+    radial-gradient(1200px 600px at 0% 0%, rgba(0, 51, 153, 0.025), transparent 60%),
+    radial-gradient(900px 500px at 100% 100%, rgba(0, 114, 178, 0.020), transparent 60%),
+    var(--fg-bg);
+}
+
+.fg-mono,
+code, pre, kbd, samp {
+  font-family: var(--fg-font-mono);
+  font-feature-settings: normal;
+}
+
+.fg-num {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+}
+
+/* ------------------------------------------------------------ */
+/* Animations                                                    */
+/* ------------------------------------------------------------ */
+@keyframes fg-fade-up {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fg-fade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes fg-drawer-in {
+  from { opacity: 0; transform: translateX(24px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes fg-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(0, 158, 115, 0.40); }
+  60%      { box-shadow: 0 0 0 6px rgba(0, 158, 115, 0); }
+}
+@keyframes loading {
+  from { background-position: 200% 0; }
+  to   { background-position: -200% 0; }
+}
+
+.fg-page-enter { animation: fg-fade-up var(--fg-motion) both; }
+.fg-pulse-dot { animation: fg-pulse 2s ease-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .fg-page-enter { animation: fg-fade 120ms both; }
+  .fg-pulse-dot { animation: none; }
+}
+
+/* ------------------------------------------------------------ */
+/* Card                                                          */
+/* ------------------------------------------------------------ */
+.fg-card {
+  background: var(--fg-panel);
+  border: 1px solid var(--fg-hairline);
+  border-radius: var(--fg-radius-lg);
+  box-shadow: var(--fg-shadow-card);
+  transition: border-color var(--fg-motion-fast),
+              box-shadow var(--fg-motion);
+}
+.fg-card:hover {
+  border-color: rgba(15, 23, 42, 0.10);
+  box-shadow: var(--fg-shadow-card-hover);
+}
+
+.fg-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 18px 12px;
+  border-bottom: 1px solid var(--fg-border-soft);
+}
+.fg-card-title {
+  display: flex; align-items: center; gap: 8px;
+  color: var(--fg-text); font-size: 13.5px; font-weight: 600;
+  letter-spacing: 0.005em;
+}
+.fg-card-subtitle {
+  color: var(--fg-text-3); font-size: 12px; font-weight: 400;
+  margin-top: 2px;
+}
+.fg-card-body { padding: 18px; }
+
+/* StatCard — subtle bottom accent */
+.fg-stat {
+  position: relative;
+  overflow: hidden;
+}
+.fg-stat::after {
+  content: "";
+  position: absolute; left: 14px; right: 14px; bottom: 0; height: 1px;
+  background: linear-gradient(to right, var(--fg-primary), transparent 80%);
+  opacity: 0.35;
+}
+
+/* ------------------------------------------------------------ */
+/* Chip                                                          */
+/* ------------------------------------------------------------ */
+.fg-chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  height: 26px;
+  padding: 0 10px;
+  border-radius: 999px;
+  border: 1px solid var(--fg-border);
+  background: #FBFCFE;
+  color: var(--fg-text);
+  font-size: 12px;
+  line-height: 1;
+  transition: background-color var(--fg-motion-fast),
+              border-color var(--fg-motion-fast),
+              color var(--fg-motion-fast);
+  white-space: nowrap;
+}
+.fg-chip-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: currentColor;
+  transition: background-color var(--fg-motion-fast);
+}
+.fg-chip[data-tone="ok"]   { background: #F0FDF4; border-color: #BBF7D0; color: #15803D; }
+.fg-chip[data-tone="warn"] { background: #FFFBEB; border-color: #FDE68A; color: #92400E; }
+.fg-chip[data-tone="info"] { background: #EAF1FF; border-color: #C7D8FF; color: #1E3A8A; }
+.fg-chip[data-tone="mute"] { background: #F1F5F9; border-color: #E2E8F0; color: #475569; }
+
+/* ------------------------------------------------------------ */
+/* Buttons                                                       */
+/* ------------------------------------------------------------ */
+.fg-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  gap: 6px;
+  height: 34px;
+  padding: 0 14px;
+  border-radius: var(--fg-radius-sm);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color var(--fg-motion-fast),
+              border-color var(--fg-motion-fast),
+              color var(--fg-motion-fast),
+              transform var(--fg-motion-fast);
+  user-select: none;
+}
+.fg-btn:active { transform: scale(0.97); }
+.fg-btn:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }
+
+.fg-btn-primary {
+  background: var(--fg-primary); color: white; border: 1px solid var(--fg-primary);
+}
+.fg-btn-primary:hover { background: var(--fg-primary-hover); border-color: var(--fg-primary-hover); }
+
+.fg-btn-secondary {
+  background: white; color: var(--fg-text); border: 1px solid var(--fg-border);
+}
+.fg-btn-secondary:hover { background: #F6F8FC; border-color: #C9D4E5; }
+
+.fg-btn-ghost {
+  background: transparent; color: var(--fg-primary); border: 1px solid transparent;
+  padding: 0 8px; height: 28px;
+}
+.fg-btn-ghost:hover { background: var(--fg-primary-soft); }
+.fg-btn-ghost .fg-arrow { transition: transform var(--fg-motion-fast); }
+.fg-btn-ghost:hover .fg-arrow { transform: translateX(2px); }
+
+.fg-icon-btn {
+  width: 32px; height: 32px;
+  border-radius: var(--fg-radius-sm);
+  border: 1px solid var(--fg-border);
+  background: white; color: var(--fg-text-2);
+  display: inline-flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  transition: background-color var(--fg-motion-fast), color var(--fg-motion-fast), border-color var(--fg-motion-fast), transform var(--fg-motion-fast);
+}
+.fg-icon-btn:hover { background: #F6F8FC; color: var(--fg-text); }
+.fg-icon-btn:active { transform: scale(0.95); }
+
+/* ------------------------------------------------------------ */
+/* Table                                                         */
+/* ------------------------------------------------------------ */
+.fg-table { width: 100%; font-size: 13px; border-collapse: collapse; }
+.fg-table thead th {
+  background: #F8FAFC;
+  color: var(--fg-text-2);
+  font-weight: 500;
+  font-size: 11.5px;
+  text-align: left;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 10px 18px;
+  border-bottom: 1px solid var(--fg-border-soft);
+  position: sticky; top: 0; z-index: 1;
+}
+.fg-table tbody td {
+  padding: 11px 18px;
+  border-top: 1px solid #EEF2F7;
+  color: var(--fg-text);
+  vertical-align: middle;
+}
+.fg-table tbody tr {
+  position: relative;
+  cursor: pointer;
+  transition: background-color var(--fg-motion-fast);
+}
+.fg-table tbody tr:hover { background: var(--fg-row-hover); }
+.fg-table tbody tr[data-selected="true"] {
+  background: var(--fg-row-selected);
+}
+.fg-table tbody tr[data-selected="true"] td:first-child {
+  box-shadow: inset 2px 0 0 var(--fg-primary);
+}
+
+/* ------------------------------------------------------------ */
+/* Code / JSON                                                   */
+/* ------------------------------------------------------------ */
+.fg-code {
+  background: var(--fg-code-bg);
+  color: var(--fg-code-text);
+  font-family: var(--fg-font-mono);
+  font-size: 12px;
+  line-height: 1.6;
+  border-radius: var(--fg-radius);
+  padding: 14px 16px;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-break: break-all;
+  border: 1px solid #131C30;
+}
+.fg-code-inline {
+  font-family: var(--fg-font-mono);
+  font-size: 12px;
+  background: #EEF2F7;
+  color: var(--fg-text);
+  padding: 1px 6px;
+  border-radius: 4px;
+  border: 1px solid #E2E8F0;
+}
+
+/* ------------------------------------------------------------ */
+/* Risk badge                                                    */
+/* ------------------------------------------------------------ */
+.fg-risk {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 2px 8px 2px 6px;
+  border-radius: 4px;
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  font-family: var(--fg-font-mono);
+  border: 1px solid transparent;
+  line-height: 18px;
+}
+.fg-risk-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: currentColor;
+}
+
+/* ------------------------------------------------------------ */
+/* Chart tooltip — light, paper-like                             */
+/* ------------------------------------------------------------ */
+.fg-tooltip {
+  background: white;
+  color: var(--fg-text);
+  border: 1px solid var(--fg-hairline);
+  border-radius: var(--fg-radius);
+  padding: 8px 10px;
+  font-size: 12px;
+  box-shadow: var(--fg-shadow-float);
+  font-variant-numeric: tabular-nums;
+  min-width: 140px;
+  animation: fg-fade 120ms var(--fg-ease-out) both;
+}
+.fg-tooltip .label {
+  color: var(--fg-text-2);
+  font-size: 11.5px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--fg-border-soft);
+}
+.fg-tooltip .value {
+  color: var(--fg-text);
+  font-size: 12px;
+}
+
+/* ------------------------------------------------------------ */
+/* Score meter                                                   */
+/* ------------------------------------------------------------ */
+.fg-meter {
+  height: 4px; width: 100%;
+  background: #EEF2F7; border-radius: 2px; overflow: hidden;
+  position: relative;
+}
+.fg-meter > span {
+  display: block; height: 100%;
+  border-radius: 2px;
+  transition: width var(--fg-motion-slow);
+}
+
+/* ------------------------------------------------------------ */
+/* Brand mark — light theme                                      */
+/* ------------------------------------------------------------ */
+.fg-brand-mark {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 32px; height: 32px;
+  border-radius: 8px;
+  background: linear-gradient(180deg, #EAF1FF 0%, #DCE7FB 100%);
+  border: 1px solid #C7D8FF;
+  color: var(--fg-primary);
+  font-family: var(--fg-font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+/* ------------------------------------------------------------ */
+/* Sidebar — light floating rail                                 */
+/* ------------------------------------------------------------ */
+.fg-sidebar {
+  background: #FBFCFF;
+  color: var(--fg-text);
+  border: 1px solid var(--fg-hairline);
+  border-radius: var(--fg-radius-xl);
+  box-shadow: var(--fg-shadow-panel);
+}
+.fg-sidebar-section {
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #94A3B8;
+  padding: 12px 16px 4px;
+  font-weight: 500;
+}
+.fg-nav-item {
+  position: relative;
+  display: flex; align-items: center; gap: 10px;
+  width: calc(100% - 12px);
+  margin: 1px 6px;
+  height: 36px;
+  padding: 0 10px;
+  color: #334155;
+  font-size: 13px;
+  cursor: pointer;
+  background: transparent;
+  border: 0;
+  border-radius: 7px;
+  text-align: left;
+  transition: background-color var(--fg-motion-fast),
+              color var(--fg-motion-fast);
+}
+.fg-nav-item .fg-nav-icon {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 24px; height: 24px;
+  border-radius: 5px;
+  background: transparent;
+  color: #64748B;
+  transition: background-color var(--fg-motion-fast),
+              color var(--fg-motion-fast);
+}
+.fg-nav-item:hover {
+  background: #F1F5F9;
+  color: #0F172A;
+}
+.fg-nav-item:hover .fg-nav-icon { color: #334155; }
+.fg-nav-item[data-active="true"] {
+  background: var(--fg-primary-soft);
+  color: var(--fg-primary);
+  font-weight: 500;
+}
+.fg-nav-item[data-active="true"] .fg-nav-icon {
+  background: white;
+  color: var(--fg-primary);
+  box-shadow: 0 0 0 1px #D6E2FB;
+}
+.fg-nav-item[data-active="true"]::after {
+  content: "";
+  position: absolute; right: 8px; top: 50%;
+  transform: translateY(-50%);
+  width: 4px; height: 4px; border-radius: 50%;
+  background: var(--fg-primary);
+}
+
+/* ------------------------------------------------------------ */
+/* Demo banner — soft amber card                                 */
+/* ------------------------------------------------------------ */
+.fg-demo-banner {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 14px;
+  background: #FFF8E6;
+  border: 1px solid #F2D58A;
+  border-radius: var(--fg-radius-lg);
+  color: #7C4E0C;
+  font-size: 12.5px;
+}
+.fg-demo-banner .fg-banner-icon {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 24px; height: 24px; border-radius: 6px;
+  background: #FBE6A0; color: #92400E;
+  border: 1px solid #F2D278;
+  flex-shrink: 0;
+}
+
+/* ------------------------------------------------------------ */
+/* Misc                                                          */
+/* ------------------------------------------------------------ */
+.fg-divider-y { width: 1px; height: 18px; background: var(--fg-border); }
+.fg-kbd {
+  font-family: var(--fg-font-mono);
+  font-size: 11px;
+  padding: 1px 6px;
+  border: 1px solid var(--fg-border);
+  border-bottom-width: 2px;
+  border-radius: 4px;
+  background: #F8FAFC;
+  color: var(--fg-text-2);
+}

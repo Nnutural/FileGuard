@@ -1,0 +1,11 @@
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap");
+
+:root {
+  --fg-font-sans:
+    "Inter", -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB",
+    "Microsoft YaHei", "Source Han Sans SC", "Noto Sans CJK SC", "Segoe UI",
+    Roboto, sans-serif;
+  --fg-font-mono:
+    "JetBrains Mono", ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
+    monospace;
+}
