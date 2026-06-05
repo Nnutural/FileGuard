@@ -41,6 +41,23 @@ pyproject.toml         Python package metadata and dependencies
 
 Do not create a nested `FileGuard/FileGuard/` project directory.
 
+## Current Implementation Snapshot
+
+As of the current source tree, verified through codegraph, the project implements:
+
+- Repository structure, YAML config loading, `FileSystemWatcher`, and `EventQueue`.
+- Six analyzer classes in the stable factory order listed below.
+- `AnalysisPipeline`, `RiskScorer`, and `AlertManager` with timeline, deduplication, cooldown, and escalation metadata.
+- `SnapshotManager` baseline creation, content backup, restore with SHA-256 verification, incremental snapshot records, and sandbox-bound optional auto-restore.
+- CLI subcommands for `monitor`, `snapshot`, `restore`, and `report`.
+- JSONL assessment logging, terminal dashboard output, and Jinja2 HTML report generation.
+- FastAPI runtime API with 8 routes, including SSE streaming.
+- React + TypeScript + Vite frontend that reads backend API data through `frontend/src/api/fileguard.ts` and `frontend/src/hooks/useFileGuardData.ts`, with demo fallback when the API is unavailable.
+- Safe experiment scripts plus the standard acceptance workflow under `experiments/`.
+- Unittest coverage across analyzers, scoring, pipeline, snapshots, API, reports, CLI, frontend contract-adjacent behavior, and acceptance helpers.
+
+The Figma Make migrated dashboard lives primarily under `frontend/src/components/fileguard/`, `frontend/src/components/ui/`, and `frontend/src/styles/`. Older `frontend/src/views/*` files may remain in the tree, but if they are not imported by `App.tsx`, treat them as legacy scaffolding rather than the active UI.
+
 ## Architecture Contract
 
 Preserve the four-layer design from the overview document:
@@ -71,6 +88,33 @@ Keep module responsibilities strict:
 - `output/` handles presentation and report/log generation.
 - `api/` exposes DTOs and runtime state; it must not duplicate analyzer or scorer logic.
 - `frontend/` displays backend data only; it must not read the local filesystem or reimplement detection logic.
+
+## Design Roadmap Status
+
+The final roadmap in `../系统概要设计文档.md` is a planning reference. The current implementation status is:
+
+| Roadmap item | Current status |
+| --- | --- |
+| Day 1-2: repository structure, config, `FileSystemWatcher`, `EventQueue` | Implemented |
+| Day 3-4: six analyzers with unit tests | Implemented |
+| Day 5: `RiskScorer`, `AlertManager`, pipeline scheduling | Implemented |
+| Day 6: `SnapshotManager` baseline and restore verification | Implemented, with incremental records and sandbox-bound optional auto-restore added |
+| Day 7: FastAPI, JSON logger, CLI dashboard | Implemented; API currently exposes 8 routes, not only the design document's minimal set |
+| Day 8: React + TypeScript frontend connected to API | Implemented; current UI is the migrated Figma Make dashboard while preserving API/SSE/demo fallback |
+| Day 9: experiment scripts, five experiments, manual screenshots | Partially implemented: scripts and `experiments/run_acceptance.py` exist; manual screenshots and final captured artifacts must be regenerated for each report run |
+| Day 10-11: HTML report generator and PDF report writing | Partially implemented: HTML report generation exists; automated PDF export or a final written PDF report is not implemented in code |
+
+## Planned Or Unimplemented Scope
+
+Treat these items as planned scope or reporting tasks unless a user explicitly asks to implement them:
+
+- Automated PDF report export is not implemented. The code generates HTML reports only; any PDF write-up is currently a manual deliverable.
+- Automated screenshot/GIF capture for the five experiments is not implemented as a guaranteed workflow artifact. Generate fresh screenshots under `experiments/sandbox/screenshots/` when needed.
+- `/api/events` and `/api/alerts` currently return runtime-state collections without pagination, cursoring, or persistent query/filter parameters. Report generation can fall back to JSONL assessments, but there is no general JSONL query API.
+- Frontend settings that modify backend configuration, start/stop the monitor, or edit watch directories are not implemented. The dashboard is a presentation layer.
+- OS-level hardening integrations mentioned as prevention advice, such as NTFS ACL changes, Windows Controlled Folder Access, VSS scheduling, desktop notifications, email alerts, or Windows service installation, are not implemented.
+- Automatic remediation outside `experiments/sandbox/` is intentionally not implemented. Keep auto-restore sandbox-bound unless a formal safe design is requested.
+- The design document's experiment descriptions are product-level expectations; the current acceptance workflow is the implementation source of truth for what is automated.
 
 ## Implemented API Surface
 

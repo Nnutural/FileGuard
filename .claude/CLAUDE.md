@@ -10,10 +10,10 @@ adds Claude Code specific working instructions. When this file and `AGENTS.md`
 appear to conflict, follow `AGENTS.md` and flag the discrepancy.
 
 The parent-directory `系统概要设计文档.md` is the product-level design reference.
-It is stored with corrupted (mojibake) encoding and also describes planned scope.
-Treat the current source tree under `src/fileguard/` as the implementation source
-of truth; do not "fix" the document or implement endpoints it describes unless the
-task explicitly asks for it.
+Read it explicitly as UTF-8 if PowerShell output appears as mojibake. It also
+describes planned scope. Treat the current source tree under `src/fileguard/`
+and `frontend/` as the implementation source of truth; do not implement features
+from the design document unless the task explicitly asks for them.
 
 ## Working Mode
 
@@ -33,6 +33,10 @@ or API integration.
 Do not commit, push, or run destructive git commands unless explicitly asked.
 
 ## Tooling Preferences
+
+When codegraph is available, use it before editing or answering architecture,
+flow, location, or impact questions. Prefer `codegraph_explore` for broad
+questions and `codegraph_search` / `codegraph_node` for exact symbol lookups.
 
 Use the dedicated Read / Grep / Glob tools instead of shell `cat` / `grep` /
 `find`. This environment is Windows + PowerShell: use PowerShell syntax
@@ -56,10 +60,37 @@ Use this to locate code quickly; see `AGENTS.md` for the responsibility contract
   `fuzzy_hash`; all extend `analyzers/base.py`
 - Scoring: `scoring/scorer.py`, `scoring/alert.py`
 - Output: `output/dashboard.py`, `output/logger.py`, `output/report.py`
-- API (`/api/status`, `/api/events`, `/api/alerts` only): `api/server.py`,
-  `api/schemas.py`
+- API (`/api/status`, `/api/events`, `/api/alerts`, `/api/analyzers`,
+  `/api/snapshots`, `/api/reports`, `POST /api/reports`, `/api/stream`):
+  `api/server.py`, `api/schemas.py`
+- Frontend API and state: `frontend/src/api/fileguard.ts`,
+  `frontend/src/hooks/useFileGuardData.ts`, `frontend/src/types.ts`
+- Active frontend shell/pages after the Figma Make migration:
+  `frontend/src/App.tsx`, `frontend/src/components/fileguard/`,
+  `frontend/src/components/ui/`, `frontend/src/styles/`
+- Legacy frontend views: `frontend/src/views/*` may still exist but are not the
+  active UI unless imported by `App.tsx`
 - Experiments + acceptance: `experiments/run_acceptance.py` and
   `experiments/simulate_*.py`
+
+## Roadmap Gap Notes
+
+The final roadmap in `../系统概要设计文档.md` is mostly implemented, but keep these
+gaps explicit when reporting status:
+
+- Day 9 is partial: experiment scripts and acceptance workflow exist, but manual
+  screenshots/final artifacts must be regenerated for a report.
+- Day 10-11 is partial: HTML report generation exists; automated PDF export or a
+  finished PDF write-up is not implemented in code.
+- `/api/events` and `/api/alerts` do not support pagination, cursors, or
+  persistent JSONL query/filter parameters.
+- The frontend is presentation-only. It does not edit backend config, start/stop
+  monitors, or inspect local files directly.
+- OS hardening integrations such as NTFS ACL changes, Windows Controlled Folder
+  Access, VSS scheduling, notifications, and Windows service installation are
+  not implemented.
+- Automatic remediation outside `experiments/sandbox/` is intentionally out of
+  scope unless a separate safe design is requested.
 
 ## Verification (run after backend-impacting changes)
 
