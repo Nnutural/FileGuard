@@ -1,0 +1,23 @@
+{
+  "events_total": 7,
+  "alerts_total": 6,
+  "highest_level": "CRITICAL",
+  "signals_by_type": {
+    "policy_hit": 2,
+    "entropy_anomaly": 2,
+    "freq_spike": 3
+  },
+  "alerts_by_level": {
+    "LOW": 0,
+    "MEDIUM": 1,
+    "HIGH": 1,
+    "CRITICAL": 4
+  },
+  "escalations_total": 1,
+  "incremental_snapshots_total": 7,
+  "auto_restore_mode": "dry-run",
+  "auto_restore_candidates": 4,
+  "snapshot_verified": true,
+  "report_file": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\outputs\\demo_report.html",
+  "generated_at": "2026-06-05T08:17:37.757556"
+}

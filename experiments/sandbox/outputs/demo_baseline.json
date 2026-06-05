@@ -1,0 +1,54 @@
+{
+  "created_at": "2026-06-05T08:17:35.079345",
+  "target_dir": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\demo_round4",
+  "files": [
+    {
+      "path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\demo_round4\\certificates\\service.key",
+      "sha256": "8202b27a9337b19dfcff935c2979f113db332a2c18ad00a25285a91dc52a2241",
+      "size": 18,
+      "entropy": 3.794653473544342,
+      "snapshot_time": "2026-06-05T08:17:35.043594",
+      "content_backup_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\outputs\\demo_backups\\certificates\\service.key"
+    },
+    {
+      "path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\demo_round4\\financial\\budget.csv",
+      "sha256": "636060a4149c1d816dafdf6359ad99290b09765bd2c35784db8e10d7612e48a4",
+      "size": 25,
+      "entropy": 3.6536606896881856,
+      "snapshot_time": "2026-06-05T08:17:35.047028",
+      "content_backup_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\outputs\\demo_backups\\financial\\budget.csv"
+    },
+    {
+      "path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\demo_round4\\normal\\readme.txt",
+      "sha256": "8e41fc162239fe70f61c58cbbf5a16cbb79bb201be094acf17f1da4e614942a9",
+      "size": 1360,
+      "entropy": 3.6168746059562227,
+      "snapshot_time": "2026-06-05T08:17:35.050537",
+      "content_backup_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\outputs\\demo_backups\\normal\\readme.txt"
+    },
+    {
+      "path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\demo_round4\\restore_target\\doc_1.txt",
+      "sha256": "f63b88e2296146a0d182bb97164fc4987976fa0bddf04d6287c337ed9a421320",
+      "size": 2400,
+      "entropy": 3.6219280948873624,
+      "snapshot_time": "2026-06-05T08:17:35.067021",
+      "content_backup_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\outputs\\demo_backups\\restore_target\\doc_1.txt"
+    },
+    {
+      "path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\demo_round4\\restore_target\\doc_2.txt",
+      "sha256": "a807e763455985f7f78bd2a2a9bb451737acbad8763f777bc6a19767ce5c7927",
+      "size": 2400,
+      "entropy": 3.6219280948873624,
+      "snapshot_time": "2026-06-05T08:17:35.074470",
+      "content_backup_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\outputs\\demo_backups\\restore_target\\doc_2.txt"
+    },
+    {
+      "path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\demo_round4\\restore_target\\doc_3.txt",
+      "sha256": "1f50bb75e454b8c4dbf57208d2813a24b515861c7d44aab0480143a334def219",
+      "size": 2400,
+      "entropy": 3.6219280948873624,
+      "snapshot_time": "2026-06-05T08:17:35.079345",
+      "content_backup_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\outputs\\demo_backups\\restore_target\\doc_3.txt"
+    }
+  ]
+}

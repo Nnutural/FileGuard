@@ -1,0 +1,17 @@
+{
+  "running": false,
+  "watch_dirs": [
+    "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\demo_round4"
+  ],
+  "uptime_seconds": 2.371242,
+  "events_processed": 7,
+  "queue_size": 0,
+  "events_total": 7,
+  "alerts_total": 6,
+  "highest_level": "CRITICAL",
+  "last_event_time": "2026-06-05T08:17:35.101922",
+  "last_alert_time": "2026-06-05T08:17:35.386417",
+  "analyzers_enabled": 6,
+  "snapshot_available": true,
+  "report_available": true
+}

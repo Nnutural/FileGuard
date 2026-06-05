@@ -79,8 +79,13 @@ The current backend exposes:
 - `GET /api/status`
 - `GET /api/events`
 - `GET /api/alerts`
+- `GET /api/analyzers`
+- `GET /api/snapshots`
+- `GET /api/reports`
+- `POST /api/reports`
+- `GET /api/stream`
 
-The overview document also discusses report-trigger and SSE endpoints. Do not describe `/api/reports` or `/api/stream` as implemented unless the code is updated to add them and tests are added.
+`/api/stream` is a Server-Sent Events endpoint. Use `?once=true` for short smoke checks that should not keep a streaming connection open.
 
 ## Analyzer Rules
 

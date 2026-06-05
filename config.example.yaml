@@ -72,12 +72,25 @@ fileguard:
       high: [5.0, 7.0]
       critical: [7.0, 10.0]
 
+  alerting:
+    cooldown_seconds: 30
+    escalation:
+      enabled: true
+      window_seconds: 60
+      threshold: 3
+      group_by: "signal_type"
+
   snapshot:
     enabled: true
     backup_files: true
     max_file_size_mb: 50
     backup_dir: ".fileguard/backups"
     baseline_file: ".fileguard/baseline.json"
+    incremental_file: ".fileguard/incremental_snapshots.jsonl"
+
+  auto_restore:
+    enabled: false
+    dry_run: true
 
   output:
     log_file: ".fileguard/events.jsonl"

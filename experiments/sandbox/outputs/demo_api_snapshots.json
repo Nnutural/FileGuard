@@ -1,0 +1,108 @@
+{
+  "enabled": true,
+  "baseline_file": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\outputs\\demo_baseline.json",
+  "backup_dir": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\outputs\\demo_backups",
+  "files_total": 6,
+  "last_snapshot_time": "2026-06-05T08:17:35.081346",
+  "last_restore_verified": true,
+  "incremental_total": 7,
+  "incremental_records": [
+    {
+      "path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\demo_round4\\normal\\readme.txt",
+      "old_hash": "8e41fc162239fe70f61c58cbbf5a16cbb79bb201be094acf17f1da4e614942a9",
+      "new_hash": "3ff2d46f5278b277c815da9186033474865013c6417f4c17fdc7fd9540a18733",
+      "old_entropy": 3.6168746059562227,
+      "new_entropy": 3.6293903677930106,
+      "timestamp": "2026-06-05T08:17:35.204805",
+      "event_type": "modified"
+    },
+    {
+      "path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\demo_round4\\financial\\budget.csv",
+      "old_hash": "636060a4149c1d816dafdf6359ad99290b09765bd2c35784db8e10d7612e48a4",
+      "new_hash": "c0d64e6a2efb262e4dff4aab63c0dbe61ebeb2bda4d8cf46bfa3a94716149972",
+      "old_entropy": 3.6536606896881856,
+      "new_entropy": 3.9128182445069126,
+      "timestamp": "2026-06-05T08:17:35.230266",
+      "event_type": "modified"
+    },
+    {
+      "path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\demo_round4\\certificates\\service.key",
+      "old_hash": "8202b27a9337b19dfcff935c2979f113db332a2c18ad00a25285a91dc52a2241",
+      "new_hash": "bc84af01b02576045d580253fde5fa2d3536c9ae96540d8db6c3bcea18fe1cc7",
+      "old_entropy": 3.794653473544342,
+      "new_entropy": 4.264578373902382,
+      "timestamp": "2026-06-05T08:17:35.247636",
+      "event_type": "modified"
+    },
+    {
+      "path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\demo_round4\\restore_target\\doc_1.txt",
+      "old_hash": "f63b88e2296146a0d182bb97164fc4987976fa0bddf04d6287c337ed9a421320",
+      "new_hash": "5ca6f3ecb9fc616bb3a6436ce6e3be0ad66c0118b661d0868bfda3ef3f6a1810",
+      "old_entropy": 3.6219280948873624,
+      "new_entropy": 7.993674930341829,
+      "timestamp": "2026-06-05T08:17:35.260646",
+      "event_type": "modified"
+    },
+    {
+      "path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\demo_round4\\restore_target\\doc_1.txt",
+      "old_hash": "f63b88e2296146a0d182bb97164fc4987976fa0bddf04d6287c337ed9a421320",
+      "new_hash": "5ca6f3ecb9fc616bb3a6436ce6e3be0ad66c0118b661d0868bfda3ef3f6a1810",
+      "old_entropy": 3.6219280948873624,
+      "new_entropy": 7.993674930341829,
+      "timestamp": "2026-06-05T08:17:35.267486",
+      "event_type": "modified"
+    },
+    {
+      "path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\demo_round4\\restore_target\\doc_2.txt",
+      "old_hash": "a807e763455985f7f78bd2a2a9bb451737acbad8763f777bc6a19767ce5c7927",
+      "new_hash": "5db2205f56dc21deb33e6048e39b1ff3e3fb7cf8f99f3e36e08bab367e242803",
+      "old_entropy": 3.6219280948873624,
+      "new_entropy": 3.626595447421728,
+      "timestamp": "2026-06-05T08:17:35.326977",
+      "event_type": "modified"
+    },
+    {
+      "path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\demo_round4\\restore_target\\doc_3.txt",
+      "old_hash": "1f50bb75e454b8c4dbf57208d2813a24b515861c7d44aab0480143a334def219",
+      "new_hash": "ecbb109a6db0706f21838ce29442c50d62bbb718ee3014ebe8526b00842fa62f",
+      "old_entropy": 3.6219280948873624,
+      "new_entropy": 3.626595447421728,
+      "timestamp": "2026-06-05T08:17:35.387416",
+      "event_type": "modified"
+    }
+  ],
+  "auto_restore_actions": [
+    {
+      "timestamp": "2026-06-05T08:17:35.262149",
+      "path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\demo_round4\\restore_target\\doc_1.txt",
+      "dry_run": true,
+      "restored": false,
+      "verified": false,
+      "reason": "dry-run candidate"
+    },
+    {
+      "timestamp": "2026-06-05T08:17:35.269428",
+      "path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\demo_round4\\restore_target\\doc_1.txt",
+      "dry_run": true,
+      "restored": false,
+      "verified": false,
+      "reason": "dry-run candidate"
+    },
+    {
+      "timestamp": "2026-06-05T08:17:35.370481",
+      "path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\demo_round4\\restore_target\\doc_2.txt",
+      "dry_run": true,
+      "restored": false,
+      "verified": false,
+      "reason": "dry-run candidate"
+    },
+    {
+      "timestamp": "2026-06-05T08:17:35.389532",
+      "path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\demo_round4\\restore_target\\doc_3.txt",
+      "dry_run": true,
+      "restored": false,
+      "verified": false,
+      "reason": "dry-run candidate"
+    }
+  ]
+}

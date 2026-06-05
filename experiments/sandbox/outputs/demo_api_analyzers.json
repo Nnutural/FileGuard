@@ -1,0 +1,47 @@
+{
+  "total": 6,
+  "items": [
+    {
+      "name": "SensitivePathAnalyzer",
+      "enabled": true,
+      "weight": 2.0,
+      "signals_total": 2,
+      "last_triggered_at": "2026-06-05T08:17:35.233668"
+    },
+    {
+      "name": "EntropyAnalyzer",
+      "enabled": true,
+      "weight": 3.0,
+      "signals_total": 2,
+      "last_triggered_at": "2026-06-05T08:17:35.264224"
+    },
+    {
+      "name": "FrequencyAnalyzer",
+      "enabled": true,
+      "weight": 2.5,
+      "signals_total": 3,
+      "last_triggered_at": "2026-06-05T08:17:35.385419"
+    },
+    {
+      "name": "HoneypotSentinel",
+      "enabled": true,
+      "weight": 5.0,
+      "signals_total": 0,
+      "last_triggered_at": null
+    },
+    {
+      "name": "HashDiffChecker",
+      "enabled": true,
+      "weight": 1.5,
+      "signals_total": 0,
+      "last_triggered_at": null
+    },
+    {
+      "name": "FuzzyHashAnalyzer",
+      "enabled": true,
+      "weight": 3.0,
+      "signals_total": 0,
+      "last_triggered_at": null
+    }
+  ]
+}

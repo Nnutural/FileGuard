@@ -1,0 +1,221 @@
+{
+  "total": 6,
+  "alerts": [
+    {
+      "timestamp": "2026-06-05T08:17:35.229259",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\demo_round4\\financial\\budget.csv",
+      "dest_path": null,
+      "score": 4.5,
+      "level": "MEDIUM",
+      "analyzers": [
+        "SensitivePathAnalyzer"
+      ],
+      "signal_types": [
+        "policy_hit"
+      ],
+      "signals": [
+        {
+          "analyzer_name": "SensitivePathAnalyzer",
+          "signal_type": "policy_hit",
+          "value": 4.5,
+          "weight": 2.0,
+          "evidence": {
+            "policy_name": "demo-financial",
+            "pattern": "**/financial/**",
+            "matched_path": "D:/Nnutural/Desktop/BUPT_6/SecureProgrammingTechnologyandCaseDevelopment/平时作业/FileGuard/experiments/sandbox/demo_round4/financial/budget.csv",
+            "risk_base": 4.5,
+            "time_restricted": false,
+            "final_value": 4.5
+          },
+          "timestamp": "2026-06-05T08:17:35.207920"
+        }
+      ],
+      "escalated": false,
+      "escalation_reason": null
+    },
+    {
+      "timestamp": "2026-06-05T08:17:35.247636",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\demo_round4\\certificates\\service.key",
+      "dest_path": null,
+      "score": 5.0,
+      "level": "HIGH",
+      "analyzers": [
+        "SensitivePathAnalyzer"
+      ],
+      "signal_types": [
+        "policy_hit"
+      ],
+      "signals": [
+        {
+          "analyzer_name": "SensitivePathAnalyzer",
+          "signal_type": "policy_hit",
+          "value": 4.5,
+          "weight": 2.0,
+          "evidence": {
+            "policy_name": "demo-key",
+            "pattern": "**/*.key",
+            "matched_path": "D:/Nnutural/Desktop/BUPT_6/SecureProgrammingTechnologyandCaseDevelopment/平时作业/FileGuard/experiments/sandbox/demo_round4/certificates/service.key",
+            "risk_base": 4.5,
+            "time_restricted": false,
+            "final_value": 4.5
+          },
+          "timestamp": "2026-06-05T08:17:35.233668"
+        }
+      ],
+      "escalated": true,
+      "escalation_reason": "policy_hit reached 2 alerts within 120s"
+    },
+    {
+      "timestamp": "2026-06-05T08:17:35.258989",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\demo_round4\\restore_target\\doc_1.txt",
+      "dest_path": null,
+      "score": 9.98313314757821,
+      "level": "CRITICAL",
+      "analyzers": [
+        "EntropyAnalyzer"
+      ],
+      "signal_types": [
+        "entropy_anomaly"
+      ],
+      "signals": [
+        {
+          "analyzer_name": "EntropyAnalyzer",
+          "signal_type": "entropy_anomaly",
+          "value": 9.98313314757821,
+          "weight": 3.0,
+          "evidence": {
+            "path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\demo_round4\\restore_target\\doc_1.txt",
+            "entropy": 7.993674930341829,
+            "threshold": 6.5,
+            "extension": ".txt",
+            "file_size": 32768
+          },
+          "timestamp": "2026-06-05T08:17:35.256066"
+        }
+      ],
+      "escalated": false,
+      "escalation_reason": null
+    },
+    {
+      "timestamp": "2026-06-05T08:17:35.265773",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\demo_round4\\restore_target\\doc_1.txt",
+      "dest_path": null,
+      "score": 8.286254444133569,
+      "level": "CRITICAL",
+      "analyzers": [
+        "EntropyAnalyzer",
+        "FrequencyAnalyzer"
+      ],
+      "signal_types": [
+        "entropy_anomaly",
+        "freq_spike"
+      ],
+      "signals": [
+        {
+          "analyzer_name": "EntropyAnalyzer",
+          "signal_type": "entropy_anomaly",
+          "value": 9.98313314757821,
+          "weight": 3.0,
+          "evidence": {
+            "path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\demo_round4\\restore_target\\doc_1.txt",
+            "entropy": 7.993674930341829,
+            "threshold": 6.5,
+            "extension": ".txt",
+            "file_size": 32768
+          },
+          "timestamp": "2026-06-05T08:17:35.264224"
+        },
+        {
+          "analyzer_name": "FrequencyAnalyzer",
+          "signal_type": "freq_spike",
+          "value": 6.25,
+          "weight": 2.5,
+          "evidence": {
+            "event_type": "modified",
+            "count": 5,
+            "threshold": 4,
+            "window_seconds": 10.0,
+            "buffer_size": 5
+          },
+          "timestamp": "2026-06-05T08:17:35.264224"
+        }
+      ],
+      "escalated": false,
+      "escalation_reason": null
+    },
+    {
+      "timestamp": "2026-06-05T08:17:35.325694",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\demo_round4\\restore_target\\doc_2.txt",
+      "dest_path": null,
+      "score": 7.5,
+      "level": "CRITICAL",
+      "analyzers": [
+        "FrequencyAnalyzer"
+      ],
+      "signal_types": [
+        "freq_spike"
+      ],
+      "signals": [
+        {
+          "analyzer_name": "FrequencyAnalyzer",
+          "signal_type": "freq_spike",
+          "value": 7.5,
+          "weight": 2.5,
+          "evidence": {
+            "event_type": "modified",
+            "count": 6,
+            "threshold": 4,
+            "window_seconds": 10.0,
+            "buffer_size": 6
+          },
+          "timestamp": "2026-06-05T08:17:35.302812"
+        }
+      ],
+      "escalated": false,
+      "escalation_reason": null
+    },
+    {
+      "timestamp": "2026-06-05T08:17:35.386417",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\demo_round4\\restore_target\\doc_3.txt",
+      "dest_path": null,
+      "score": 8.75,
+      "level": "CRITICAL",
+      "analyzers": [
+        "FrequencyAnalyzer"
+      ],
+      "signal_types": [
+        "freq_spike"
+      ],
+      "signals": [
+        {
+          "analyzer_name": "FrequencyAnalyzer",
+          "signal_type": "freq_spike",
+          "value": 8.75,
+          "weight": 2.5,
+          "evidence": {
+            "event_type": "modified",
+            "count": 7,
+            "threshold": 4,
+            "window_seconds": 10.0,
+            "buffer_size": 7
+          },
+          "timestamp": "2026-06-05T08:17:35.385419"
+        }
+      ],
+      "escalated": false,
+      "escalation_reason": null
+    }
+  ],
+  "by_level": {
+    "LOW": 0,
+    "MEDIUM": 1,
+    "HIGH": 1,
+    "CRITICAL": 4
+  }
+}

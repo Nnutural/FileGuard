@@ -1,29 +1,21 @@
-# FileGuard Acceptance Artifact Index
+# FileGuard Round 4 Demo Artifacts
 
-- JSONL event log: `experiments/sandbox/outputs/acceptance_events.jsonl`
-- Alert JSON: `experiments/sandbox/outputs/acceptance_alerts.json`
-- HTML report: `experiments/sandbox/outputs/acceptance_report.html`
-- API status JSON: `experiments/sandbox/outputs/api_status.json`
-- API events JSON: `experiments/sandbox/outputs/api_events.json`
-- API alerts JSON: `experiments/sandbox/outputs/api_alerts.json`
-- OpenAPI JSON: `experiments/sandbox/outputs/api_openapi.json`
-- CLI output log: `experiments/sandbox/outputs/monitor_console.log`
-- Screenshot monitor stdout: `experiments/sandbox/outputs/monitor_screenshot_stdout.log`
-- Screenshot monitor stderr: `experiments/sandbox/outputs/monitor_screenshot_stderr.log`
-- Command log: `experiments/sandbox/outputs/command_log.txt`
-- Restore verification: `experiments/sandbox/outputs/restore_verification.json`
-- Experiment results JSON: `experiments/sandbox/outputs/experiment_results.json`
-- CLI evidence note: `experiments/sandbox/screenshots/cli_dashboard_evidence.txt`
-- Web/API evidence note: `experiments/sandbox/screenshots/web_api_evidence.txt`
-- Screenshot attempt note: `experiments/sandbox/screenshots/screenshot_attempt_error.txt`
-- Experiment summary document: `docs/experiment_log.md`
+- Demo events JSONL: `experiments/sandbox/outputs/demo_events.jsonl`
+- Demo alerts JSON: `experiments/sandbox/outputs/demo_alerts.json`
+- Demo report HTML: `experiments/sandbox/outputs/demo_report.html`
+- Demo summary JSON: `experiments/sandbox/outputs/demo_summary.json`
+- API status sample: `experiments/sandbox/outputs/demo_api_status.json`
+- API events sample: `experiments/sandbox/outputs/demo_api_events.json`
+- API alerts sample: `experiments/sandbox/outputs/demo_api_alerts.json`
+- API analyzers sample: `experiments/sandbox/outputs/demo_api_analyzers.json`
+- API snapshots sample: `experiments/sandbox/outputs/demo_api_snapshots.json`
+- API reports sample: `experiments/sandbox/outputs/demo_api_reports.json`
 
 ## Summary
 
-| Experiment | Events | Alert records | Highest level | Signals | Result |
-|---|---:|---:|---|---|---|
-| Normal file operations | 6 | 1 | HIGH | hash_changed | ok |
-| Sensitive path access | 4 | 4 | CRITICAL | freq_spike, policy_hit | ok |
-| High entropy file | 2 | 2 | CRITICAL | entropy_anomaly, freq_spike | ok |
-| Batch frequency anomaly | 32 | 24 | CRITICAL | freq_spike, hash_changed, similarity_drop | ok |
-| Ransom-like modification and restore | 25 | 21 | CRITICAL | entropy_anomaly, freq_spike, hash_changed, honeypot_triggered, similarity_drop | ok |
+- Events: 7
+- Alerts: 6
+- Highest level: CRITICAL
+- Escalations: 1
+- Incremental snapshots: 7
+- Auto-restore mode: dry-run

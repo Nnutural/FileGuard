@@ -22,6 +22,7 @@ def _handle_monitor(args: argparse.Namespace) -> None:
     from fileguard.analyzers.honeypot import HoneypotSentinel
     from fileguard.api.server import ApiRuntimeState
     from fileguard.capture.event_queue import EventQueue
+    from fileguard.capture.snapshot import SnapshotManager
     from fileguard.capture.watcher import FileSystemWatcher
     from fileguard.config import load_config
     from fileguard.output.dashboard import Dashboard
@@ -52,15 +53,31 @@ def _handle_monitor(args: argparse.Namespace) -> None:
                 deployed = analyzer.deploy_honeypots(watch_dir)
                 logger.info("Deployed %d honeypots under %s", len(deployed), watch_dir)
 
-    alert_manager = AlertManager()
+    alert_config = fg.get("alerting", {})
+    alert_manager = AlertManager(
+        cooldown_seconds=float(alert_config.get("cooldown_seconds", 30.0)),
+        escalation_config=alert_config.get("escalation", {}),
+    )
     scorer = RiskScorer(fg.get("scoring", {}).get("levels", {}))
     pipeline = AnalysisPipeline(analyzers, scorer, alert_manager)
     dashboard = Dashboard(fg.get("output", {}))
-    event_logger = EventLogger(fg.get("output", {}).get("log_file", ".fileguard/events.jsonl"))
+    output_config = fg.get("output", {})
+    event_logger = EventLogger(output_config.get("log_file", ".fileguard/events.jsonl"))
+    snapshot_manager = SnapshotManager(fg.get("snapshot", {}))
+    if fg.get("snapshot", {}).get("enabled", True):
+        for watch_dir in fg["watch_dirs"]:
+            try:
+                snapshot_manager.build_baseline(watch_dir)
+            except Exception:
+                logger.exception("Failed to build monitor startup snapshot for %s", watch_dir)
     api_state = ApiRuntimeState(
         running=True,
         watch_dirs=[str(Path(path).resolve()) for path in fg["watch_dirs"]],
         alert_manager=alert_manager,
+        analyzers=analyzers,
+        snapshot_manager=snapshot_manager,
+        log_file=output_config.get("log_file", ".fileguard/events.jsonl"),
+        report_file=output_config.get("report_file", ".fileguard/report.html"),
     )
     api_server: Any | None = None
     api_thread: threading.Thread | None = None
@@ -106,9 +123,23 @@ def _handle_monitor(args: argparse.Namespace) -> None:
             if file_event is None:
                 continue
             assessment = pipeline.process_event(file_event)
+            try:
+                snapshot_manager.update_incremental(file_event)
+            except Exception:
+                logger.exception("Incremental snapshot update failed for %s", file_event.src_path)
+            auto_restore = fg.get("auto_restore", {})
+            try:
+                snapshot_manager.auto_restore_if_needed(
+                    assessment,
+                    sandbox_root=str((Path.cwd() / "experiments" / "sandbox").resolve()),
+                    enabled=bool(auto_restore.get("enabled", False)),
+                    dry_run=bool(auto_restore.get("dry_run", True)),
+                )
+            except Exception:
+                logger.exception("Auto-restore evaluation failed for %s", file_event.src_path)
             event_logger.log(assessment)
             dashboard.update(assessment)
-            api_state.record_event(file_event, event_queue.qsize())
+            api_state.record_assessment(assessment, event_queue.qsize())
     finally:
         api_state.running = False
         if api_server is not None:
@@ -118,6 +149,24 @@ def _handle_monitor(args: argparse.Namespace) -> None:
         dashboard.stop()
         event_logger.close()
         watcher.stop()
+        timeline = alert_manager.get_timeline()
+        highest = "LOW"
+        for item in timeline:
+            if {"LOW": 0, "MEDIUM": 1, "HIGH": 2, "CRITICAL": 3}.get(item.level, 0) > {
+                "LOW": 0,
+                "MEDIUM": 1,
+                "HIGH": 2,
+                "CRITICAL": 3,
+            }.get(highest, 0):
+                highest = item.level
+        logger.info(
+            "FileGuard summary: events=%d alerts=%d highest=%s escalations=%d incremental_snapshots=%d",
+            api_state.events_processed,
+            len(timeline),
+            highest,
+            alert_manager.escalations_total,
+            len(snapshot_manager.incremental_records),
+        )
         logger.info("FileGuard monitor exited.")
 
 
@@ -172,6 +221,18 @@ def _handle_report(args: argparse.Namespace) -> None:
     generator = ReportGenerator(str(template_path), str(output_path))
     generator.generate(timeline)
     logger.info("Report generated from %d assessments: %s", len(timeline), output_path)
+
+
+def _handle_demo(args: argparse.Namespace) -> None:
+    """Run the safe round-4 demo script."""
+    from experiments.run_demo import main as run_demo_main
+
+    original_argv = sys.argv[:]
+    try:
+        sys.argv = ["run_demo.py", "--config", args.config]
+        run_demo_main()
+    finally:
+        sys.argv = original_argv
 
 
 def _load_assessments_from_jsonl(log_file: Path) -> list["RiskAssessment"]:
@@ -257,6 +318,10 @@ def build_parser() -> argparse.ArgumentParser:
     report_parser.add_argument("--log-file", default=None, help="JSONL event log path")
     report_parser.add_argument("--output", "-o", default=None, help="Report output path")
     report_parser.set_defaults(handler=_handle_report)
+
+    demo_parser = subparsers.add_parser("demo", help="Run safe round-4 demo artifacts")
+    demo_parser.add_argument("--config", "-c", default="config.example.yaml", help="Config path")
+    demo_parser.set_defaults(handler=_handle_demo)
 
     return parser
 

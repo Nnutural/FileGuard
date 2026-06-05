@@ -1,0 +1,82 @@
+{
+  "total": 7,
+  "events": [
+    {
+      "timestamp": "2026-06-05T08:17:35.101922",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\demo_round4\\restore_target\\doc_3.txt",
+      "dest_path": null,
+      "file_size": 2407,
+      "is_directory": false,
+      "score": 8.75,
+      "level": "CRITICAL",
+      "signals_count": 1
+    },
+    {
+      "timestamp": "2026-06-05T08:17:35.099920",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\demo_round4\\restore_target\\doc_2.txt",
+      "dest_path": null,
+      "file_size": 2407,
+      "is_directory": false,
+      "score": 7.5,
+      "level": "CRITICAL",
+      "signals_count": 1
+    },
+    {
+      "timestamp": "2026-06-05T08:17:35.098919",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\demo_round4\\restore_target\\doc_1.txt",
+      "dest_path": null,
+      "file_size": 32768,
+      "is_directory": false,
+      "score": 8.286254444133569,
+      "level": "CRITICAL",
+      "signals_count": 2
+    },
+    {
+      "timestamp": "2026-06-05T08:17:35.097920",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\demo_round4\\restore_target\\doc_1.txt",
+      "dest_path": null,
+      "file_size": 2400,
+      "is_directory": false,
+      "score": 9.98313314757821,
+      "level": "CRITICAL",
+      "signals_count": 1
+    },
+    {
+      "timestamp": "2026-06-05T08:17:35.095914",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\demo_round4\\certificates\\service.key",
+      "dest_path": null,
+      "file_size": 35,
+      "is_directory": false,
+      "score": 5.0,
+      "level": "HIGH",
+      "signals_count": 1
+    },
+    {
+      "timestamp": "2026-06-05T08:17:35.089453",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\demo_round4\\financial\\budget.csv",
+      "dest_path": null,
+      "file_size": 42,
+      "is_directory": false,
+      "score": 4.5,
+      "level": "MEDIUM",
+      "signals_count": 1
+    },
+    {
+      "timestamp": "2026-06-05T08:17:35.087456",
+      "event_type": "modified",
+      "src_path": "D:\\Nnutural\\Desktop\\BUPT_6\\SecureProgrammingTechnologyandCaseDevelopment\\平时作业\\FileGuard\\experiments\\sandbox\\demo_round4\\normal\\readme.txt",
+      "dest_path": null,
+      "file_size": 1372,
+      "is_directory": false,
+      "score": 0.0,
+      "level": "LOW",
+      "signals_count": 0
+    }
+  ]
+}
