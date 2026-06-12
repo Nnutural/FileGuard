@@ -21,6 +21,7 @@ pip install -e .
 cp config.example.yaml config.yaml
 
 # 3. 启动实时监控
+fileguard monitor --config config.example.yaml --verbose --serve-api
 fileguard monitor -c config.yaml
 ```
 
